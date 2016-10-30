@@ -15,6 +15,7 @@ class CreateTipoimpuestosTable extends Migration
     {
         Schema::create('tipoimpuestos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('tipoimpuesto');
             $table->timestamps();
         });
     }

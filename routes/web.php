@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Tipo Impuesto Routes
+Route::get('/tipoimpuestos','tipoimpuestoController@index');
+Route::post('/tipoimpuestos/add','tipoimpuestoController@store');
+
