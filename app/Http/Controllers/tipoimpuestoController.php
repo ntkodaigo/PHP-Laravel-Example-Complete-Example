@@ -14,6 +14,7 @@ class tipoimpuestoController extends Controller
         $init_route = config('constants.init_route');
 
       	return view('tipoimpuestos.index', compact('tipoimpuestos', 'init_route'));
+      	
 
 	}
 

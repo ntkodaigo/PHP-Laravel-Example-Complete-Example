@@ -9,7 +9,7 @@
                 @foreach($tipoimpuestos as $tipoimpuesto)
                  <li class=" col-md-8 list-group-item">
 
-                 <div class="col-md-8">{{$tipoimpuesto->tipoimpuesto}}</div>
+                 <div class="col-md-8">{{$tipoimpuesto-> nombretipoimpuesto}}</div>
 
                 <!--  <div class="col-md-2 btn btn-primary">
 
@@ -35,9 +35,9 @@
 
 
     <h3>Inserte el Tipo de Impuesto</h3>
-    <form method="POST" action="index/add">
+    <form method="POST" action="/tipoimpuestos/add">
         <div class="form-group">
-            <input type="text" name="name" class="form-control">
+            <input type="text" name="" class="form-control">
 
         </div>
         
@@ -47,6 +47,7 @@
 
         </div>
         {{ csrf_field() }}
+
     </form>
 
 @endsection
