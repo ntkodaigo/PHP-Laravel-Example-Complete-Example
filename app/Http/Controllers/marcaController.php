@@ -14,8 +14,13 @@ class marcaController extends Controller
         $init_route = config('constants.init_route');
 
       	return view('marcas.index', compact('marcas', 'init_route'));
-      	
+	}
 
+	public function show(Marca $marca)
+	{
+		$init_route = config('constants.init_route');
+
+		return view('marcas.details', compact('marca', 'init_route'));
 	}
 
 	public function store(Request $request)

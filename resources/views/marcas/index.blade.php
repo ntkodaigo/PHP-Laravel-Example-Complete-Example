@@ -7,16 +7,27 @@
     <div class="row">
             <ul class="list-group">
                 @foreach($marcas as $marca)
-                 <li class=" col-md-8 list-group-item">
+                 <li class=" col-md-10 list-group-item">
 
-                 <div class="col-md-8">{{$marca-> nombremarca}}
+                 <div class="col-md-6">{{$marca-> nombremarca}}
                  </div>
 
-                  <div class="col-md-2 btn btn-primary">
+                <a href="/marcas/{{ $marca->idmarca }}/details">
+                     <div class="col-md-2 btn btn-primary">
 
-                     <a href="/marcas/{{ $marca->idmarca }}/edit">Editar</a>
+                         Detalles
 
-                 </div>
+                     </div>
+                 </a>
+
+                <a href="/marcas/{{ $marca->idmarca }}/edit">
+                    <div class="col-md-2 btn btn-primary">
+
+                        Editar
+
+                    </div>
+                </a>    
+
                  <form action="/marcas/{{ $marca->idmarca }}/delete" method="POST">
                      {{method_field('DELETE')}}
 

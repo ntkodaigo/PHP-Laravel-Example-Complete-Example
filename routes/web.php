@@ -122,7 +122,20 @@ Route::post('/marcas/add','marcaController@store');
 
 //editar categoria de Servicios
 Route::get('/marcas/{marca}/edit', 'marcaController@edit');
+Route::get('/marcas/{marca}/details', 'marcaController@show');
 Route::patch('/marcas/{marca}', 'marcaController@update');
 
 //eliminar categoria de Servicios
 Route::delete('/marcas/{marca}/delete', 'marcaController@delete');
+
+// Modelos
+//insertar Modelo
+Route::get('/modelos','ModelosController@index');
+Route::post('/modelos/add','ModelosController@store');
+
+//editar Modelo
+Route::get('/modelos/{modelo}/edit', 'ModelosController@edit');
+Route::patch('/modelos/{modelo}', 'ModelosController@update');
+
+//eliminar Modelo
+Route::delete('/modelos/{modelo}/delete', 'ModelosController@delete');
