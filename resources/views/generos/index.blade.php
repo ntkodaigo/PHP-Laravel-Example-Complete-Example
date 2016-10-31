@@ -3,21 +3,21 @@
 @section('content')
 
 
- <h1>Lista de Tipos de Impuestos</h1>
+ <h1>Lista de Generos</h1>
     <div class="row">
             <ul class="list-group">
-                @foreach($tipoimpuestos as $tipoimpuesto)
+                @foreach($generos as $genero)
                  <li class=" col-md-8 list-group-item">
 
-                 <div class="col-md-8">{{$tipoimpuesto-> nombretipoimpuesto}}
+                 <div class="col-md-8">{{$genero-> nombregenero}}
                  </div>
 
                   <div class="col-md-2 btn btn-primary">
 
-                     <a href="/tipoimpuestos/{{ $tipoimpuesto->idtipoimpuesto }}/edit">Editar</a>
+                     <a href="/generos/{{ $genero->idgenero }}/edit">Editar</a>
 
                  </div>
-                 <form action="/tipoimpuestos/{{ $tipoimpuesto->idtipoimpuesto }}/delete" method="POST">
+                 <form action="/generos/{{ $genero->idgenero }}/delete" method="POST">
                      {{method_field('DELETE')}}
 
                      <button class="col-md-2 btn btn-primary">Eliminar</button>
@@ -35,16 +35,16 @@
 </div>
 
 
-    <h3>Inserte el Tipo de Impuesto</h3>
-    <form method="POST" action="/tipoimpuestos/add">
+    <h3>Inserte Nuevo Genero</h3>
+    <form method="POST" action="/generos/add">
         <div class="form-group">
-            <input type="text" name="nombretipoimpuesto" class="form-control">
+            <input type="text" name="nombregenero" class="form-control">
 
         </div>
         
         <div>
             
-            <button type="submit" class="btn btn-primary">Agregar Tipo de Impuesto</button>
+            <button type="submit" class="btn btn-primary">Agregar Genero</button>
 
         </div>
         {{ csrf_field() }}

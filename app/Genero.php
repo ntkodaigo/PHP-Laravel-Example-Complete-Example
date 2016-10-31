@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Genero extends Model
 {
-    //
+    protected $table ='genero';
+	protected $primaryKey = 'idgenero'; 	
+	protected $fillable = ['nombregenero'];
+	public $timestamps = false;
 }

@@ -15,6 +15,7 @@ class CreateTipoprofesionsTable extends Migration
     {
         Schema::create('tipoprofesions', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('tipoprofesion');
             $table->timestamps();
         });
     }

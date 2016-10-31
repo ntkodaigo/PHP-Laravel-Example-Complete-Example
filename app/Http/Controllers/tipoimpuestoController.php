@@ -28,8 +28,10 @@ class tipoimpuestoController extends Controller
 
 	}
 
-	public function edit()
+	public function edit( Tipoimpuesto $tipoimpuesto)
 	{
+		return view('tipoimpuestos.edit', compact('tipoimpuesto'));
+
 
 	}
 
@@ -40,8 +42,10 @@ class tipoimpuestoController extends Controller
 
 	}
 
-	public function delete()
+	public function delete( Tipoimpuesto $tipoimpuesto)
 	{
+		$tipoimpuesto->delete();
+		return back();
 
 	}
   
