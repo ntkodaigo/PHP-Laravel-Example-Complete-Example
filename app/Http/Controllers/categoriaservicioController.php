@@ -18,6 +18,13 @@ class categoriaservicioController extends Controller
 
 	}
 
+	public function show(Categoriaservicio $categoriaservicio)
+	{
+		$init_route = config('constants.init_route');
+
+		return view('categoriaservicios.details', compact('categoriaservicio', 'init_route'));
+	}
+
 	public function store(Request $request)
 	{
 		$categoriaservicio = new Categoriaservicio ($request-> all());

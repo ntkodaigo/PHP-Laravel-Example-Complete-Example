@@ -139,3 +139,39 @@ Route::patch('/modelos/{modelo}', 'ModelosController@update');
 
 //eliminar Modelo
 Route::delete('/modelos/{modelo}/delete', 'ModelosController@delete');
+
+//Subcategoria Productos Rutas
+//insertar subcategoria de producto
+Route::get('/subcategoriaproductos','subcategoriaproductoController@index');
+Route::post('/subcategoriaproductos/add','subcategoriaproductoController@store');
+
+//editar subcategoria de producto
+Route::get('/subcategoriaproductos/{subcategoriaproducto}/edit', 'subcategoriaproductoController@edit');
+Route::patch('/subcategoriaproductos/{subcategoriaproducto}', 'subcategoriaproductoController@update');
+
+//eliminar subcategoria de producto
+Route::delete('/subcategoriaproductos/{subcategoriaproducto}/delete', 'subcategoriaproductoController@delete');
+
+//subcategoria de Servicios Rutas
+//insertar categoria de Servicios
+Route::get('/subcategoriaservicios','subcategoriaservicioController@index');
+Route::post('/subcategoriaservicios/add','subcategoriaservicioController@store');
+
+//editar subcategoria de Servicios
+Route::get('/subcategoriaservicios/{subcategoriaservicio}/edit', 'subcategoriaservicioController@edit');
+Route::patch('/subcategoriaservicios/{subcategoriaservicio}', 'subcategoriaservicioController@update');
+
+//eliminar subcategoria de Servicios
+Route::delete('/subcategoriaservicios/{subcategoriaservicio}/delete', 'subcategoriaservicioController@delete');
+
+//Sugerencia precio articulos Rutas
+//insertar Sugerencia precio articulos
+Route::get('/sugerenciaprecioarticulos','sugerenciaprecioarticuloController@index');
+Route::post('/sugerenciaprecioarticulos/add','sugerenciaprecioarticuloController@store');
+
+//editar Sugerencia precio articulos
+Route::get('/sugerenciaprecioarticulos/{subcategoriaservicio}/edit', 'sugerenciaprecioarticuloController@edit');
+Route::patch('/sugerenciaprecioarticulos/{subcategoriaservicio}', 'sugerenciaprecioarticuloController@update');
+
+//eliminar Sugerencia precio articulos
+Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'sugerenciaprecioarticuloController@delete');
