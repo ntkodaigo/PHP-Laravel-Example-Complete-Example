@@ -34,10 +34,30 @@ Route::post('/paises/add','paisController@store');
 
 //editar pais
 Route::get('/paises/{pais}/edit', 'paisController@edit');
+Route::get('/paises/{pais}/details', 'paisController@show');
+
 Route::patch('/paises/{pais}', 'paisController@update');
 
 //eliminar pais
 Route::delete('/paises/{pais}/delete', 'paisController@delete');
+
+
+// Departamentos
+//insertar Departamentos
+Route::get('/departamentos','DepartamentoController@index');
+Route::post('/departamentos/add','DepartamentoController@store');
+
+//editar Departamentos
+Route::get('/departamentos/{departamento}/edit', 'DepartamentoController@edit');
+Route::patch('/departamentos/{departamento}', 'DepartamentoController@update');
+
+//eliminar Departamentos
+Route::delete('/departamentos/{departamento}/delete', 'DepartamentoController@delete');
+
+
+
+
+
 
 //Tipo Documentos Rutas
 
@@ -139,3 +159,16 @@ Route::patch('/modelos/{modelo}', 'ModelosController@update');
 
 //eliminar Modelo
 Route::delete('/modelos/{modelo}/delete', 'ModelosController@delete');
+
+
+// Corrreoelectronico
+//insertar Corrreoelectronico
+Route::get('/correoelectronicos','CorreoelectronicosController@index');
+Route::post('/correoelectronicos/add','CorreoelectronicosController@store');
+
+//editar Corrreoelectronico
+Route::get('/correoelectronicos/{correoelectronico}/edit', 'CorreoelectronicosController@edit');
+Route::patch('/correoelectronicos/{correoelectronico}', 'CorreoelectronicosController@update');
+
+//eliminar Corrreoelectronico
+Route::delete('/correoelectronicos/{correoelectronico}/delete', 'CorreoelectronicosController@delete');

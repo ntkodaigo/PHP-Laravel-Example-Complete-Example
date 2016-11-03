@@ -10,4 +10,9 @@ class Pais extends Model
     protected $primaryKey = 'idpais';
     protected $fillable = ['nombrepais'];
     public $timestamps =false;
+
+	public function departamentos()
+	{
+		return $this->hasMany(Departamento::class, 'idpais', 'idpais');
+	}
 }

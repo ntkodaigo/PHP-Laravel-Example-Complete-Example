@@ -15,6 +15,8 @@ class CreateCorreoelectronicosTable extends Migration
     {
         Schema::create('correoelectronicos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('correoelectronico');
+            $table->string('personas_id',8)->unsigned()->index();
             $table->timestamps();
         });
     }
