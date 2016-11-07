@@ -10,8 +10,9 @@ class Tipoimpuesto extends Model
 	protected $primaryKey = 'idtipoimpuesto'; 	
 	protected $fillable = ['nombretipoimpuesto'];
 	public $timestamps = false;
- 	/*  public function members()
+
+ 	public function impuestofechas()
     {
-    	return $this->hasMany(Member::class);
-    }*/
+    	return $this->hasMany(Impuestofecha::class, 'idtipoimpuesto', 'idtipoimpuesto');
+    }
 }
