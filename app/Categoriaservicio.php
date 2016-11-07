@@ -10,4 +10,9 @@ class Categoriaservicio extends Model
 	protected $primaryKey = 'idcategoriaservicio'; 	
 	protected $fillable = ['nombrecategoriaservicio'];
 	public $timestamps = false;
+
+	public function subcategoriaservicios()
+	{
+		return $this->hasMany(subcategoriaservicio::class, 'idcategoriaservicio','idcategoriaservicio');
+	}
 }

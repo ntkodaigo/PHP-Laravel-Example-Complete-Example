@@ -13,6 +13,11 @@ class Subcategoriaservicio extends Model
 
 	public function categoriaservicio()
 	{
-		return $this->belongsTo(Categoriaservicio::class, 'idcategoriaservicio');
+		return $this->belongsTo(Categoriaservicio::class, 'idsubcategoriaservicio','idsubcategoriaservicio');
+	}
+
+	public function servicios
+	{
+		return $this->hasMany(Servicio::class, 'idsubcategoriaservicio','idsubcategoriaservicio');
 	}
 }
