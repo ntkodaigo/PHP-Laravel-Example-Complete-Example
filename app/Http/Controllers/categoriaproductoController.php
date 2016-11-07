@@ -18,6 +18,13 @@ class categoriaproductoController extends Controller
 
 	}
 
+	public function show(Categoriaproducto $categoriaproducto)
+	{
+		$init_route = config('constants.init_route');
+
+		return view('categoriaproductos.details', compact('categoriaproducto', 'init_route'));
+	}
+
 	public function store(Request $request)
 	{
 		$categoriaproducto = new Categoriaproducto ($request-> all());
