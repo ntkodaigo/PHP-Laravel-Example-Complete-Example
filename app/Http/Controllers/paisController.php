@@ -18,6 +18,14 @@ class paisController extends Controller
 
 	}
 
+	public function show(Pais $pais)
+	{
+		$init_route = config('constants.init_route');
+
+		return view('paises.details', compact('pais', 'init_route'));
+	}
+
+
 	public function store(Request $request)
 	{
 		$pais = new Pais ($request-> all());

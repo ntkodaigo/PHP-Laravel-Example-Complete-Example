@@ -10,4 +10,10 @@ class Tipoprofesion extends Model
 	protected $primaryKey = 'idtipoprofesion'; 	
 	protected $fillable = ['nombretipoprofesion'];
 	public $timestamps = false;
+
+	public function personanatural()
+	{
+		return $this -> belongsToMany(Personanatural::class,'personanaturaltipoprofesion','idtipoprofesion','idpersonatural');
+
+	}
 }
