@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
+use App\Marca;
 
 class ClientesController extends Controller
 {
     public function getIndex()
     {
-        return view('clientes.search');
+    	return view('marcas.search');
     }
 
-    /**
-     * Process datatables ajax request.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function anyData()
+  
+    public function data()
     {
-        return Datatables::of(User::query())->make(true);
+        return Datatables::of(Marca::all())->make(true);
     }
 }

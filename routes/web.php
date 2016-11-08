@@ -209,3 +209,7 @@ Route::patch('/sugerenciaprecioarticulos/{subcategoriaservicio}', 'sugerenciapre
 //eliminar Sugerencia precio articulos
 Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'sugerenciaprecioarticuloController@delete');
 
+
+//buscar cliente
+Route::get('datatables', 'ClientesController@getIndex');
+Route::get('data', 'ClientesController@data');
