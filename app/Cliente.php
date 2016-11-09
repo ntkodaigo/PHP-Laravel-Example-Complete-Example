@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
-	protected $table='cliente';
-	protected $primaryKey='idcliente';
+	public static $entityName = 'Cliente';
 
-    
+	protected $table='cliente';
+	protected $primaryKey='idcliente';   
 
     public function revisions()
 	{
@@ -26,10 +26,8 @@ class Cliente extends Model
 		return $this->hasMany(Factura::class, 'idcliente','idcliente');
 	}
 
-	public function cliente()
+	public function persona()
 	{
 		return $this->hasOne(Cliente::class, 'idpersona', 'idcliente');
 	}
-
-
 }

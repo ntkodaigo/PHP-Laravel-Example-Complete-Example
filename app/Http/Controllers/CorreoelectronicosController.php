@@ -8,7 +8,7 @@ use App\Correoelectronico;
 
 class CorreoelectronicosController extends Controller
 {
-     public function index()
+    public function index()
 	{
 		$correoelectronicos=Correoelectronico::all();
         $init_route = config('constants.init_route');
