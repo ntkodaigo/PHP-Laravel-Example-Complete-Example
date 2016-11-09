@@ -6,7 +6,7 @@
             <tr>
                 <th>Id</th>
                 <th>Nombre de la Marca</th>
-                
+                <th>Acciones</th>
             </tr>
         </thead>
     </table>
@@ -21,8 +21,8 @@ $(function() {
         ajax:'{{URL::asset('data')}}',
         columns: [
             { data: 'idmarca', name: 'idmarca' },
-            { data: 'nombremarca', name: 'nombremarca' }
-            
+            { data: 'nombremarca', name: 'nombremarca' },
+            { data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
 });
