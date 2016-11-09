@@ -53,7 +53,7 @@ class ClientesController extends Controller
       	return response()->json(array('msg'=> $msg), 200);
     }
 
-
+}
 
 
 }
