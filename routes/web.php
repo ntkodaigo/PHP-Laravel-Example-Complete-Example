@@ -209,3 +209,10 @@ Route::patch('/sugerenciaprecioarticulos/{subcategoriaservicio}', 'sugerenciapre
 //eliminar Sugerencia precio articulos
 Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'sugerenciaprecioarticuloController@delete');
 
+// Clientes
+Route::get('/clientes', 'ClientesController@index');
+Route::get('/clientes/new', 'ClientesController@fillNew');
+Route::post('/clientes/add', 'ClientesController@store');
+Route::get('/clientes/{cliente}/show', 'ClientesController@store');
+Route::post('/clientes/update', 'ClientesController@update');
+Route::post('/clientes/{cliente}/delete', 'ClientesController@store');
