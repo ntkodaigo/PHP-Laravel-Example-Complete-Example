@@ -160,7 +160,6 @@ Route::patch('/modelos/{modelo}', 'ModelosController@update');
 //eliminar Modelo
 Route::delete('/modelos/{modelo}/delete', 'ModelosController@delete');
 
-<<<<<<< HEAD
 
 // Corrreoelectronico
 //insertar Corrreoelectronico
@@ -173,7 +172,7 @@ Route::patch('/correoelectronicos/{correoelectronico}', 'CorreoelectronicosContr
 
 //eliminar Corrreoelectronico
 Route::delete('/correoelectronicos/{correoelectronico}/delete', 'CorreoelectronicosController@delete');
-=======
+
 //Subcategoria Productos Rutas
 //insertar subcategoria de producto
 Route::get('/subcategoriaproductos','subcategoriaproductoController@index');
@@ -209,4 +208,15 @@ Route::patch('/sugerenciaprecioarticulos/{subcategoriaservicio}', 'sugerenciapre
 
 //eliminar Sugerencia precio articulos
 Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'sugerenciaprecioarticuloController@delete');
->>>>>>> origin/master
+
+// Productos
+//insertar Producto
+Route::get('/productos','ProductosController@index');
+Route::post('/productos/add','ProductosController@store');
+
+//editar Producto
+Route::get('/productos/{producto}/edit', 'ProductosController@edit');
+Route::patch('/productos/{producto}', 'ProductosController@update');
+
+//eliminar Producto
+Route::delete('/productos/{producto}/delete', 'ProductosController@delete');
