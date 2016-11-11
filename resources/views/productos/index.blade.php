@@ -57,9 +57,10 @@
 
         Categoria Producto
         <div class="form-group dropdown">
-            <select name="idcategoriaproducto" class="btn btn-primary dropdown-toggle">
+            <select id="idcategoriaproducto" name="idcategoriaproducto" class="btn btn-primary dropdown-toggle">
+                <option selected="true" >Seleccione Categoria</option>
                 @foreach($categoriaproductos as $categoriaproducto)
-                <option value="{{ $categoriaproducto -> idcategoriaproducto }}">{{ $categoriaproducto-> nombrecategoriaproducto }}</option>
+                <option id="{{ $categoriaproducto -> idcategoriaproducto }}" value="{{ $categoriaproducto -> idcategoriaproducto }}">{{ $categoriaproducto-> nombrecategoriaproducto }}</option>
                 @endforeach
             </select>
         </div>
@@ -71,9 +72,9 @@
         <!-- Falta el filtro de los combobox segun su categoria -->
         Subcategoria Producto
         <div class="form-group dropdown">
-            <select name="idsubcategoriaproducto" class="btn btn-primary dropdown-toggle">
+            <select id="idsubcategoriaproducto" name="idsubcategoriaproducto" class="btn btn-primary dropdown-toggle">
                 @foreach($subcategoriaproductos as $subcategoriaproducto)
-                <option value="{{ $subcategoriaproducto -> idcategoriaproducto }}">{{ $subcategoriaproducto-> nombresubcategoriaproducto }}</option>
+                <option id="{{ $subcategoriaproducto -> idcategoriaproducto }}" value="{{ $subcategoriaproducto -> idsubcategoriaproducto }}">{{ $subcategoriaproducto-> nombresubcategoriaproducto }}</option>
                 @endforeach
             </select>
         </div>
@@ -86,21 +87,22 @@
     </form>
 
 
-    <script type="text/javascript">
-        var matchedList = [];        
-        $('#idcategoriaproducto option').each(function (i, option1) {
-            $('#idsubcategoriaproducto option').each(function (j, option2) {
-               if (option1.value === option2.value) {
-                   matchedList= $('#idsubcategoriaproducto option').val()
-                   $('#idsubcategoriaproducto')
-                        .find('option')
-                        .remove()
-                        .end()
-                        .append('<option value="whatever">text</option>')
-                        .val('whatever');
-               }
-            });
+@stop
+
+
+@section('footer')
+<script type="text/javascript">
+        $(document).ready(function(){
+            $('#idsubcategoriaproducto').empty();
+        });
+        var names = $('#idsubcategoriaproducto option').clone();
+
+        $('#idcategoriaproducto').change(function() {
+            var val = $(this).children(":selected").attr("id");
+            $('#idsubcategoriaproducto').empty();
+            names.filter(function(idx, el) {
+                return $(el).attr("id")===(val);
+            }).appendTo('#idsubcategoriaproducto');
         });
     </script>
-
-@endsection
+@stop
