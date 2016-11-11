@@ -55,6 +55,7 @@
             <input type="text" name="descripcionproducto" class="form-control">
         </div>
 
+        Categoria Producto
         <div class="form-group dropdown">
             <select name="idcategoriaproducto" class="btn btn-primary dropdown-toggle">
                 @foreach($categoriaproductos as $categoriaproducto)
@@ -62,20 +63,44 @@
                 @endforeach
             </select>
         </div>
+
+        <div>
+        <button type="button" class="btn btn-primary">Filtrar</button>
+        </div>
+
         <!-- Falta el filtro de los combobox segun su categoria -->
+        Subcategoria Producto
         <div class="form-group dropdown">
             <select name="idsubcategoriaproducto" class="btn btn-primary dropdown-toggle">
                 @foreach($subcategoriaproductos as $subcategoriaproducto)
-                <option value="{{ $subcategoriaproducto -> idsubcategoriaproducto }}">{{ $subcategoriaproducto-> nombresubcategoriaproducto }}</option>
+                <option value="{{ $subcategoriaproducto -> idcategoriaproducto }}">{{ $subcategoriaproducto-> nombresubcategoriaproducto }}</option>
                 @endforeach
             </select>
         </div>
-              
+
         <div>
             <button type="submit" class="btn btn-primary">Agregar producto</button>
         </div>
         {{ csrf_field() }}
 
     </form>
+
+
+    <script type="text/javascript">
+        var matchedList = [];        
+        $('#idcategoriaproducto option').each(function (i, option1) {
+            $('#idsubcategoriaproducto option').each(function (j, option2) {
+               if (option1.value === option2.value) {
+                   matchedList= $('#idsubcategoriaproducto option').val()
+                   $('#idsubcategoriaproducto')
+                        .find('option')
+                        .remove()
+                        .end()
+                        .append('<option value="whatever">text</option>')
+                        .val('whatever');
+               }
+            });
+        });
+    </script>
 
 @endsection
