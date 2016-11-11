@@ -211,6 +211,19 @@ Route::patch('/sugerenciaprecioarticulos/{subcategoriaservicio}', 'sugerenciapre
 Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'sugerenciaprecioarticuloController@delete');
 
 
+// Productos
+//insertar Producto
+Route::get('/productos','ProductosController@index');
+Route::post('/productos/add','ProductosController@store');
+
+//editar Producto
+Route::get('/productos/{producto}/edit', 'ProductosController@edit');
+Route::patch('/productos/{producto}', 'ProductosController@update');
+
+//eliminar Producto
+Route::delete('/productos/{producto}/delete', 'ProductosController@delete');
+
+
 
 //buscar cliente
 Route::get('datatables', 'ClientesController@getIndex');
@@ -224,4 +237,3 @@ Route::get('/clientes/{cliente}/show', 'ClientesController@store');
 
 Route::post('/clientes/update', 'ClientesController@update');
 Route::post('/clientes/{cliente}/delete', 'ClientesController@store');
-

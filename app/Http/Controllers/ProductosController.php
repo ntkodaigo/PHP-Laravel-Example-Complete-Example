@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Producto;
+use App\Subcategoriaproducto;
+use App\Categoriaproducto;
 use App\Http\Requests;
 
 class ProductosController extends Controller
@@ -13,13 +15,14 @@ class ProductosController extends Controller
 		$productos=Producto::all();
         $init_route = config('constants.init_route');
 
+        $subcategoriaproductos=Subcategoriaproducto::all();
+
+        $categoriaproductos=Categoriaproducto::all();
         
-
-
-      	return view('productos.index', compact('productos', 'init_route'));
+      	return view('productos.index', compact('productos', 'categoriaproductos','subcategoriaproductos', 'init_route'));
 	}
 
-	public function store(Request $request) // $nombreModelo / $idmarca
+	public function store(Request $request) 
 	{
 		$producto = new Producto ($request-> all());
 

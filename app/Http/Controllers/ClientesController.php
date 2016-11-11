@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Yajra\Datatables\Datatables;
 use App\Marca;
+use App\Cliente;
+use App\Genero;
 
 class ClientesController extends Controller
 {
@@ -14,14 +16,15 @@ class ClientesController extends Controller
         $marcas = Marca::all();
     	return view('marcas.search', compact('marcas'));
     }
-
   
     public function data()
     {
         
         return Datatables::of(Marca::all())->addColumn('action', function ($marca) {
+
             
             return '<button onclick="botoneditar('.$marca->idmarca.','."'".$marca->nombremarca."'".','."'marcas/".$marca->idmarca."'".')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#marca" id="btneditar"><i class="glyphicon glyphicon-edit"></i>Edit</button>
+
 
                 <a href="marcas/'.$marca->idmarca.'/delete" class="btn btn-danger" data-id="{{$marca->idmarca}}"><i class="glyphicon glyphicon-bin"></i>Delete</a>';
 
@@ -55,8 +58,9 @@ class ClientesController extends Controller
     	// CRUD?
     	$key = 'c';
     	$entityName = Cliente::$entityName;
+    	$generos = Genero::all();
 
-    	return view('clientes.crud', compact('entityName', 'key', 'init_route'));
+    	return view('clientes.crud', compact('entityName', 'key', 'generos','init_route'));
     }
 
     public function store(Request $request)
@@ -72,6 +76,7 @@ class ClientesController extends Controller
     }
 
 
+
     public function delete( Marca $marca)
     {
 
@@ -80,4 +85,7 @@ class ClientesController extends Controller
 
     }
 }
+
+
+
 

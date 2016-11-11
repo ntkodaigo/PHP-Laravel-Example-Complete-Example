@@ -18,6 +18,6 @@ class Subcategoriaproducto extends Model
 
 	public function producto()
 	{
-		retunr $this->hasOne(Producto::class,'idsubcategoriaproducto','idsubcategoriaproducto')
+		return $this->hasOne(Producto::class,'idsubcategoriaproducto','idsubcategoriaproducto');
 	}
 }
