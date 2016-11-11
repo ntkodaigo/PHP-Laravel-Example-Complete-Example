@@ -10,4 +10,9 @@ class Genero extends Model
 	protected $primaryKey = 'idgenero'; 	
 	protected $fillable = ['nombregenero'];
 	public $timestamps = false;
+
+	public function personanaturals()
+	{
+		return $this-> belongsTo(Personanatural::class,'idpersonanatural','idgenero');
+	}
 }

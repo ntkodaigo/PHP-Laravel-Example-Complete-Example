@@ -50,5 +50,6 @@ class Persona extends Model
 	public function nacimientocreacion()
 	{
 		return $this-> hasOne(Nacimientocreacion::class,'idpersona','idpersona');
-	}	
+	}
+
 }

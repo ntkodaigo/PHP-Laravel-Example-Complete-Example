@@ -36,5 +36,4 @@ class Revision extends Model
 		return $this-> belongsTo(Servicio::class,'idservicio');
 	}	
 
-
 }

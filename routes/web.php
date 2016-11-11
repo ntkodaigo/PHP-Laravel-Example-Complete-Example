@@ -209,6 +209,7 @@ Route::patch('/sugerenciaprecioarticulos/{subcategoriaservicio}', 'sugerenciapre
 //eliminar Sugerencia precio articulos
 Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'sugerenciaprecioarticuloController@delete');
 
+
 // Productos
 //insertar Producto
 Route::get('/productos','ProductosController@index');
@@ -220,3 +221,17 @@ Route::patch('/productos/{producto}', 'ProductosController@update');
 
 //eliminar Producto
 Route::delete('/productos/{producto}/delete', 'ProductosController@delete');
+
+
+
+//buscar cliente
+Route::get('datatables', 'ClientesController@getIndex');
+Route::get('data', 'ClientesController@data');
+
+// Clientes
+Route::get('/clientes', 'ClientesController@index');
+Route::get('/clientes/new', 'ClientesController@fillNew');
+Route::post('/clientes/add', 'ClientesController@store');
+Route::get('/clientes/{cliente}/show', 'ClientesController@store');
+Route::post('/clientes/update', 'ClientesController@update');
+Route::post('/clientes/{cliente}/delete', 'ClientesController@store');

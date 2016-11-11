@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Vehiculo extends Model
 {
     
+	protected $table ='vehiculo';
+	protected $primaryKey = 'idvehiculo'; 	
+	protected $fillable = ['idmarca','idmodelo','añovehiculo'];
+	public $timestamps = false;
 
-
-    public function revisions()
+    public function cliente()
 	{
-		return $this->hasMany(Revision::class, 'idvehiculo','idvehiculo');
+		return $this->belongsToMany(Cliente::class, 'idvehiculo','idvehiculo');
 	}
+
+
 }

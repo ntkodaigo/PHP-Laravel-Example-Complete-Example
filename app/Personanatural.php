@@ -29,5 +29,20 @@ class Personanatural extends Model
 		return $this-> hasOne(Tecnico::class,'idtecnico','idpersonanatural');
 	}
 
+	public function generos()
+	{
+		return $this-> belongsTo(Genero::class,'idgenero','idpersonanatural');
+	}
+
+	public function personanaturaltipodocumento()
+	{
+		return $this-> hasMany(Personanaturaltipodocumento::class,'idpersonanatural','idpersonanatural');
+	}
+
+
+
+
+
+
 
 }
