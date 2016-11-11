@@ -11,20 +11,38 @@ class ClientesController extends Controller
 {
     public function getIndex()
     {
-    	return view('marcas.search');
+        $marcas = Marca::all();
+    	return view('marcas.search', compact('marcas'));
     }
 
   
     public function data()
     {
+        
         return Datatables::of(Marca::all())->addColumn('action', function ($marca) {
-                return '<a href="/marcas/'.$marca->idmarca.'/edit" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a> <a href="#edit-'.$marca->idmarca.'"class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-bin"></i> Eliminar</a>';
+            
+            return '<button onclick="botoneditar('.$marca->idmarca.','."'".$marca->nombremarca."'".','."'marcas/".$marca->idmarca."'".')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#marca" id="btneditar"><i class="glyphicon glyphicon-edit"></i>Edit</button>
 
-            }) ->make(true);
+                <a href="marcas/'.$marca->idmarca.'/delete" class="btn btn-danger" data-id="{{$marca->idmarca}}"><i class="glyphicon glyphicon-bin"></i>Delete</a>';
+
+                
+            })->make(true);
+
+               /* <button  class="btn btn-danger btn-delete" data-id="{{$marca->idmarca}}"><i class="glyphicon glyphicon-bin"></i>Eliminar</button>';*/
+
+           /* <a href="#edit'.$marca->idmarca.'"class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-bin"></i> Eliminar</a>';*/
+
+            
         /*
             ->editColumn('id', 'ID: {{$id}}')
             ->removeColumn('marca')    ->make(true);*/
     }
+
+    public function edit(Marca $marca, Request $request)
+    {
+        return view('marcas.edit', compact('marca'));
+    }
+
 
     public function index()
 	{
@@ -43,17 +61,23 @@ class ClientesController extends Controller
 
     public function store(Request $request)
     {
+        return view('marcas.edit', compact('marca'));
 
     }
 
-    public function update(Request $request, Cliente $cliente)
+    public function update(Request $request, Marca $marca)
     {
-    	$msg = $request->id;
-
-      	return response()->json(array('msg'=> $msg), 200);
+    	$marca -> update($request->all());
+        return back();
     }
 
+
+    public function delete( Marca $marca)
+    {
+
+        $marca->delete();
+        return back();
+
+    }
 }
 
-
-}

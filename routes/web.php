@@ -138,7 +138,8 @@ Route::delete('/categoriaservicios/{categoriaservicio}/delete', 'categoriaservic
 // Marca Rutas
 //insertar categoria de Servicios
 Route::get('/marcas','marcaController@index');
-Route::post('/marcas/add','marcaController@store');
+Route::patch('/marcas/add','marcaController@store');
+//Route::post('/marcas/add','marcaController@newMarca');
 
 //editar categoria de Servicios
 Route::get('/marcas/{marca}/edit', 'marcaController@edit');
@@ -146,7 +147,7 @@ Route::get('/marcas/{marca}/details', 'marcaController@show');
 Route::patch('/marcas/{marca}', 'marcaController@update');
 
 //eliminar categoria de Servicios
-Route::delete('/marcas/{marca}/delete', 'marcaController@delete');
+Route::get('/marcas/{marca}/delete', 'marcaController@delete');
 
 // Modelos
 //insertar Modelo
@@ -214,12 +215,13 @@ Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'suger
 //buscar cliente
 Route::get('datatables', 'ClientesController@getIndex');
 Route::get('data', 'ClientesController@data');
-
+//Route::post('/deletemarca','ClientesController@deleteMarca');
 // Clientes
 Route::get('/clientes', 'ClientesController@index');
 Route::get('/clientes/new', 'ClientesController@fillNew');
 Route::post('/clientes/add', 'ClientesController@store');
 Route::get('/clientes/{cliente}/show', 'ClientesController@store');
+
 Route::post('/clientes/update', 'ClientesController@update');
 Route::post('/clientes/{cliente}/delete', 'ClientesController@store');
 
