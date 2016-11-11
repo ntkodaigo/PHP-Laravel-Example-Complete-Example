@@ -34,4 +34,11 @@ $(function(){
 
    	// ,input[name=description]
 	});
+
+	$('#birth-date .input-group.date').datepicker({
+		language: "es",
+	    calendarWeeks: true,
+	    autoclose: true,
+	    format: "dd/mm/yyyy",
+	});
 });

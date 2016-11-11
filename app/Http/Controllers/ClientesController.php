@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Yajra\Datatables\Datatables;
 use App\Marca;
+use App\Cliente;
+use App\Genero;
 
 class ClientesController extends Controller
 {
@@ -13,12 +15,11 @@ class ClientesController extends Controller
     {
     	return view('marcas.search');
     }
-
   
     public function data()
     {
         return Datatables::of(Marca::all())->addColumn('action', function ($marca) {
-                return '<a href="/marcas/'.$marca->idmarca.'/edit" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a> <a href="#edit-'.$marca->idmarca.'"class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-bin"></i> Eliminar</a>';
+                return '<a href="/marcas/'.$marca->idmarca.'/edit" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a> <a href="#edit-'.$marca->idmarca.'"class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>';
 
             }) ->make(true);
         /*
@@ -37,8 +38,9 @@ class ClientesController extends Controller
     	// CRUD?
     	$key = 'c';
     	$entityName = Cliente::$entityName;
+    	$generos = Genero::all();
 
-    	return view('clientes.crud', compact('entityName', 'key', 'init_route'));
+    	return view('clientes.crud', compact('entityName', 'key', 'generos','init_route'));
     }
 
     public function store(Request $request)
@@ -52,8 +54,4 @@ class ClientesController extends Controller
 
       	return response()->json(array('msg'=> $msg), 200);
     }
-
-}
-
-
 }
