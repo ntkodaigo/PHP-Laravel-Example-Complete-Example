@@ -235,8 +235,8 @@ Route::get('telefonosData','ClientesController@telefonosData');
 Route::get('direccionesData','ClientesController@direccionesData');
 Route::get('correosData','ClientesController@correosData');
 Route::get('/clientes', 'ClientesController@index');
-Route::get('/clientes/new', 'ClientesController@fillNew');
-Route::post('/clientes/add', 'ClientesController@store');
+Route::get('/clientes/new/pn', 'ClientesController@fillNewPN');
+Route::post('/clientes/add/pn', 'ClientesController@storePN');
 Route::get('/clientes/{cliente}/show', 'ClientesController@store');
 
 Route::post('/clientes/update', 'ClientesController@update');

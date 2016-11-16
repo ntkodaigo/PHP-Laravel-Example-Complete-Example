@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Personanatural extends Model
 {
+	public static $entityName = "Persona Natural";
+
    	protected $table ='personanatural';
 	protected $primaryKey = 'idpersonanatural'; 	
 	protected $fillable = ['nombres','apellido_paterno','apellido_materno'];

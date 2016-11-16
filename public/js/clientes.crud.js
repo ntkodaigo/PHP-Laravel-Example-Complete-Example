@@ -7,17 +7,6 @@ $.ajaxSetup({
 var documentosTable;
 
 $(function(){
-	documentosTable = $('#documentos-table').DataTable({
-          processing: true,
-          serverSide: true,
-          ajax:'/documentosData/1',
-          columns: [
-              { data: 'nombretipodocumento', name: 'nombretipodocumento' },
-              { data: 'pivot.numerodocumento', name: 'pivot' },
-              { data: 'action', name: 'action', orderable: false, searchable: false}
-          ]
-      });
-
    	jQuery("a[name=idcliente_edit]").click(function(){
 
    		if (!jQuery("input[name=idcliente]").prop("readonly"))

@@ -4,10 +4,14 @@
 
 		<!--div class="row"-->
 			<!--div class="col-md-6 col-md-offset-3"-->
-				<h1>Registro de {{ $entityName }}</h1>
+				<h1>{{ $title }} {{ $entityName }} - {{ $clienteTypeName }}</h1>
 				<form id="frmNewCliente" method="POST"
 					@if ($key == 'c')
-						action="/clientes/add"
+						@if ($clienteTypeName == 'Persona Natural')
+							action="/clientes/add/pn"
+						@elseif ($clienteTypeName == 'Persona Juridica')
+							action="/clientes/add/pj"
+						@endif
 					@endif
 					>
 					@if ($key == 'u')
@@ -118,28 +122,29 @@
 			        <button type="submit"><i class="glyphicon glyphicon-edit"></i>Guardar</button>
 
 			        <br><br>
+			        @if ($key == 's')
+						<div class="alert alert-info" role="alert"><h2>Documentos</h2></div>
+						<button type="button" onclick="botoninsertar2()"><i class="glyphicon glyphicon-edit"></i>Nuevo Documento</button>
+						<table class="table table-hover" id="documentos-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Tipo Documento</th>
+					                <th>Numero documento</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
 
-					<div class="alert alert-info" role="alert"><h2>Documentos</h2></div>
-					<button type="button" onclick="botoninsertar2()"><i class="glyphicon glyphicon-edit"></i>Nuevo Documento</button>
-					<table class="table table-hover" id="documentos-table">
-				        <thead class="thead-inverse">
-				            <tr>
-				                <th>Tipo Documento</th>
-				                <th>Numero documento</th>
-				                <th>Acciones</th>
-				            </tr>
-				        </thead>
-				    </table>
+					    <input type="hidden" name="idmarca" id="idmarca">
 
-				    <input type="hidden" name="idmarca" id="idmarca">
+						<div class="alert alert-info" role="alert"><h2>Teléfonos</h2></div>
 
-					<div class="alert alert-info" role="alert"><h2>Teléfonos</h2></div>
+						<div class="alert alert-info" role="alert"><h2>Direcciones</h2></div>
 
-					<div class="alert alert-info" role="alert"><h2>Direcciones</h2></div>
+						<div class="alert alert-info" role="alert"><h2>Correos Electrónicos</h2></div>
 
-					<div class="alert alert-info" role="alert"><h2>Correos Electrónicos</h2></div>
-
-					<div class="alert alert-info" role="alert"><h2>Profesiones</h2></div>
+						<div class="alert alert-info" role="alert"><h2>Profesiones</h2></div>
+					@endif
          			{{ csrf_field() }}
 			    </form>
 		    <!--/div>
@@ -149,3 +154,25 @@
 @section('footer')
 	<script src="{{ URL::asset('js/clientes.crud.js') }}"> </script>
 @stop
+
+@push('scripts')
+
+<script type="text/javascript">
+	$(function() {
+
+		@if ($key == 's' )
+	      documentosTable = $('#documentos-table').DataTable({
+	          processing: true,
+	          serverSide: true,
+	          ajax:'/documentosData/{{ $newCliente->idcliente }}',
+	          columns: [
+	              { data: 'nombretipodocumento', name: 'nombretipodocumento' },
+	              { data: 'pivot.numerodocumento', name: 'pivot' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ]
+	      });
+      	@endif
+
+  	});
+</script>
+@endpush

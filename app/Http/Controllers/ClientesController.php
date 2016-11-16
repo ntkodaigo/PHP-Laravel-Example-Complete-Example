@@ -62,23 +62,26 @@ class ClientesController extends Controller
     	return response()->json(['success' => true, 'data' => $request->id]);
     }
 
-    public function fillNew()
+    public function fillNewPN()
     {
     	$init_route = config('constants.init_route');
     	// CRUD?
     	$key = 'c';
+    	$title = 'Registro de';
     	$entityName = Cliente::$entityName;
+    	$clienteTypeName = Personanatural::$entityName;
     	$generos = Genero::all();
 
-    	return view('clientes.crud', compact('entityName', 'key', 'generos','init_route'));
+    	return view('clientes.crud', compact('title', 'entityName', 'clienteTypeName', 'key', 'generos','init_route'));
     }
 
-    public function store(Request $request)
+    public function storePN(Request $request)
     {
     	//return response()->json(['success' => true, 'data' => $request]);
 
     	$lastPersona = Persona::orderBy('idpersona', 'desc')->first();
     	$newId = ($lastPersona == null) ? 1 : $lastPersona->idpersona + 1;
+    	$newId = str_pad($newId, 8, "0", STR_PAD_LEFT);
 
     	$newPersona = new Persona;
     	$newPersona->idpersona = $newId;
@@ -102,12 +105,14 @@ class ClientesController extends Controller
 		$newPerNatural->generos()->save($genero);
 
 		$init_route = config('constants.init_route');
+    	$title = 'Datos de';
     	// CRUD?
     	$key = 's';
     	$entityName = Cliente::$entityName;
+    	$clienteTypeName = Personanatural::$entityName;
     	$generos = Genero::all();
 
-    	return view('clientes.crud', compact('entityName', 'key', 'generos','init_route'));
+    	return view('clientes.crud', compact('title','clienteTypeName','entityName', 'key', 'generos','init_route', 'newCliente'));
         //return response()->json(['success' => true, 'data' => $newCliente]);
     }
 
