@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nacimientocreacion extends Model
 {
-    /protected $table ='nacimientocreacion';
+    protected $table = 'nacimientocreacion';
 	protected $primaryKey = 'idpersona'; 	
 	protected $fillable = ['idpersona', 'fechanacimientocreacion'];
 	public $timestamps = false;

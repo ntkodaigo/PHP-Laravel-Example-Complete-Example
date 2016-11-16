@@ -1,5 +1,23 @@
+$.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+  });
+
+var documentosTable;
 
 $(function(){
+	documentosTable = $('#documentos-table').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax:'/documentosData/1',
+          columns: [
+              { data: 'nombretipodocumento', name: 'nombretipodocumento' },
+              { data: 'pivot.numerodocumento', name: 'pivot' },
+              { data: 'action', name: 'action', orderable: false, searchable: false}
+          ]
+      });
+
    	jQuery("a[name=idcliente_edit]").click(function(){
 
    		if (!jQuery("input[name=idcliente]").prop("readonly"))
@@ -42,3 +60,29 @@ $(function(){
 	    format: "dd/mm/yyyy",
 	});
 });
+
+/*$('#frmNewCliente').on('submit',function(e){
+        e.preventDefault();
+        var form=$('#frmNewCliente');
+        var formData=form.serialize();
+        var url=form.attr('action');
+
+        $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+		        document.getElementById('idmarca').value=response.data;
+		    }
+		}, 'json');
+    });*/
+
+function botoninsertar2()
+{
+	var data = { id : 1};
+
+	$.post('/documento/'+1, data, function(response){
+	    if(response.success)
+	    {
+	        document.getElementById('idmarca').value=response.data;
+	    }
+	}, 'json');
+}

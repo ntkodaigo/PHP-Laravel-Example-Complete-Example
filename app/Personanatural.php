@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Personanatural extends Model
 {
    	protected $table ='personanatural';
-	protected $primaryKey = 'idpersonatural'; 	
-	protected $fillable = ['nombres','apellido paterno','apellido materno'];
-	public $incrementing = false
+	protected $primaryKey = 'idpersonanatural'; 	
+	protected $fillable = ['nombres','apellido_paterno','apellido_materno'];
+	public $incrementing = false;
 	public $timestamps = false;
+
+	//Temps
+	public $tipodocumentosTemp = array(
+			'idpersonanatural' => '1',
+			'idtipodocumento' => '1',
+			'numerodocumento' => '12121',
+		);
 
 	public function persona()
 	{
@@ -31,18 +38,40 @@ class Personanatural extends Model
 
 	public function generos()
 	{
-		return $this-> belongsTo(Genero::class,'idgenero','idpersonanatural');
+		return $this-> belongsToMany(Genero::class,'personanaturalgenero','idpersonanatural','idgenero');
 	}
 
-	public function personanaturaltipodocumento()
+	public function tipodocumentos()
 	{
-		return $this-> hasMany(Personanaturaltipodocumento::class,'idpersonanatural','idpersonanatural');
+		return $this->belongsToMany(Tipodocumento::class,'personanaturaltipodocumento','idpersonanatural','idtipodocumento')->withPivot('numerodocumento');
 	}
 
+	public function saveTipoDocumento($td, $numeroDoc)
+	{
+		$this->tipodocumentos()->attach($td, array('numerodocumento' => $numeroDoc));
+	}
 
+	public function addTipoDocumentoTemp($td, $numeroDoc)
+	{
+		$pnTd = new Personanaturaltipodocumento;
+		$pnTd->idpersonanatural = count($this->tipodocumentosTemp) + 1;
+		$pnTd->idtipodocumento = $td->idtipodocumento;
+		$pnTd->numerodocumento = $numeroDoc;
+		$this->tipodocumentosTemp[] = $pnTd;
 
+		foreach ($this->tipodocumentosTemp as $key => $value) 
+		{
+			echo "{$key} => {$value}";
+		}
+	}
 
+	public function saveTipoDocumentosTemp()
+	{
+		foreach ($this->tipodocumentosTemp as $value) 
+		{
+			$td = Tipodocumento::find($value->idtipodocumento);
 
-
-
+			$this->tipodocumentos()->save($td, array('numerodocumento' => $value->numerodocumento));
+		}
+	}
 }

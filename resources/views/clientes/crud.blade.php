@@ -5,10 +5,11 @@
 		<!--div class="row"-->
 			<!--div class="col-md-6 col-md-offset-3"-->
 				<h1>Registro de {{ $entityName }}</h1>
-				<form method="POST"
+				<form id="frmNewCliente" method="POST"
 					@if ($key == 'c')
 						action="/clientes/add"
-					@endif>
+					@endif
+					>
 					@if ($key == 'u')
 						{{method_field ('PATCH')}}
 					@endif
@@ -33,9 +34,9 @@
 			        <br><br><br>
 			        
 			        <div class="form-group">
-			            <label for="nombres" class="col-sm-2 col-form-label">Apellido Paterno</label>
+			            <label for="apellido_paterno" class="col-sm-2 col-form-label">Apellido Paterno</label>
 			            <div class="col-sm-8">
-			    			<input type="text" class="form-control" id="apellido paterno" name="apellido paterno" placeholder="Bross" @if ($key == 's')
+			    			<input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" placeholder="Bross" @if ($key == 's')
 			    				readonly
 			    			@endif>
 						</div>
@@ -51,9 +52,9 @@
 			        <br><br><br>
 
 			        <div class="form-group">
-			            <label for="nombres" class="col-sm-2 col-form-label">Apellido Materno</label>
+			            <label for="apellido_materno" class="col-sm-2 col-form-label">Apellido Materno</label>
 			            <div class="col-sm-8">
-			    			<input type="text" class="form-control" id="apellido materno" name="apellido materno" placeholder="Bross" @if ($key == 's')
+			    			<input type="text" class="form-control" id="apellido_materno" name="apellido_materno" placeholder="Bross" @if ($key == 's')
 			    				readonly
 			    			@endif>
 						</div>
@@ -94,7 +95,7 @@
 			        <br><br><br>
 
 			        <div class="form-group">
-			            <label for="nombres" class="col-sm-2 col-form-label">Género</label>
+			            <label for="idgenero" class="col-sm-2 col-form-label">Género</label>
 			            <div class="col-sm-8">
 				            <select name="idgenero" class="form-control dropdown-toggle" 
 				            @if ($key == 's')
@@ -114,9 +115,23 @@
 			    		@endif
 			        </div>
 			        
+			        <button type="submit"><i class="glyphicon glyphicon-edit"></i>Guardar</button>
+
 			        <br><br>
 
 					<div class="alert alert-info" role="alert"><h2>Documentos</h2></div>
+					<button type="button" onclick="botoninsertar2()"><i class="glyphicon glyphicon-edit"></i>Nuevo Documento</button>
+					<table class="table table-hover" id="documentos-table">
+				        <thead class="thead-inverse">
+				            <tr>
+				                <th>Tipo Documento</th>
+				                <th>Numero documento</th>
+				                <th>Acciones</th>
+				            </tr>
+				        </thead>
+				    </table>
+
+				    <input type="hidden" name="idmarca" id="idmarca">
 
 					<div class="alert alert-info" role="alert"><h2>Teléfonos</h2></div>
 

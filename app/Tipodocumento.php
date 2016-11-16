@@ -11,9 +11,9 @@ class Tipodocumento extends Model
 	protected $fillable = ['nombretipodocumento'];
 	public $timestamps = false;
 
-	public function personanaturaltipodocumento()
+	public function personanaturals()
 	{
-		return $this-> hasMany(Personanaturaltipodocumento::class,'idtipodocumento','idtipodocumento');
+		return $this-> belongsToMany(Personanatural::class,'personanaturaltipodocumento','idtipodocumento','idpersonanatural')->withPivot('numerodocumento');
 	}
 
 
