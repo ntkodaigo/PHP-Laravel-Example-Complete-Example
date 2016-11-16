@@ -9,6 +9,7 @@ class Personanaturaltipodocumento extends Model
     protected $table ='personanaturaltipodocumento';
 	protected $fillable = ['idpersonanatural','idtipodocumento','numerodocumento'];
 	public $timestamps = false;
+	public $timestamps = false;
 
 	public function personanaturals()
 	{

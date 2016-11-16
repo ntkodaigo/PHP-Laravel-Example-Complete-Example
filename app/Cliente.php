@@ -9,7 +9,9 @@ class Cliente extends Model
 	public static $entityName = 'Cliente';
 
 	protected $table='cliente';
-	protected $primaryKey='idcliente';   
+	protected $primaryKey='idcliente';
+	public $timestamps = false;
+	public $incrementing = false;
 
     public function revisions()
 	{

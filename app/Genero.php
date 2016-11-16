@@ -13,6 +13,6 @@ class Genero extends Model
 
 	public function personanaturals()
 	{
-		return $this-> belongsTo(Personanatural::class,'idpersonanatural','idgenero');
+		return $this-> belongsToMany(Personanatural::class,'personanaturalgenero','idpersonanatural','idgenero');
 	}
 }

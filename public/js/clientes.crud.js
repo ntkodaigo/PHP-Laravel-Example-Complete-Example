@@ -1,3 +1,10 @@
+$.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+  });
+
+var documentosTable;
 
 $(function(){
    	jQuery("a[name=idcliente_edit]").click(function(){
@@ -34,4 +41,37 @@ $(function(){
 
    	// ,input[name=description]
 	});
+
+	$('#birth-date .input-group.date').datepicker({
+		language: "es",
+	    calendarWeeks: true,
+	    autoclose: true,
+	    format: "dd/mm/yyyy",
+	});
 });
+
+/*$('#frmNewCliente').on('submit',function(e){
+        e.preventDefault();
+        var form=$('#frmNewCliente');
+        var formData=form.serialize();
+        var url=form.attr('action');
+
+        $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+		        document.getElementById('idmarca').value=response.data;
+		    }
+		}, 'json');
+    });*/
+
+function botoninsertar2()
+{
+	var data = { id : 1};
+
+	$.post('/documento/'+1, data, function(response){
+	    if(response.success)
+	    {
+	        document.getElementById('idmarca').value=response.data;
+	    }
+	}, 'json');
+}

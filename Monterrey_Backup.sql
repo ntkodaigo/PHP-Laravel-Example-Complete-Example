@@ -581,8 +581,8 @@ DROP TABLE IF EXISTS `personanatural`;
 CREATE TABLE `personanatural` (
   `idpersonanatural` varchar(8) NOT NULL,
   `nombres` varchar(60) NOT NULL,
-  `apellido paterno` varchar(45) NOT NULL,
-  `apellido materno` varchar(45) NOT NULL,
+  `apellido_paterno` varchar(45) NOT NULL,
+  `apellido_materno` varchar(45) NOT NULL,
   PRIMARY KEY  (`idpersonanatural`),
   CONSTRAINT `FK_personanatural_personanatural` FOREIGN KEY (`idpersonanatural`) REFERENCES `persona` (`idpersona`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

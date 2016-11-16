@@ -11,6 +11,7 @@ class Persona extends Model
 	protected $primaryKey = 'idpersona'; 
 	protected $fillable = ['idpersona'];
 	public $timestamps = false;
+	public $incrementing = false;
 
 	public function correoelectronicos()
 	{
