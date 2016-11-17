@@ -2,10 +2,13 @@
     
 @section('content')
 
+	@if ($key == 'u' || $key == 's')
+		@include('clientes/documento')
+	@endif
 		<!--div class="row"-->
 			<!--div class="col-md-6 col-md-offset-3"-->
 				<h1>{{ $title }} {{ $entityName }} - {{ $clienteTypeName }}</h1>
-				<form id="frmNewCliente" method="POST"
+				<form id="frmClientePN" method="POST"
 					@if ($key == 'c')
 						@if ($clienteTypeName == 'Persona Natural')
 							action="/clientes/add/pn"
@@ -14,22 +17,27 @@
 						@endif
 					@endif
 					>
-					@if ($key == 'u')
+					@if ($key == 'u' || $key == 's')
 						{{method_field ('PATCH')}}
 					@endif
+
+					@if ($key == 'u' || $key == 's')
+						<input type="hidden" name="idpersonanatural" value="{{ $personanatural->idpersonanatural }}">
+					@endif	
 
 			        <div class="form-group">
 			            <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
 			            <div class="col-sm-8">
 			    			<input type="text" class="form-control" id="nombres" name="nombres" placeholder="Mario" 
 							@if ($key == 's')
+								value="{{ $personanatural->nombres }}"  
 			    				readonly
 			    			@endif>
 						</div>
 						@if ($key == 's')
 							<div class="col-sm-1">
 				    			<a href="#" class="btn btn-primary btn-md" id="nombres_edit" name="nombres_edit">
-	    							<span class="glyphicon glyphicon-pencil"></span>  
+	    							<span name="nombres_edit_glyph" class="glyphicon glyphicon-pencil"></span>  
 	  							</a>
 				    		</div>
 			    		@endif
@@ -41,6 +49,7 @@
 			            <label for="apellido_paterno" class="col-sm-2 col-form-label">Apellido Paterno</label>
 			            <div class="col-sm-8">
 			    			<input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" placeholder="Bross" @if ($key == 's')
+			    				value="{{ $personanatural->apellido_paterno }}"  
 			    				readonly
 			    			@endif>
 						</div>
@@ -58,7 +67,9 @@
 			        <div class="form-group">
 			            <label for="apellido_materno" class="col-sm-2 col-form-label">Apellido Materno</label>
 			            <div class="col-sm-8">
-			    			<input type="text" class="form-control" id="apellido_materno" name="apellido_materno" placeholder="Bross" @if ($key == 's')
+			    			<input type="text" class="form-control" id="apellido_materno" name="apellido_materno" placeholder="Bross" 
+			    			@if ($key == 's')
+			    				value="{{ $personanatural->apellido_materno }}"  
 			    				readonly
 			    			@endif>
 						</div>
@@ -82,6 +93,7 @@
 						<div class="col-sm-8">
   							<input type="date" id="fechanacimientocreacion" name="fechanacimientocreacion" class="form-control" 
   							@if ($key == 's')
+  								value="{{ explode(' ', $personanatural->persona->nacimientocreacion->fechanacimientocreacion)[0] }}" 
 			    				readonly
 			    			@endif>
 						</div>
@@ -101,12 +113,19 @@
 			        <div class="form-group">
 			            <label for="idgenero" class="col-sm-2 col-form-label">Género</label>
 			            <div class="col-sm-8">
-				            <select name="idgenero" class="form-control dropdown-toggle" 
-				            @if ($key == 's')
-			    				disabled
-			    			@endif>
+				            <select name="idgenero" class="form-control dropdown-toggle">
 				                @foreach ($generos as $genero)
-				                <option value="{{ $genero -> idgenero }}">{{ ucfirst($genero-> nombregenero) }}</option>
+				                	<option value="{{ $genero -> idgenero }}" 
+				                	@if ($key == 's')
+				                		@if ($genero->idgenero === $personanatural->generos[0]->idgenero)
+				                			selected
+			                			@else
+			                				disabled
+				                		@endif
+			                		@endif
+				                	>
+				                		{{ ucfirst($genero-> nombregenero) }}
+				                	</option>
 				                @endforeach
 				            </select>
 			            </div>
@@ -119,12 +138,17 @@
 			    		@endif
 			        </div>
 			        
-			        <button type="submit"><i class="glyphicon glyphicon-edit"></i>Guardar</button>
+			        @if ($key == 'c' || $key == 'u')
+			        	<button id="save_cliente" type="submit"><i class="glyphicon glyphicon-edit"></i>Guardar</button>
+			        @endif
 
 			        <br><br>
 			        @if ($key == 's')
 						<div class="alert alert-info" role="alert"><h2>Documentos</h2></div>
-						<button type="button" onclick="botoninsertar2()"><i class="glyphicon glyphicon-edit"></i>Nuevo Documento</button>
+						<button data-toggle="modal" data-target="#documento-modal" type="button" onclick="btnNewDocumento()"><i class="glyphicon glyphicon-book"></i>Nuevo Documento</button>
+
+						<br><br>
+
 						<table class="table table-hover" id="documentos-table">
 					        <thead class="thead-inverse">
 					            <tr>
@@ -164,15 +188,41 @@
 	      documentosTable = $('#documentos-table').DataTable({
 	          processing: true,
 	          serverSide: true,
-	          ajax:'/documentosData/{{ $newCliente->idcliente }}',
+	          ajax:'/documentosData/{{ $personanatural->idpersonanatural }}',
 	          columns: [
 	              { data: 'nombretipodocumento', name: 'nombretipodocumento' },
-	              { data: 'pivot.numerodocumento', name: 'pivot' },
+	              { data: 'pivot.numerodocumento', name: 'pivot.numerodocumento' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
-	          ]
+	          ],
+	          language: {
+		            lengthMenu: "Mostrando _MENU_ registros por pagina",
+		            zeroRecords: "Nada encontrado - lo siento",
+		            info: "Mostrando página _PAGE_ de _PAGES_",
+		            infoEmpty: "Ningún registro disponible",
+		            emptyTable: "No hay datos en la tabla",
+		            infoFiltered: "(encontrados de _MAX_ registros totales)",
+		            search: "<i class='glyphicon glyphicon-search'></i>",
+	                paginate: {
+	                    previous: "Ant",
+	                    next: "Sig",
+	                    last: "Último",
+	                    first: "Primero",
+	                    page: "Página",
+	                    pageOf: "de"
+		        	}
+		        }
 	      });
       	@endif
 
   	});
+
+  	function btnNewDocumento()
+	{
+		document.getElementById('numerodocumento').value='';
+		@if ($key == 'u' || $key == 's')
+	    	jQuery("form[id=frmDocumento]").attr('action','/clientes/pn/{{ $personanatural->idpersonanatural }}/documentos/add');
+    	@endif
+	}
+
 </script>
 @endpush

@@ -227,17 +227,22 @@ Route::delete('/productos/{producto}/delete', 'ProductosController@delete');
 //Route::get('data', 'ClientesController@data');
 //Route::post('/deletemarca','ClientesController@deleteMarca');
 // Clientes
-Route::get('documentosData/{pnId}','ClientesController@documentosData');
-Route::post('documento/{index}','ClientesController@documentoAtIndex');
-Route::get('documentosDataTemp','ClientesController@documentosDataTemp');
+Route::get('documentosData/{personanatural}','ClientesController@documentosData');
+Route::post('/clientes/pn/{personanatural}/documentos/add', 'ClientesController@storeDocumento');
+Route::post('/clientes/pn/{personanatural}/documentos/update', 'ClientesController@updateDocumento');
+Route::post('/clientes/pn/{personanatural}/documentos/delete', 'ClientesController@deleteDocumento');
+//Route::post('documento/{index}','ClientesController@documentoAtIndex');
+//Route::get('documentosDataTemp','ClientesController@documentosDataTemp');
 Route::get('profesionsData','ClientesController@profesionsData');
 Route::get('telefonosData','ClientesController@telefonosData');
 Route::get('direccionesData','ClientesController@direccionesData');
 Route::get('correosData','ClientesController@correosData');
+
 Route::get('/clientes', 'ClientesController@index');
+
 Route::get('/clientes/new/pn', 'ClientesController@fillNewPN');
 Route::post('/clientes/add/pn', 'ClientesController@storePN');
-Route::get('/clientes/{cliente}/show', 'ClientesController@store');
-
-Route::post('/clientes/update', 'ClientesController@update');
+Route::get('/clientes/show/pn/{personanatural}', 'ClientesController@showPN');
+Route::get('/clientes/edit/pn/{personanatural}', 'ClientesController@edit');
+Route::post('/clientes/update/pn/{personanatural}', 'ClientesController@updatePN');
 Route::post('/clientes/{cliente}/delete', 'ClientesController@store');

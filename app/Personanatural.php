@@ -48,9 +48,20 @@ class Personanatural extends Model
 		return $this->belongsToMany(Tipodocumento::class,'personanaturaltipodocumento','idpersonanatural','idtipodocumento')->withPivot('numerodocumento');
 	}
 
+	// params: $td waits for a Tipodocumento object or the id
 	public function saveTipoDocumento($td, $numeroDoc)
 	{
 		$this->tipodocumentos()->attach($td, array('numerodocumento' => $numeroDoc));
+	}
+
+	public function updateTipoDocumento($td, $numeroDoc)
+	{
+		$this->tipodocumentos()->updateExistingPivot($td, array('numerodocumento' => $numeroDoc));
+	}
+
+	public function deleteDocumento($td)
+	{
+		$this->tipodocumentos()->detach($td);
 	}
 
 	public function addTipoDocumentoTemp($td, $numeroDoc)

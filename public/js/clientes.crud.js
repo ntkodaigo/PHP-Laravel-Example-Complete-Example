@@ -7,39 +7,33 @@ $.ajaxSetup({
 var documentosTable;
 
 $(function(){
-   	jQuery("a[name=idcliente_edit]").click(function(){
-
-   		if (!jQuery("input[name=idcliente]").prop("readonly"))
+   	jQuery("a[name=nombres_edit]").click(function(){
+   		if (!jQuery("input[name=nombres]").prop("readonly"))
    		{
    			var formData = {
-	            id: jQuery("input[name=idcliente]").attr('value'),
+	            nombres: $("#nombres").val()
+	            //_method: jQuery("input[name=_method]").attr('value')
         	}
+        	var id = jQuery("input[name=idpersonanatural]").attr('value');
+			var url = "/clientes/update/pn/" + id;
 
-  			$.ajax({
-	            type: 'POST',
-	            url: '/clientes/update',
-	            /*headers: {
-            		'X-CSRF-TOKEN': jQuery('input[name="_token"]').attr('value')
-        		},
-    			beforeSend: function(xhr){
-    				xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('value'));
-    			},*/
-	            /*dataType: 'json',*/
-	            data: {"id":1, _token: "{{ csrf_token() }}"},
-               	success:function(data){
-	                  $("#msg").html(data.msg);
-               	},
-               	error:function(data){ 
-        			alert("error!!!!", data);
-    			}
-        	});
+        	$.post(url, formData, function(response){
+			    if(response.success)
+			    {
+			    	jQuery("input[name=nombres]").attr("readonly",true);
+
+			    	jQuery("span[name=nombres_edit_glyph]").attr("class",'glyphicon glyphicon-pencil');
+			    }
+			}, 'json');
    		}
+   		else
+   		{
+   			jQuery("input[name=nombres]").attr("readonly",false);
 
-   		jQuery("input[name=idcliente]").attr("readonly",false);
+   			$('#nombres').focus();
 
-		jQuery("a[name=idcliente_edit]").attr("value",'Guardar');
-
-   	// ,input[name=description]
+			jQuery("span[name=nombres_edit_glyph]").attr("class",'glyphicon glyphicon-floppy-disk');
+   		}
 	});
 
 	$('#birth-date .input-group.date').datepicker({
@@ -50,28 +44,65 @@ $(function(){
 	});
 });
 
-/*$('#frmNewCliente').on('submit',function(e){
+$('#frmClientePN').on('submit',function(e){
+	jQuery("button[id=save_cliente]").attr("disabled",true);
+});
+
+$('#frmDocumento').on('submit',function(e){
         e.preventDefault();
-        var form=$('#frmNewCliente');
+        var form=$('#frmDocumento');
         var formData=form.serialize();
         var url=form.attr('action');
 
         $.post(url, formData, function(response){
 		    if(response.success)
 		    {
-		        document.getElementById('idmarca').value=response.data;
+		    	$('#documento-modal').modal('hide');
+                 documentosTable.ajax.reload();
+		    }
+		    else
+		    {
+		    	alert("FAIL");
 		    }
 		}, 'json');
-    });*/
+});
 
-function botoninsertar2()
+$('#nombres').keypress(function(event){
+  if(event.keyCode == 13){
+    $('#nombres_edit').click();
+  }
+});
+
+/*$('#save_cliente').click(function(){
+	
+});*/
+
+function btnUpdateDocumento(idTipoDoc, numDoc)
 {
-	var data = { id : 1};
+	$('#numerodocumento').attr('value', numDoc);
+	$('#idtipodocumento option[value=' + idTipoDoc + ']').attr('selected', true);
 
-	$.post('/documento/'+1, data, function(response){
+	var id = jQuery("input[name=idpersonanatural]").attr('value');
+	jQuery("form[id=frmDocumento]").attr('action','/clientes/pn/' + id + '/documentos/update');
+}
+
+function btnDeleteDocumento(idTipoDoc)
+{
+	var id = jQuery("input[name=idpersonanatural]").attr('value');
+	var url="/clientes/pn/" + id + "/documentos/delete";
+	var formData = {
+        idtipodocumento: idTipoDoc
+        //_method: jQuery("input[name=_method]").attr('value')
+	}
+
+    $.post(url, formData, function(response){
 	    if(response.success)
 	    {
-	        document.getElementById('idmarca').value=response.data;
+             documentosTable.ajax.reload();
+	    }
+	    else
+	    {
+	    	alert("FAIL");
 	    }
 	}, 'json');
 }
