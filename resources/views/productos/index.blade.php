@@ -47,7 +47,7 @@
             <input type="text" name="marcaproducto" class="form-control">
         </div>
 
-        <div class="form-group"Modelo
+        <div class="form-group">Modelo
             <input type="text" name="modeloproducto" class="form-control">
         </div>
 
@@ -63,10 +63,6 @@
                 <option id="{{ $categoriaproducto -> idcategoriaproducto }}" value="{{ $categoriaproducto -> idcategoriaproducto }}">{{ $categoriaproducto-> nombrecategoriaproducto }}</option>
                 @endforeach
             </select>
-        </div>
-
-        <div>
-        <button type="button" class="btn btn-primary">Filtrar</button>
         </div>
 
         <!-- Falta el filtro de los combobox segun su categoria -->

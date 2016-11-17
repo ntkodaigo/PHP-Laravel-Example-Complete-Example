@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Producto;
 use App\Subcategoriaproducto;
 use App\Categoriaproducto;
+use App\Articulo;
 use App\Http\Requests;
 
 class ProductosController extends Controller
@@ -25,12 +26,13 @@ class ProductosController extends Controller
 	public function store(Request $request) 
 	{
 		$producto = new Producto ($request-> all());
+		$articulo = new Articulo;
+		$lastArticulo = Articulo::orderBy('idarticulo', 'desc')->first();
+    	$newId = ($lastArticulo == null) ? 1 : $lastArticulo->idarticulo + 1;
 
-		$lastProducto = Producto::orderBy('idproducto', 'desc')->first();
-    	$newId = ($lastProducto == null) ? 1 : $lastProducto->idproducto + 1;
-
+    	$articulo->idarticulo = $newId;
+    	$articulo->save();
     	$producto->idproducto = $newId;
-
         $producto->save();
 
     	return back();
