@@ -211,10 +211,11 @@ Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'suger
 // Productos
 //insertar Producto
 Route::get('/productos','ProductosController@index');
+Route::get('/productos/new','ProductosController@fillNew');
 Route::post('/productos/add','ProductosController@store');
 
 //editar Producto
-Route::get('/productos/{producto}/edit', 'ProductosController@edit');
+Route::get('/productos/edit/{producto}','ProductosController@edit');
 Route::patch('/productos/{producto}', 'ProductosController@update');
 
 //eliminar Producto

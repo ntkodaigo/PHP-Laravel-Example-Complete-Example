@@ -23,6 +23,31 @@ class ProductosController extends Controller
       	return view('productos.index', compact('productos', 'categoriaproductos','subcategoriaproductos', 'init_route'));
 	}
 
+	public function fillNew()
+	{
+		$key = 'c';
+		$productos=Producto::all();
+        $init_route = config('constants.init_route');
+
+        $subcategoriaproductos=Subcategoriaproducto::all();
+
+        $categoriaproductos=Categoriaproducto::all();
+        
+      	return view('productos.crud', compact('productos', 'key', 'categoriaproductos','subcategoriaproductos', 'init_route'));
+	}
+
+	public function edit(Producto $producto)
+	{
+		$key = 'u';
+        $init_route = config('constants.init_route');
+
+        $subcategoriaproductos=Subcategoriaproducto::all();
+
+        $categoriaproductos=Categoriaproducto::all();
+        
+      	return view('productos.crud', compact('producto', 'key', 'categoriaproductos','subcategoriaproductos', 'init_route'));
+	}
+
 	public function store(Request $request) 
 	{
 		$producto = new Producto ($request-> all());
@@ -35,15 +60,8 @@ class ProductosController extends Controller
     	$producto->idproducto = $newId;
         $producto->save();
 
-    	return back();
+    	return redirect('/productos');
 
-	}
-
-	public function edit(Producto $producto)
-	{
-		$articulos=Articulo::all();
-
-		return view('productos.edit', compact('producto', 'articulos'));
 	}
 
 	public function update(Request $request, Producto $producto)
