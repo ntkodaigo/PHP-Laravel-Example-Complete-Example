@@ -4,6 +4,7 @@
 
 	@if ($key == 'u' || $key == 's')
 		@include('clientes/documento')
+		@include('clientes/telefono');
 	@endif
 		<!--div class="row"-->
 			<!--div class="col-md-6 col-md-offset-3"-->
@@ -23,6 +24,8 @@
 
 					@if ($key == 'u' || $key == 's')
 						<input type="hidden" name="idpersonanatural" value="{{ $personanatural->idpersonanatural }}">
+
+						<input type="hidden" name="idpersona" value="{{ $personanatural->persona->idpersona }}">
 					@endif	
 
 			        <div class="form-group">
@@ -56,7 +59,7 @@
 						@if ($key == 's')
 							<div class="col-sm-1">
 				    			<a href="#" class="btn btn-primary btn-md" id="aPaterno_edit" name="aPaterno_edit">
-	    							<span class="glyphicon glyphicon-pencil"></span>  
+	    							<span name="aPaterno_edit_glyph" class="glyphicon glyphicon-pencil"></span>  
 	  							</a>
 				    		</div>
 			    		@endif
@@ -76,7 +79,7 @@
 						@if ($key == 's')
 							<div class="col-sm-1">
 				    			<a href="#" class="btn btn-primary btn-md" id="aMaterno_edit" name="aMaterno_edit">
-	    							<span class="glyphicon glyphicon-pencil"></span>  
+	    							<span name="aMaterno_edit_glyph" class="glyphicon glyphicon-pencil"></span>  
 	  							</a>
 				    		</div>
 			    		@endif
@@ -95,12 +98,14 @@
   							@if ($key == 's')
   								value="{{ explode(' ', $personanatural->persona->nacimientocreacion->fechanacimientocreacion)[0] }}" 
 			    				readonly
+			    			@else
+			    				value="2000-01-01"
 			    			@endif>
 						</div>
 						@if ($key == 's')
 							<div class="col-sm-1" >
 				    			<a href="#" class="btn btn-primary btn-md" id="fnc_edit" name="fnc_edit">
-	    							<span class="glyphicon glyphicon-pencil"></span>  
+	    							<span name="fechanac_edit_glyph" class="glyphicon glyphicon-pencil"></span>  
 	  							</a>
 				    		</div>
 			    		@endif
@@ -132,7 +137,7 @@
 			            @if ($key == 's')
 							<div class="col-sm-1">
 				    			<a href="#" class="btn btn-primary btn-md" id="genero_edit" name="genero_edit">
-	    							<span class="glyphicon glyphicon-pencil"></span>  
+	    							<span name="genero_edit_glyph" class="glyphicon glyphicon-pencil"></span>  
 	  							</a>
 				    		</div>
 			    		@endif
@@ -159,9 +164,20 @@
 					        </thead>
 					    </table>
 
-					    <input type="hidden" name="idmarca" id="idmarca">
-
 						<div class="alert alert-info" role="alert"><h2>Teléfonos</h2></div>
+						<button data-toggle="modal" data-target="#telefono-modal" type="button" onclick="btnNewTelefono()"><i class="glyphicon glyphicon-book"></i>Nuevo Telefono</button>
+
+						<br><br>
+
+						<table class="table table-hover" id="telefonos-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Tipo de Teléfono</th>
+					                <th>Numero de Teléfono</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
 
 						<div class="alert alert-info" role="alert"><h2>Direcciones</h2></div>
 
@@ -169,7 +185,6 @@
 
 						<div class="alert alert-info" role="alert"><h2>Profesiones</h2></div>
 					@endif
-         			{{ csrf_field() }}
 			    </form>
 		    <!--/div>
 	    </div-->
@@ -212,16 +227,46 @@
 		        	}
 		        }
 	      });
+
+	      telefonosTable = $('#telefonos-table').DataTable({
+	          processing: true,
+	          serverSide: true,
+
+	          ajax:'/telefonosData/{{ $personanatural->persona->idpersona }}',
+	          columns: [
+	              { data: 'nombretipotelefono', name: 'nombretipotelefono', searchable: true },
+	              { data: 'pivot.numeropersonatelefono', name: 'pivot.numeropersonatelefono' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ],
+	          createdRow: function ( row, data, index ) {
+	          		var text = $('td', row).eq(0).html();
+	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
+	          },
+	          language: {
+		            lengthMenu: "Mostrando _MENU_ registros por pagina",
+		            zeroRecords: "Nada encontrado - lo siento",
+		            info: "Mostrando página _PAGE_ de _PAGES_",
+		            infoEmpty: "Ningún registro disponible",
+		            emptyTable: "No hay datos en la tabla",
+		            infoFiltered: "(encontrados de _MAX_ registros totales)",
+		            search: "<i class='glyphicon glyphicon-search'></i>",
+	                paginate: {
+	                    previous: "Ant",
+	                    next: "Sig",
+	                    last: "Último",
+	                    first: "Primero",
+	                    page: "Página",
+	                    pageOf: "de"
+		        	}
+		        }
+	      });
+
       	@endif
 
   	});
 
-  	function btnNewDocumento()
-	{
-		document.getElementById('numerodocumento').value='';
-		@if ($key == 'u' || $key == 's')
-	    	jQuery("form[id=frmDocumento]").attr('action','/clientes/pn/{{ $personanatural->idpersonanatural }}/documentos/add');
-    	@endif
+  	function capitalizeFirstLetter(string) {
+	    return String(string).charAt(0).toUpperCase() + String(string).slice(1);
 	}
 
 </script>

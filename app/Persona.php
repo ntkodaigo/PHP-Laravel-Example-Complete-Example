@@ -48,9 +48,35 @@ class Persona extends Model
 		return $this->hasMany(Personatelefono::class, 'idpersona', 'idpersona');
 	}
 
+	public function personatelefonosWithPivot()
+	{
+		return $this->belongsToMany(Tipotelefono::class, 'personatelefono','idpersona', 'idtipotelefono')->withPivot(['idpersonatelefono', 'numeropersonatelefono']);
+	}
+
 	public function nacimientocreacion()
 	{
 		return $this-> hasOne(Nacimientocreacion::class,'idpersona','idpersona');
 	}
 
+	public function savePersonaTelefono($tt, $numeroPerTelf)
+	{
+		$lastEntity = Personatelefono::orderBy('idpersonatelefono', 'desc')->first();
+    	$newId = ($lastEntity == null) ? 1 : $lastEntity->idpersonatelefono + 1;
+    	
+    	$pt = new Personatelefono;
+    	$pt->idpersonatelefono = $newId;
+    	$pt->idtipotelefono = $tt;
+ 		$pt->numeropersonatelefono = $numeroPerTelf;
+
+		$this->personatelefonos()->save($pt);
+	}
+
+	public function updatePersonaTelefono($pt, $tt, $numeroPerTelf)
+	{
+		$pt = $this->personatelefonos()->find($pt);
+		$pt->idtipotelefono = $tt;
+		$pt->numeropersonatelefono = $numeroPerTelf;
+
+		$this->personatelefonos()->save($pt);
+	}
 }

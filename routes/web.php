@@ -232,10 +232,16 @@ Route::get('documentosData/{personanatural}','ClientesController@documentosData'
 Route::post('/clientes/pn/{personanatural}/documentos/add', 'ClientesController@storeDocumento');
 Route::post('/clientes/pn/{personanatural}/documentos/update', 'ClientesController@updateDocumento');
 Route::post('/clientes/pn/{personanatural}/documentos/delete', 'ClientesController@deleteDocumento');
+// Telefonos
+Route::get('telefonosData/{persona}','ClientesController@telefonosData');
+Route::post('/clientes/{persona}/telefonos/add', 'ClientesController@storeTelefono');
+Route::post('/clientes/{persona}/telefonos/update', 'ClientesController@updateTelefono');
+Route::post('/clientes/telefonos/{personatelefono}/delete', 'ClientesController@deleteTelefono');
+// Anexo telefono
+Route::get('anexosData/{personatelefono}','ClientesController@anexosData');
 //Route::post('documento/{index}','ClientesController@documentoAtIndex');
 //Route::get('documentosDataTemp','ClientesController@documentosDataTemp');
 Route::get('profesionsData','ClientesController@profesionsData');
-Route::get('telefonosData','ClientesController@telefonosData');
 Route::get('direccionesData','ClientesController@direccionesData');
 Route::get('correosData','ClientesController@correosData');
 

@@ -1,7 +1,6 @@
   <!-- Modal -->
   <div class="modal fade" id="documento-modal" role="dialog"  >
     <div class="modal-dialog">
-    
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -25,15 +24,15 @@
               </div>
             	<div class="col-sm-4">
               	<div class="form-group">
-              		<input type="text" name="numerodocumento" id="numerodocumento" placeholder="Numero del documento">
+              		<input type="text" name="numerodocumento" id="numerodocumento" placeholder="Numero del documento" value="">
               	</div>
             	</div>
             </div>
 
             <div class="modal-footer">
-              <input type="submit" id="regmarca" class="btn btn-primary" >
+              <input type="submit" id="regdocumento" class="btn btn-primary" value="Guardar">
               
-              <button id="closebutton" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button id="closebutton" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
 
           </form>

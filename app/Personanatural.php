@@ -48,6 +48,11 @@ class Personanatural extends Model
 		return $this->belongsToMany(Tipodocumento::class,'personanaturaltipodocumento','idpersonanatural','idtipodocumento')->withPivot('numerodocumento');
 	}
 
+	public function exitsTipodocumento($td)
+	{
+		return $this->tipodocumentos->contains($td);
+	}
+
 	// params: $td waits for a Tipodocumento object or the id
 	public function saveTipoDocumento($td, $numeroDoc)
 	{
