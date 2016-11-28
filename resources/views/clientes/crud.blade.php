@@ -1,10 +1,15 @@
 @extends('layout')
+
+@section('header')
+	<link rel="stylesheet" href="{{ URL::asset('css/clientes.crud.css') }}">
+@stop
     
 @section('content')
 
 	@if ($key == 'u' || $key == 's')
 		@include('clientes/documento')
 		@include('clientes/telefono');
+		@include('clientes/anexo');
 	@endif
 		<!--div class="row"-->
 			<!--div class="col-md-6 col-md-offset-3"-->
@@ -142,6 +147,8 @@
 				    		</div>
 			    		@endif
 			        </div>
+
+			        {{ csrf_field() }}
 			        
 			        @if ($key == 'c' || $key == 'u')
 			        	<button id="save_cliente" type="submit"><i class="glyphicon glyphicon-edit"></i>Guardar</button>
@@ -260,6 +267,35 @@
 		        	}
 		        }
 	      });
+
+	      @if ($personanatural->persona->hasTelefonos())
+		      anexosTable = $('#anexos-table').DataTable({
+		          processing: true,
+		          serverSide: true,
+		          ajax:'/anexosData/{{ $personanatural->persona->personatelefonos()->first()->idpersonatelefono }}',
+		          columns: [
+		              { data: 'numeroanexotelefono', name: 'numeroanexotelefono' },
+		              { data: 'action', name: 'action', orderable: false, searchable: false}
+		          ],
+		          language: {
+			            lengthMenu: "Mostrando _MENU_ registros por pagina",
+			            zeroRecords: "Nada encontrado - lo siento",
+			            info: "Mostrando página _PAGE_ de _PAGES_",
+			            infoEmpty: "Ningún registro disponible",
+			            emptyTable: "No hay datos en la tabla",
+			            infoFiltered: "(encontrados de _MAX_ registros totales)",
+			            search: "<i class='glyphicon glyphicon-search'></i>",
+		                paginate: {
+		                    previous: "Ant",
+		                    next: "Sig",
+		                    last: "Último",
+		                    first: "Primero",
+		                    page: "Página",
+		                    pageOf: "de"
+			        	}
+			        }
+		      });
+		  @endif
 
       	@endif
 

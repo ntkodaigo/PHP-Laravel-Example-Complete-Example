@@ -239,6 +239,9 @@ Route::post('/clientes/{persona}/telefonos/update', 'ClientesController@updateTe
 Route::post('/clientes/telefonos/{personatelefono}/delete', 'ClientesController@deleteTelefono');
 // Anexo telefono
 Route::get('anexosData/{personatelefono}','ClientesController@anexosData');
+Route::post('/clientes/telefonos/{personatelefono}/anexos/add', 'ClientesController@storeAnexoTelefono');
+Route::post('/clientes/telefonos/{personatelefono}/anexos/update', 'ClientesController@updateAnexoTelefono');
+Route::post('/clientes/anexotelefonos/{anexotelefono}/delete', 'ClientesController@deleteAnexoTelefono');
 //Route::post('documento/{index}','ClientesController@documentoAtIndex');
 //Route::get('documentosDataTemp','ClientesController@documentosDataTemp');
 Route::get('profesionsData','ClientesController@profesionsData');

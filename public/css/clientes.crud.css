@@ -1,0 +1,7 @@
+.PopUp {
+    z-index:9998;
+    }
+
+.PopUp-focus {
+    z-index:9999;
+    }

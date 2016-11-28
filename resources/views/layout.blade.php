@@ -51,6 +51,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Optional theme -->
         <link rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css') }}">
 
+        @yield('header')
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -487,9 +489,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
         @stack('scripts')
-
-
-        
 
 </body>
 </html>

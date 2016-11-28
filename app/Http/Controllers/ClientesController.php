@@ -211,6 +211,27 @@ class ClientesController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function storeAnexoTelefono(Request $request, Personatelefono $personatelefono)
+    {
+        $personatelefono->saveAnexoTelefono($request->numeroanexotelefono);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function updateAnexoTelefono(Request $request, Personatelefono $personatelefono)
+    {
+        $personatelefono->updateAnexoTelefono($request->idanexo, $request->numeroanexotelefono);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteAnexoTelefono(Request $request, Anexotelefono $anexotelefono)
+    {
+        $anexotelefono->delete();
+
+        return response()->json(['success' => true]);
+    }
 }
 
 

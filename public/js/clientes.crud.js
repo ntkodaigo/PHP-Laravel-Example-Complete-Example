@@ -117,6 +117,7 @@ $(function(){
    		}
 	});
 
+
 	/*$('#birth-date .input-group.date').datepicker({
 		language: "es",
 	    calendarWeeks: true,
@@ -275,12 +276,22 @@ function btnNewTelefono()
 	var id = jQuery("input[name=idpersona]").attr('value');
 	jQuery("form[id=frmTelefono]").attr('action','/clientes/' + id + '/telefonos/add');
 
-	$('#anexos-table').each(
+	$('#anexos-table-node').each(
 		function()
 		{
 			$(this).hide();
 		}
 	);
+
+	/*if (anexosTable != null)
+	{
+		$(anexosTable.table().node()).each(
+			function()
+			{
+				$(this).hide();
+			}
+		);
+	}*/
 }
 
 function btnUpdateTelefono(idPerTelf, idTipoTelf, numTelf)
@@ -294,18 +305,21 @@ function btnUpdateTelefono(idPerTelf, idTipoTelf, numTelf)
 	var id = jQuery("input[name=idpersona]").attr('value');
 	jQuery("form[id=frmTelefono]").attr('action','/clientes/' + id + '/telefonos/update');
 
-	$('#anexos-table').each(
+	$('#anexos-table-node').each(
 		function()
 		{
 			$(this).show();
 		}
 	);
 
-	anexosTable = $('#anexos-table').DataTable({
+	if (anexosTable == null)
+	{
+		anexosTable = $('#anexos-table').DataTable({
 	          processing: true,
 	          serverSide: true,
-
 	          ajax:'/anexosData/' + idPerTelf,
+	          pageLength: 3,
+	          lengthMenu: [3, 6, 10, 15, 20],
 	          columns: [
 	              { data: 'numeroanexotelefono', name: 'numeroanexotelefono' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
@@ -328,6 +342,14 @@ function btnUpdateTelefono(idPerTelf, idTipoTelf, numTelf)
 		        	}
 		        }
 	      });
+
+		/*anexosTable.page.len( 3 ).draw();*/
+	}
+	else
+	{
+		anexosTable.ajax.url('/anexosData/' + idPerTelf).load();
+		anexosTable.page.len(3).draw();
+	}
 }
 
 function btnDeleteTelefono(idPerTelf)
@@ -352,6 +374,39 @@ function btnDeleteTelefono(idPerTelf)
 		    }
 		}, 'json');
 	}
+}
+
+$('#frmAnexo').on('submit',function(e){
+        e.preventDefault();
+        var form=$('#frmAnexo');
+        var formData=form.serialize();
+        var url=form.attr('action');
+
+        $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+				$('#anexo-modal').modal('hide');
+				anexosTable.ajax.reload();
+		    }
+
+		    $( '#frmAnexo' ).each(function(){
+		    	if ($(this).attr('name') != '_token')
+			    	this.reset();
+			});
+		}, 'json');
+});
+
+function btnNewAnexo()
+{
+	$("#anexo-modal").removeClass('PopUp').addClass('PopUp-focus');
+
+	jQuery("input[id=reganexo]").attr("disabled",false);
+
+	$('#numeroanexotelefono').attr('value', '');
+	
+	var id = jQuery("input[name=idpersonatelefono]").attr('value');
+
+	jQuery("form[id=frmAnexo]").attr('action','/clientes/telefonos/' + id + '/anexos/add');
 }
 
 function btnUpdateAnexo(idAnex, numAnexTelf)

@@ -48,6 +48,11 @@ class Persona extends Model
 		return $this->hasMany(Personatelefono::class, 'idpersona', 'idpersona');
 	}
 
+	public function hasTelefonos()
+	{
+		return count($this->personatelefonos) > 0;
+	}
+
 	public function personatelefonosWithPivot()
 	{
 		return $this->belongsToMany(Tipotelefono::class, 'personatelefono','idpersona', 'idtipotelefono')->withPivot(['idpersonatelefono', 'numeropersonatelefono']);
