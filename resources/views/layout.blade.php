@@ -316,9 +316,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </span>
               </a>
               <ul class="treeview-menu">
-              <li><a href="#"><i class="fa fa-circle-o"></i>Lista Servicios</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Categoria</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Subcategoria</a></li>
+              <li><a href="/servicios"><i class="fa fa-circle-o"></i>Lista Servicios</a></li>
+                <li><a href="categoriaservicios"><i class="fa fa-circle-o"></i>Categoria</a></li>
+                <li><a href="subcategoriaservicios"><i class="fa fa-circle-o"></i>Subcategoria</a></li>
               </ul>
             </li>
             <li class="treeview">

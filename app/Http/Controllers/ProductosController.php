@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 use App\Producto;
 use App\Subcategoriaproducto;
 use App\Categoriaproducto;
@@ -70,10 +71,24 @@ class ProductosController extends Controller
     	return back();
 	}
 
-	public function delete( Producto $producto)
+	public function delete( Request $request, Producto $producto)
 	{
 		$producto->delete();
-		return back();
+		
+		return response()->json(['success' => true]);
 
+	}
+
+	public function data()
+	{
+		return Datatables::of(Producto::all())->addColumn('action', function ($producto) {
+            
+            return '<a href="/productos/edit/'.$producto->idproducto.'">
+            <button class="btn btn-success btn-edit">Editar</button>
+            </a>
+
+            <button type="button" onclick="btnDeleteProducto('.$producto->idproducto.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>';
+               
+            })->make(true);
 	}
 }

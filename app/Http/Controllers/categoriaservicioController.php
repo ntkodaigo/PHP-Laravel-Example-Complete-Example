@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 use App\Http\Requests;
 use App\Categoriaservicio;
 
@@ -31,7 +32,7 @@ class categoriaservicioController extends Controller
     	
         $categoriaservicio->save();
 
-    	return back();
+    	return redirect('/categoriaservicios');
 
 	}
 
@@ -49,11 +50,23 @@ class categoriaservicioController extends Controller
 
 	}
 
-	public function delete( Categoriaservicio $categoriaservicio)
+	public function delete( Request $request, Categoriaservicio $categoriaservicio)
 	{
 		$categoriaservicio->delete();
-		return back();
+		return response()->json(['success' => true]);
+	}
 
+	public function data()
+	{
+		return Datatables::of(Categoriaservicio::all())->addColumn('action', function ($categoriaservicio) {
+            
+            return '<a href="/categoriaservicios/'.$categoriaservicio->idcategoriaservicio.'/edit">
+            <button class="btn btn-success btn-edit">Editar</button>
+            </a>
+
+            <button type="button" onclick="btnDeleteCategoriaServicio('.$categoriaservicio->idcategoriaservicio.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>';
+               
+            })->make(true);
 	}
   
 }

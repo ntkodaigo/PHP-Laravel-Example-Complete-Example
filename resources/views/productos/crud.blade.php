@@ -5,7 +5,7 @@
 
  <center><h3>PRODUCTOS</h3></center>
 
-    <form id="frm_producto" method="POST" action="/productos/add" class="col-md-6">
+    <form id="frm_producto" method="POST" action="@if ($key == 'c') /productos/add @else /productos/{{ $producto->idproducto }} @endif" class="col-md-6">
     @if ($key == 'u')
     {{method_field ('PATCH')}}
     @endif
@@ -77,7 +77,22 @@
 @section('footer')
     <script type="text/javascript">
             $(document).ready(function(){
+                var names = $('#idsubcategoriaproducto option').clone();
                 $('#idsubcategoriaproducto').empty();
+
+                @if($key=='u')
+                {
+                    $('#idcategoriaproducto option[value=' + {{ $producto -> idcategoriaproducto }} + ']').attr('selected', true);
+                    
+                    var val = $('#idcategoriaproducto').children(":selected").attr("id");
+                    names.filter(function(idx, el) {
+                        return $(el).attr("id")===(val);
+                    }).appendTo('#idsubcategoriaproducto');
+                
+
+                    $('#idsubcategoriaproducto option[value=' + {{ $producto -> idsubcategoriaproducto }} + ']').attr('selected', true);
+                };
+                @endif
             });
             var names = $('#idsubcategoriaproducto option').clone();
 

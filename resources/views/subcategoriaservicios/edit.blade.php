@@ -4,7 +4,7 @@
    
    <h1>Editar Subcategoria de Servicios</h1>
    <div class="row">
-       <form method="POST" action="/subcategoriaservicios/{{ $subcategoriaservicio->idsubcategoriaservicio }}" >
+       <form method="POST" action="/subcategoriaservicios/{{ $subcategoriaservicio->idsubcategoriaservicio }}" class="col-md-6">
 
        {{method_field ('PATCH')}}
            
@@ -12,7 +12,7 @@
             <input type="text" name="nombresubcategoriaservicio" value="{{ $subcategoriaservicio -> nombresubcategoriaservicio}}" class="form-control"> </input>
         </div>
         <div>
-            <button type="submit" class="btn btn-primary">Actualizar Subcategoria de Servicios</button>
+            <button type="submit" class="btn btn-info btn-lg">Actualizar Subcategoria de Servicios</button>
 
         </div>
         {{csrf_field()}}

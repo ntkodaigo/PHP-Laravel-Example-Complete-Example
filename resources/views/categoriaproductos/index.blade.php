@@ -22,76 +22,74 @@
     </form>
 </a>
 <div class="panel-body">
-    <table class="table table-hover">
-      <caption>Categoria Info</caption>
-      <thead>
-        <th>Nombre Categoria</th>
-      </thead>
-      <tbody >
-        @foreach($categoriaproductos as $categoriaproducto)
-        <tr id="{{$categoriaproducto->idcategoriaproducto}}">
-          <td>
-            {{$categoriaproducto->nombrecategoriaproducto}}
-          </td>
-          <td>
-            <a href="/categoriaproductos/{{$categoriaproducto->idcategoriaproducto}}/edit">
-            <button class="btn btn-success btn-edit">Editar</button>
-            </a>
-          </td>
-          <td>
-            <form action="/categoriaproductos/{{$categoriaproducto->idcategoriaproducto}}/delete" method="POST">
-                {{method_field('DELETE')}}
-                <button class="btn btn-danger btn-delete">Eliminar</button>
-                {{csrf_field()}}
-            </form>
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
+    <table class="table table-hover" id="table-producto">
+                  <thead class="thead-inverse">
+                      <tr>
+                          <th>Nombre Categoria</th>
+                          <th>Acciones</th>
+                      </tr>
+                  </thead>
+              </table>
   </div>
 @stop
-@section('footer')
-  <script type="text/javascript">
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-      }
+@push('scripts')
 
-    })
+<script type="text/javascript">
 
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+  });
 
-      $('#add').on('click',function()
-        {
-          $('#categoriaproducto').modal('show');
+  var table;
+
+  $(function() {
+
+    table = $('#table-producto').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax:'{{URL::asset('/categoriaproductos/data')}}',
+            columns: [
+                { data: 'nombrecategoriaproducto', name: 'nombrecategoriaproducto' },
+                { data: 'action', name: 'action', orderable: false, searchable: false}
+            ],
+            language: {
+                lengthMenu: "Mostrando _MENU_ registros por pagina",
+                zeroRecords: "Nada encontrado - lo siento",
+                info: "Mostrando página _PAGE_ de _PAGES_",
+                infoEmpty: "Ningún registro disponible",
+                emptyTable: "No hay datos en la tabla",
+                infoFiltered: "(encontrados de _MAX_ registros totales)",
+                search: "<i class='glyphicon glyphicon-search'></i>",
+                  paginate: {
+                      previous: "Ant",
+                      next: "Sig",
+                      last: "Último",
+                      first: "Primero",
+                      page: "Página",
+                      pageOf: "de"
+              }
+            }
         });
 
-      function mostrar()
+    });
+
+  function btnDeleteCategoriaProducto(categoriaproducto)
+{
+  var url="/categoriaproductos/" + categoriaproducto + "/delete";
+  var data = {idcategoriaproducto:categoriaproducto}
+
+    $.post(url, data, function(response){
+      if(response.success)
       {
-
+             table.ajax.reload();
       }
-
-      $('#frmCategoriaproducto').on('submit',function(e){
-          e.preventDefault();
-          var form=$('#frmCategoriaproducto');
-          var formData=form.serialize();
-          var url=form.attr('action');
-          $.ajax({
-              type : 'post',
-              url : url,
-              data : formData,
-              success : function(data){
-                   console.log(data);
-                   $('#categoriaproducto').modal('hide');
-                   $('#categoriaproducto').trigger('reset');
-                   $('#nombrecategoriaproducto').focus();
-                   return data;
-              },
-              error : function(data){
-                   
-
-              }              
-          });
-      });
-    </script>
-    @stop
+      else
+      {
+        alert("FAIL");
+      }
+  }, 'json');
+}
+</script>
+@endpush

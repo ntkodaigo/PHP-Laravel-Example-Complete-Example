@@ -2,35 +2,15 @@
     
 @section('content')
 
-<center><h3>CATEGORIA PRODUCTOS</h3></center>
-<a href="#">
-<!-- <button type="button" class="btn btn-info btn-lg" id="add">Nuevo Categoria</button> -->
+<center><h3>SERVICIOS</h3></center>
+<a href="/servicios/new">
+<button type="button" class="btn btn-info btn-lg" id="add">Nuevo Servicio</button>
 </a>
-<h3>Inserte Subcategoria de Producto</h3>
-    <form method="POST" action="/subcategoriaproductos/add" class="col-md-6">
-        <div class="form-group">
-            <input type="text" name="nombresubcategoriaproducto" class="form-control">
-        </div>
-
-        <div class="form-group dropdown">
-            <select name="idcategoriaproducto" class="btn btn-info btn-lg dropdown-toggle">
-                @foreach ($categoriaproductos as $categoriaproducto)
-                <option value="{{ $categoriaproducto -> idcategoriaproducto }}">{{ $categoriaproducto-> nombrecategoriaproducto }}</option>
-                @endforeach
-            </select>
-        </div>
-        
-        <div>
-            <button type="submit" class="btn btn-info btn-lg">Agregar Subcategoria de Producto</button>
-        </div>
-        {{ csrf_field() }}
-
-    </form>
 <div class="panel-body">
     <table class="table table-hover" id="table-producto">
                   <thead class="thead-inverse">
                       <tr>
-                          <th>Nombre Subcategoria</th>
+                          <th>Nombre Servicio</th>
                           <th>Acciones</th>
                       </tr>
                   </thead>
@@ -54,9 +34,9 @@
     table = $('#table-producto').DataTable({
             processing: true,
             serverSide: true,
-            ajax:'{{URL::asset('/subcategoriaproductos/data')}}',
+            ajax:'{{URL::asset('/servicios/data')}}',
             columns: [
-                { data: 'nombresubcategoriaproducto', name: 'nombresubcategoriaproducto' },
+                { data: 'nombreservicio', name: 'nombreservicio' },
                 { data: 'action', name: 'action', orderable: false, searchable: false}
             ],
             language: {
@@ -80,11 +60,11 @@
 
     });
 
-  function btnDeleteSubCategoriaProducto(subcategoriaproducto)
+  function btnDeleteServicio(servicio)
 {
-  var url="/subcategoriaproductos/" + subcategoriaproducto + "/delete";
-  var data = {idsubcategoriaproducto:subcategoriaproducto}
+  var url="/servicios/" + servicio + "/delete";
 
+  var data = {idservicio:servicio}
     $.post(url, data, function(response){
       if(response.success)
       {

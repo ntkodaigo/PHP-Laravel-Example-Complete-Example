@@ -112,6 +112,7 @@ Route::delete('/generos/{genero}/delete', 'generoController@delete');
 //Categoria de Productos Rutas
 //insertar categoria de producto
 Route::get('/categoriaproductos','categoriaproductoController@index');
+Route::get('/categoriaproductos/data','categoriaproductoController@data');
 Route::post('/categoriaproductos/add','categoriaproductoController@store');
 
 //editar categoria de producto
@@ -119,12 +120,13 @@ Route::get('/categoriaproductos/{categoriaproducto}/edit', 'categoriaproductoCon
 Route::patch('/categoriaproductos/{categoriaproducto}', 'categoriaproductoController@update');
 
 //eliminar categoria de producto
-Route::delete('/categoriaproductos/{categoriaproducto}/delete', 'categoriaproductoController@delete');
+Route::post('/categoriaproductos/{categoriaproducto}/delete', 'categoriaproductoController@delete');
 
 
 //Categoria de Servicios Rutas
 //insertar categoria de Servicios
 Route::get('/categoriaservicios','categoriaservicioController@index');
+Route::get('/categoriaservicios/data','categoriaservicioController@data');
 Route::post('/categoriaservicios/add','categoriaservicioController@store');
 
 //editar categoria de Servicios
@@ -132,7 +134,7 @@ Route::get('/categoriaservicios/{categoriaservicio}/edit', 'categoriaservicioCon
 Route::patch('/categoriaservicios/{categoriaservicio}', 'categoriaservicioController@update');
 
 //eliminar categoria de Servicios
-Route::delete('/categoriaservicios/{categoriaservicio}/delete', 'categoriaservicioController@delete');
+Route::post('/categoriaservicios/{categoriaservicio}/delete', 'categoriaservicioController@delete');
 
 
 // Marca Rutas
@@ -178,14 +180,16 @@ Route::post('/subcategoriaproductos/add','subcategoriaproductoController@store')
 
 //editar subcategoria de producto
 Route::get('/subcategoriaproductos/{subcategoriaproducto}/edit', 'subcategoriaproductoController@edit');
+Route::get('/subcategoriaproductos/data','subcategoriaproductoController@data');
 Route::patch('/subcategoriaproductos/{subcategoriaproducto}', 'subcategoriaproductoController@update');
 
 //eliminar subcategoria de producto
-Route::delete('/subcategoriaproductos/{subcategoriaproducto}/delete', 'subcategoriaproductoController@delete');
+Route::post('/subcategoriaproductos/{subcategoriaproducto}/delete', 'subcategoriaproductoController@delete');
 
 //subcategoria de Servicios Rutas
 //insertar categoria de Servicios
 Route::get('/subcategoriaservicios','subcategoriaservicioController@index');
+Route::get('/subcategoriaservicios/data','subcategoriaservicioController@data');
 Route::post('/subcategoriaservicios/add','subcategoriaservicioController@store');
 
 //editar subcategoria de Servicios
@@ -193,7 +197,7 @@ Route::get('/subcategoriaservicios/{subcategoriaservicio}/edit', 'subcategoriase
 Route::patch('/subcategoriaservicios/{subcategoriaservicio}', 'subcategoriaservicioController@update');
 
 //eliminar subcategoria de Servicios
-Route::delete('/subcategoriaservicios/{subcategoriaservicio}/delete', 'subcategoriaservicioController@delete');
+Route::post('/subcategoriaservicios/{subcategoriaservicio}/delete', 'subcategoriaservicioController@delete');
 
 //Sugerencia precio articulos Rutas
 //insertar Sugerencia precio articulos
@@ -212,6 +216,7 @@ Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'suger
 //insertar Producto
 Route::get('/productos','ProductosController@index');
 Route::get('/productos/new','ProductosController@fillNew');
+Route::get('/productos/data','ProductosController@data');
 Route::post('/productos/add','ProductosController@store');
 
 //editar Producto
@@ -219,9 +224,21 @@ Route::get('/productos/edit/{producto}','ProductosController@edit');
 Route::patch('/productos/{producto}', 'ProductosController@update');
 
 //eliminar Producto
-Route::delete('/productos/{producto}/delete', 'ProductosController@delete');
+Route::post('/productos/{producto}/delete', 'ProductosController@delete');
 
+// Servicios
+//insertar Servicios
+Route::get('/servicios','ServiciosController@index');
+Route::get('/servicios/new','ServiciosController@fillNew');
+Route::get('/servicios/data','ServiciosController@data');
+Route::post('/servicios/add','ServiciosController@store');
 
+//editar Servicios
+Route::get('/servicios/edit/{servicio}','ServiciosController@edit');
+Route::patch('/servicios/{servicio}', 'ServiciosController@update');
+
+//eliminar Servicios
+Route::post('/servicios/{servicio}/delete', 'ServiciosController@delete');
 
 //buscar cliente
 //Route::get('datatables', 'ClientesController@getIndex');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 use App\Categoriaproducto;
 use App\Subcategoriaproducto;
 
@@ -31,7 +32,7 @@ class subcategoriaproductoController extends Controller
     	
         $subcategoriaproducto->save();
 
-    	return back();
+    	return redirect('/subcategoriaproductos');
 
 	}
 
@@ -49,10 +50,23 @@ class subcategoriaproductoController extends Controller
 
 	}
 
-	public function delete( Subcategoriaproducto $subcategoriaproducto)
+	public function delete( Request $request, Subcategoriaproducto $subcategoriaproducto)
 	{
 		$subcategoriaproducto->delete();
-		return back();
+		return response()->json(['success' => true]);
 
+	}
+
+	public function data()
+	{
+		return Datatables::of(Subcategoriaproducto::all())->addColumn('action', function ($subcategoriaproducto) {
+            
+            return '<a href="/subcategoriaproductos/'.$subcategoriaproducto->idsubcategoriaproducto.'/edit">
+            <button class="btn btn-success btn-edit">Editar</button>
+            </a>
+
+            <button type="button" onclick="btnDeleteSubCategoriaProducto('.$subcategoriaproducto->idsubcategoriaproducto.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>';
+               
+            })->make(true);
 	}
 }

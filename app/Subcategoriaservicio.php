@@ -15,8 +15,7 @@ class Subcategoriaservicio extends Model
 	{
 		return $this->belongsTo(Categoriaservicio::class, 'idsubcategoriaservicio','idsubcategoriaservicio');
 	}
-
-	public function servicios
+	public function servicios()
 	{
 		return $this->hasMany(Servicio::class, 'idsubcategoriaservicio','idsubcategoriaservicio');
 	}
