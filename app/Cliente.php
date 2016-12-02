@@ -18,9 +18,19 @@ class Cliente extends Model
 		return $this->hasMany(Revision::class, 'idcliente','idcliente');
 	}
 
-	 public function vehiculos()
+	public function revisionsOfVehiculo($idvehiculo)
 	{
-		return $this->belongsToMany(Vehiculo::class, 'idcliente','idcliente');
+		return $this->revisions()->where('idvehiculo', $idvehiculo)->get();
+	}
+
+	public function vehiculos()
+	{
+		return $this->belongsToMany(Vehiculo::class, 'clientevehiculo', 'idcliente','idvehiculo')->withPivot('idmarca','idmodelo');
+	}
+
+	public function vehiculosWithPivot()
+	{
+		return $this->vehiculos()->with('marca', 'modelo')->get();
 	}
 
 	public function factura()
@@ -31,5 +41,26 @@ class Cliente extends Model
 	public function persona()
 	{
 		return $this->hasOne(Cliente::class, 'idpersona', 'idcliente');
+	}
+
+	public function exitsVehiculo($v)
+	{
+		return $this->vehiculos->contains($v);
+	}
+
+	public function saveVehiculo($v)
+	{
+		$v = Vehiculo::find($v);
+		$this->vehiculos()->attach($v, array('idmarca' => $v->idmarca, 'idmodelo' => $v->idmodelo));
+	}
+
+	public function updateVehiculo($v)
+	{
+		$this->vehiculos()->updateExistingPivot($v, array('idmarca' => $v->idmarca, 'idmodelo' => $v->idmodelo));
+	}
+
+	public function deleteVehiculo($v)
+	{
+		$this->vehiculos()->detach($v);
 	}
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
-use App\Marca;
 use App\Cliente;
 use App\Genero;
 use App\Persona;
@@ -13,6 +12,12 @@ use App\Nacimientocreacion;
 use App\Tipodocumento;
 use App\Tipotelefono;
 use App\Personatelefono;
+use App\Anexotelefono;
+use App\Direccionpersona;
+use App\Correoelectronico;
+use App\Pais;
+use App\Tipoprofesion;
+use App\Marca;
 
 class ClientesController extends Controller
 {
@@ -25,8 +30,8 @@ class ClientesController extends Controller
 
     public function index()
     {
-        $marcas = Marca::all();
-    	return view('marcas.search', compact('marcas'));
+        /*$marcas = Marca::all();
+    	return view('marcas.search', compact('marcas'));*/
     }
   
     public function documentosData(Personanatural $personanatural)
@@ -62,6 +67,56 @@ class ClientesController extends Controller
             return '<button type="button" onclick="btnUpdateAnexo('.$entity->idanexo.',\''.$entity->numeroanexotelefono.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#anexo-modal"><i class="glyphicon glyphicon-edit"></i>Ver/Editar</button>
 
                 <button type="button" onclick="btnDeleteAnexo('.$entity->idanexo.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
+               
+            })->make(true);
+    }
+
+    public function direccionesData(Persona $persona)
+    {
+        return Datatables::of($persona->personaDireccionesWithPivot())/*->addColumn('nombretipotelefono', function($entity) {
+                return ucfirst(Tipotelefono::find($entity->idtipotelefono)->nombretipotelefono);
+            })*/->addColumn('action', function ($entity) {
+            
+            return '<button type="button" onclick="btnUpdateDireccion('.$entity->iddireccionpersona.','.$entity->nombredireccionpersona.', \''.$entity->iddistrito.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#direccion-modal"><i class="glyphicon glyphicon-edit"></i>Ver/Editar</button>
+
+                <button type="button" onclick="btnDeleteDireccion('.$entity->iddireccionpersona.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
+               
+            })->make(true);
+    }
+
+    public function correosData(Persona $persona)
+    {
+        return Datatables::of($persona->correoelectronicos)/*->addColumn('nombretipotelefono', function($entity) {
+                return ucfirst(Tipotelefono::find($entity->idtipotelefono)->nombretipotelefono);
+            })*/->addColumn('action', function ($entity) {
+            
+            return '<button type="button" onclick="btnUpdateCorreo('.$entity->idcorreoelectronico.',\''.$entity->direccioncorreoelectronico.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#telefono-modal"><i class="glyphicon glyphicon-edit"></i>Ver/Editar</button>
+
+                <button type="button" onclick="btnDeleteCorreo('.$entity->idcorreoelectronico.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
+               
+            })->make(true);
+    }
+
+    public function profesionesData(Personanatural $personanatural)
+    {
+        return Datatables::of($personanatural->tipoprofesiones)->addColumn('action', function ($entity) {
+            
+            return '<button type="button" onclick="btnUpdateProfesion('.$entity->idtipoprofesion.')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#documento-modal"><i class="glyphicon glyphicon-edit"></i>Editar</button>
+
+                <button type="button" onclick="btnDeleteProfesion('.$entity->idtipoprofesion.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
+               
+            })->make(true);
+    }
+
+    public function vehiculosData(Cliente $cliente)
+    {
+        return Datatables::of($cliente->vehiculosWithPivot())->addColumn('action', function ($entity) {
+            
+            return '<button type="button" onclick="btnUpdateVehiculo('.$entity->idvehiculo.','.$entity->idmarca.','.$entity->idmodelo.',\''.$entity->añovehiculo.'\',\''.$entity->numeroplacavehivulo.'\',\''.$entity->descripcion.'\')" class="btn btn-success btn-edit" 78data-toggle="modal" data-target="#vehiculo-modal"><i class="glyphicon glyphicon-edit"></i>Ver / Editar</button>
+
+                <button type="button" onclick="btnRevisionsVehiculo('.$entity->idvehiculo.')" class="btn btn-edit"><i class="glyphicon glyphicon-trash"></i>Revisiones</button>
+
+                <button type="button" onclick="btnDeleteClienteVehiculo('.$entity->idvehiculo.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
                
             })->make(true);
     }
@@ -113,8 +168,11 @@ class ClientesController extends Controller
     	$generos = Genero::all();
         $tipodocumentos = Tipodocumento::all();
         $tipotelefonos = Tipotelefono::all();
+        $tipoProfesiones = Tipoprofesion::all();
+        $paises = Pais::all();
+        $marcas = Marca::all();
 
-    	return view('clientes.crud', compact('title','clienteTypeName','entityName', 'key', 'generos','init_route', 'personanatural', 'tipodocumentos', 'tipotelefonos'));
+    	return view('clientes.crud', compact('title','clienteTypeName','entityName', 'key', 'generos','init_route', 'personanatural', 'tipodocumentos', 'tipotelefonos', 'tipoProfesiones', 'paises', 'marcas'));
     }
 
     public function storePN(Request $request)
@@ -186,7 +244,7 @@ class ClientesController extends Controller
 
     public function deleteDocumento(Request $request, Personanatural $personanatural)
     {
-        $personanatural->deleteDocumento($request->idtipodocumento);
+        $personanatural->deleteTipoDocumento($request->idtipodocumento);
 
         return response()->json(['success' => true]);
     }
@@ -232,8 +290,98 @@ class ClientesController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function storeDireccion(Request $request, Persona $persona)
+    {
+        $persona->saveDireccion($request->nombredireccionpersona, $request->iddistrito);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function updateDireccion(Request $request, Persona $persona)
+    {
+        $persona->updateDireccion($request->iddireccionpersona, $request->nombredireccionpersona, $request->iddistrito);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteDireccion(Request $request, Direccionpersona $direccionpersona)
+    {
+        $direccionpersona->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function storeCorreo(Request $request, Persona $persona)
+    {
+        $persona->saveCorreo($request->direccioncorreoelectronico);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function updateCorreo(Request $request, Persona $persona)
+    {
+        $persona->updateCorreo($request->idcorreoelectronico, $request->direccioncorreoelectronico);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteCorreo(Request $request, Correoelectronico $correoelectronico)
+    {
+        $correoelectronico->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function storeProfesion(Request $request, Personanatural $personanatural)
+    {
+        if (!$personanatural->exitsProfesion($request->idtipoprofesion))
+        {
+            $personanatural->saveProfesion($request->idtipoprofesion);
+
+            return response()->json(['success' => true]);
+        }
+        else
+            return response()->json(['success' => false]);
+    }
+
+    public function updateProfesion(Request $request, Personanatural $personanatural)
+    {
+        $personanatural->updateProfesion($request->idtipoprofesion);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteProfesion(Request $request, Personanatural $personanatural)
+    {
+        $personanatural->deleteProfesion($request->idtipoprofesion);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function storeVehiculo(Request $request, Cliente $cliente)
+    {
+        if (!$cliente->exitsVehiculo($request->idvehiculo))
+        {
+            $cliente->saveVehiculo($request->idvehiculo);
+
+            return response()->json(['success' => true]);
+        }
+        else
+            return response()->json(['success' => false]);
+    }
+
+    public function updateVehiculo(Request $request, Cliente $cliente)
+    {
+        $cliente->updateVehiculo($request->idvehiculo);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteVehiculo(Request $request, Cliente $cliente)
+    {
+        $cliente->deleteVehiculo($request->idvehiculo);
+
+        return response()->json(['success' => true]);
+    }
 }
-
-
-
-

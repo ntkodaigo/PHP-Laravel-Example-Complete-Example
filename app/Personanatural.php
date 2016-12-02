@@ -15,11 +15,11 @@ class Personanatural extends Model
 	public $timestamps = false;
 
 	//Temps
-	public $tipodocumentosTemp = array(
+	/*public $tipodocumentosTemp = array(
 			'idpersonanatural' => '1',
 			'idtipodocumento' => '1',
 			'numerodocumento' => '12121',
-		);
+		);*/
 
 	public function persona()
 	{
@@ -27,9 +27,9 @@ class Personanatural extends Model
 	}	
 
 
-   	public function tipoprofesions()
+   	public function tipoprofesiones()
 	{
-		return $this -> belongsToMany(Personanatural::class,'personanaturaltipoprofesion','idpersonatural','idtipoprofesion');
+		return $this -> belongsToMany(Personanatural::class,'personanaturaltipoprofesion','idpersonanatural','idtipoprofesion');
 
 	}
 
@@ -64,7 +64,7 @@ class Personanatural extends Model
 		$this->tipodocumentos()->updateExistingPivot($td, array('numerodocumento' => $numeroDoc));
 	}
 
-	public function deleteDocumento($td)
+	public function deleteTipoDocumento($td)
 	{
 		$this->tipodocumentos()->detach($td);
 	}
@@ -91,5 +91,26 @@ class Personanatural extends Model
 
 			$this->tipodocumentos()->save($td, array('numerodocumento' => $value->numerodocumento));
 		}
+	}
+
+	public function exitsProfesion($tp)
+	{
+		return $this->tipoprofesiones->contains($tp);
+	}
+
+	// params: $tp waits for a Tipodocumento object or the id
+	public function saveProfesion($tp)
+	{
+		$this->tipoprofesiones()->attach($tp);
+	}
+
+	public function updateProfesion($tp)
+	{
+		$this->tipoprofesiones()->updateExistingPivot($tp);
+	}
+
+	public function deleteProfesion($tp)
+	{
+		$this->tipoprofesiones()->detach($tp);
 	}
 }

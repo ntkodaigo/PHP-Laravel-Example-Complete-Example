@@ -8,8 +8,13 @@
 
 	@if ($key == 'u' || $key == 's')
 		@include('clientes/documento')
-		@include('clientes/telefono');
-		@include('clientes/anexo');
+		@include('clientes/telefono')
+		@include('clientes/anexo')
+		@include('clientes/direccion')
+		@include('clientes/correo')
+		@include('clientes/profesion')
+		@include('clientes/clientevehiculo')
+		@include('clientes/vehiculo')
 	@endif
 		<!--div class="row"-->
 			<!--div class="col-md-6 col-md-offset-3"-->
@@ -28,9 +33,13 @@
 					@endif
 
 					@if ($key == 'u' || $key == 's')
-						<input type="hidden" name="idpersonanatural" value="{{ $personanatural->idpersonanatural }}">
+						@if ($clienteTypeName == 'Persona Natural')
+							<input type="hidden" name="idpersonanatural" value="{{ $personanatural->idpersonanatural }}">
 
-						<input type="hidden" name="idpersona" value="{{ $personanatural->persona->idpersona }}">
+							<input type="hidden" name="idpersona" value="{{ $personanatural->persona->idpersona }}">
+
+							<input type="hidden" name="idcliente" value="{{ $personanatural->persona->cliente->idcliente }}">
+						@endif
 					@endif	
 
 			        <div class="form-group">
@@ -156,7 +165,24 @@
 
 			        <br><br>
 			        @if ($key == 's')
-						<div class="alert alert-info" role="alert"><h2>Documentos</h2></div>
+			        <div class="alert alert-info" role="alert"><h2 style="color: black;">Vehiculos del cliente</h2></div>
+						<button data-toggle="modal" data-target="#clientevehiculo-modal" type="button" onclick="btnNewClienteVehiculo()"><i class="glyphicon glyphicon-book"></i>Nuevo Vehiculo del Cliente</button>
+
+						<br><br>
+
+						<table class="table table-hover" id="clientevehiculos-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Placa</th>
+					                <th>Marca</th>
+					                <th>Modelo</th>
+					                <th>Año</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
+
+						<div class="alert alert-info" role="alert"><h2 style="color: black;">Documentos</h2></div>
 						<button data-toggle="modal" data-target="#documento-modal" type="button" onclick="btnNewDocumento()"><i class="glyphicon glyphicon-book"></i>Nuevo Documento</button>
 
 						<br><br>
@@ -171,7 +197,7 @@
 					        </thead>
 					    </table>
 
-						<div class="alert alert-info" role="alert"><h2>Teléfonos</h2></div>
+						<div class="alert alert-info" role="alert"><h2 style="color: black;">Teléfonos</h2></div>
 						<button data-toggle="modal" data-target="#telefono-modal" type="button" onclick="btnNewTelefono()"><i class="glyphicon glyphicon-book"></i>Nuevo Telefono</button>
 
 						<br><br>
@@ -186,11 +212,51 @@
 					        </thead>
 					    </table>
 
-						<div class="alert alert-info" role="alert"><h2>Direcciones</h2></div>
+						<div class="alert alert-info" role="alert"><h2 style="color: black;">Direcciones</h2></div>
+						<button data-toggle="modal" data-target="#direccion-modal" type="button" onclick="btnNewDireccion()"><i class="glyphicon glyphicon-book"></i>Nueva Direccion</button>
 
-						<div class="alert alert-info" role="alert"><h2>Correos Electrónicos</h2></div>
+						<br><br>
 
-						<div class="alert alert-info" role="alert"><h2>Profesiones</h2></div>
+						<table class="table table-hover" id="direcciones-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Direccion</th>
+					                <th>Pais</th>
+					                <th>Departamento</th>
+					                <th>Provincia</th>
+					                <th>Distrito</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
+
+						<div class="alert alert-info" role="alert"><h2 style="color: black;">Correos Electrónicos</h2></div>
+						<button data-toggle="modal" data-target="#correo-modal" type="button" onclick="btnNewCorreo()"><i class="glyphicon glyphicon-book"></i>Nuevo Correo Electrónico</button>
+
+						<br><br>
+
+						<table class="table table-hover" id="correos-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Correo Electrónico</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
+
+						<div class="alert alert-info" role="alert"><h2 style="color: black;">Profesiones</h2></div>
+						<button data-toggle="modal" data-target="#profesion-modal" type="button" onclick="btnNewProfesion()"><i class="glyphicon glyphicon-book"></i>Nueva Profesion</button>
+
+						<br><br>
+
+						<table class="table table-hover" id="profesiones-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Profesion</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
 					@endif
 			    </form>
 		    <!--/div>
@@ -297,6 +363,177 @@
 		      });
 		  @endif
 
+		  direccionesTable = $('#direcciones-table').DataTable({
+	          processing: true,
+	          serverSide: true,
+
+	          ajax:'/direccionesData/{{ $personanatural->persona->idpersona }}',
+	          columns: [
+	              { data: 'nombredireccionpersona', name: 'nombredireccionpersona' },
+	              { data: 'pais.nombrepais', name: 'pais.nombrepais' },
+	              { data: 'departamento.nombredepartamento', name: 'departamento.nombredepartamento' },
+	              { data: 'provincia.nombreprovincia', name: 'provincia.nombreprovincia' },
+	              { data: 'distrito.nombredistrito', name: 'distrito.nombredistrito' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ],
+	          /*createdRow: function ( row, data, index ) {
+	          		var text = $('td', row).eq(0).html();
+	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
+	          },*/
+	          language: {
+		            lengthMenu: "Mostrando _MENU_ registros por pagina",
+		            zeroRecords: "Nada encontrado - lo siento",
+		            info: "Mostrando página _PAGE_ de _PAGES_",
+		            infoEmpty: "Ningún registro disponible",
+		            emptyTable: "No hay datos en la tabla",
+		            infoFiltered: "(encontrados de _MAX_ registros totales)",
+		            search: "<i class='glyphicon glyphicon-search'></i>",
+	                paginate: {
+	                    previous: "Ant",
+	                    next: "Sig",
+	                    last: "Último",
+	                    first: "Primero",
+	                    page: "Página",
+	                    pageOf: "de"
+		        	}
+		        }
+	      });
+
+	      correosTable = $('#correos-table').DataTable({
+	          processing: true,
+	          serverSide: true,
+
+	          ajax:'/correosData/{{ $personanatural->persona->idpersona }}',
+	          columns: [
+	              { data: 'direccioncorreoelectronico', name: 'direccioncorreoelectronico' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ],
+	          /*createdRow: function ( row, data, index ) {
+	          		var text = $('td', row).eq(0).html();
+	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
+	          },*/
+	          language: {
+		            lengthMenu: "Mostrando _MENU_ registros por pagina",
+		            zeroRecords: "Nada encontrado - lo siento",
+		            info: "Mostrando página _PAGE_ de _PAGES_",
+		            infoEmpty: "Ningún registro disponible",
+		            emptyTable: "No hay datos en la tabla",
+		            infoFiltered: "(encontrados de _MAX_ registros totales)",
+		            search: "<i class='glyphicon glyphicon-search'></i>",
+	                paginate: {
+	                    previous: "Ant",
+	                    next: "Sig",
+	                    last: "Último",
+	                    first: "Primero",
+	                    page: "Página",
+	                    pageOf: "de"
+		        	}
+		        }
+	      });
+
+	      profesionesTable = $('#profesiones-table').DataTable({
+	          processing: true,
+	          serverSide: true,
+
+	          ajax:'/profesionesData/{{ $personanatural->idpersonanatural }}',
+	          columns: [
+	              { data: 'nombretipoprofesion', name: 'nombretipoprofesion' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ],
+	          /*createdRow: function ( row, data, index ) {
+	          		var text = $('td', row).eq(0).html();
+	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
+	          },*/
+	          language: {
+		            lengthMenu: "Mostrando _MENU_ registros por pagina",
+		            zeroRecords: "Nada encontrado - lo siento",
+		            info: "Mostrando página _PAGE_ de _PAGES_",
+		            infoEmpty: "Ningún registro disponible",
+		            emptyTable: "No hay datos en la tabla",
+		            infoFiltered: "(encontrados de _MAX_ registros totales)",
+		            search: "<i class='glyphicon glyphicon-search'></i>",
+	                paginate: {
+	                    previous: "Ant",
+	                    next: "Sig",
+	                    last: "Último",
+	                    first: "Primero",
+	                    page: "Página",
+	                    pageOf: "de"
+		        	}
+		        }
+	      });
+
+	      clienteVehiculosTable = $('#clientevehiculos-table').DataTable({
+	          processing: true,
+	          serverSide: true,
+
+	          ajax:'/vehiculosData/{{ $personanatural->persona->cliente->idcliente }}',
+	          columns: [
+	              { data: 'numeroplacavehivulo', name: 'numeroplacavehivulo' },
+	              { data: 'marca.nombremarca', name: 'marca.nombremarca' },
+	              { data: 'modelo.nombremodelo', name: 'modelo.nombremodelo' },
+	              { data: 'añovehiculo', name: 'añovehiculo' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ],
+	          /*createdRow: function ( row, data, index ) {
+	          		var text = $('td', row).eq(0).html();
+	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
+	          },*/
+	          language: {
+		            lengthMenu: "Mostrando _MENU_ registros por pagina",
+		            zeroRecords: "Nada encontrado - lo siento",
+		            info: "Mostrando página _PAGE_ de _PAGES_",
+		            infoEmpty: "Ningún registro disponible",
+		            emptyTable: "No hay datos en la tabla",
+		            infoFiltered: "(encontrados de _MAX_ registros totales)",
+		            search: "<i class='glyphicon glyphicon-search'></i>",
+	                paginate: {
+	                    previous: "Ant",
+	                    next: "Sig",
+	                    last: "Último",
+	                    first: "Primero",
+	                    page: "Página",
+	                    pageOf: "de"
+		        	}
+		        }
+	      });
+
+	      vehiculosTable = $('#vehiculos-table').DataTable({
+	          processing: true,
+	          serverSide: true,
+
+	          ajax:'/vehiculosData/select',
+	          columns: [
+	              { data: 'numeroplacavehivulo', name: 'numeroplacavehivulo' },
+	              { data: 'marca.nombremarca', name: 'marca.nombremarca' },
+	              { data: 'modelo.nombremodelo', name: 'modelo.nombremodelo' },
+	              { data: 'añovehiculo', name: 'añovehiculo' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ],
+	          /*createdRow: function ( row, data, index ) {
+	          		var text = $('td', row).eq(0).html();
+	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
+	          },*/
+	          language: {
+		            lengthMenu: "Mostrando _MENU_ registros por pagina",
+		            zeroRecords: "Nada encontrado - lo siento",
+		            info: "Mostrando página _PAGE_ de _PAGES_",
+		            infoEmpty: "Ningún registro disponible",
+		            emptyTable: "No hay datos en la tabla",
+		            infoFiltered: "(encontrados de _MAX_ registros totales)",
+		            search: "<i class='glyphicon glyphicon-search'></i>",
+	                paginate: {
+	                    previous: "Ant",
+	                    next: "Sig",
+	                    last: "Último",
+	                    first: "Primero",
+	                    page: "Página",
+	                    pageOf: "de"
+		        	}
+		        }
+	      });
+
+	      vehiculosTable.page.len(3).draw();
       	@endif
 
   	});

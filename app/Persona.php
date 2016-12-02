@@ -58,6 +58,11 @@ class Persona extends Model
 		return $this->belongsToMany(Tipotelefono::class, 'personatelefono','idpersona', 'idtipotelefono')->withPivot(['idpersonatelefono', 'numeropersonatelefono']);
 	}
 
+	public function personaDireccionesWithPivot()
+	{
+		return $this->direccionpersonas()->with('pais', 'departamento', 'provincia', 'distrito')->get();
+	}
+
 	public function nacimientocreacion()
 	{
 		return $this-> hasOne(Nacimientocreacion::class,'idpersona','idpersona');
@@ -83,5 +88,55 @@ class Persona extends Model
 		$pt->numeropersonatelefono = $numeroPerTelf;
 
 		$this->personatelefonos()->save($pt);
+	}
+
+	public function saveDireccion($nomDirPer, $distrito)
+	{
+		$last = Direccionpersona::orderBy('iddireccionpersona', 'desc')->first();
+    	$newId = ($last == null) ? 1 : $last->iddireccionpersona + 1;
+    	
+    	$dp = new Direccionpersona;
+    	$dp->iddireccionpersona = $newId;
+    	$dp->nombredireccionpersona = $nomDirPer;
+    	$distrito = Distrito::find($distrito);
+ 		$dp->iddistrito = $distrito->iddistrito;
+ 		$dp->iddepartamento = $distrito->iddepartamento;
+ 		$dp->idprovincia = $distrito->idprovincia;
+ 		$dp->idpais = $distrito->idpais;
+
+		$this->direccionpersonas()->save($dp);
+	}
+
+	public function updateDireccion($dp, $nomDirPer, $distrito)
+	{
+		$dp = $this->direccionpersonas()->find($dp);
+		$dp->nombredireccionpersona = $nomDirPer;
+		$distrito = Distrito::find($distrito);
+ 		$dp->distrito = $distrito->iddistrito;
+ 		$dp->iddepartamento = $distrito->iddepartamento;
+ 		$dp->idprovincia = $distrito->idprovincia;
+ 		$dp->idpais = $distrito->idpais;
+
+		$this->direccionpersonas()->save($dp);
+	}
+
+	public function saveCorreo($dirCorrElec)
+	{
+		$last = Correoelectronico::orderBy('idcorreoelectronico', 'desc')->first();
+    	$newId = ($last == null) ? 1 : $last->idcorreoelectronico + 1;
+    	
+    	$ce = new Correoelectronico;
+    	$ce->idcorreoelectronico = $newId;
+    	$ce->direccioncorreoelectronico = $dirCorrElec;
+
+		$this->correoelectronicos()->save($ce);
+	}
+
+	public function updateCorreo($ce, $dirCorrElec)
+	{
+		$ce = $this->correoelectronicos()->find($ce);
+		$ce->direccioncorreoelectronico = $dirCorrElec;
+
+		$this->correoelectronicos()->save($ce);
 	}
 }

@@ -42,4 +42,12 @@ class Personatelefono extends Model
 
 		return $this->anexotelefonos()->save($newAnexo);
 	}
+
+	public function updateAnexoTelefono($at, $numeroAnexTelf)
+	{
+		$at = $this->anexotelefonos()->find($at);
+		$at->numeroanexotelefono = $numeroAnexTelf;
+
+		$this->anexotelefonos()->save($at);
+	}
 }

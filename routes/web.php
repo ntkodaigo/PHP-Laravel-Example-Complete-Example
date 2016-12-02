@@ -240,11 +240,7 @@ Route::patch('/servicios/{servicio}', 'ServiciosController@update');
 //eliminar Servicios
 Route::post('/servicios/{servicio}/delete', 'ServiciosController@delete');
 
-//buscar cliente
-//Route::get('datatables', 'ClientesController@getIndex');
-//Route::get('data', 'ClientesController@data');
-//Route::post('/deletemarca','ClientesController@deleteMarca');
-// Clientes
+// Documentos
 Route::get('documentosData/{personanatural}','ClientesController@documentosData');
 Route::post('/clientes/pn/{personanatural}/documentos/add', 'ClientesController@storeDocumento');
 Route::post('/clientes/pn/{personanatural}/documentos/update', 'ClientesController@updateDocumento');
@@ -259,17 +255,33 @@ Route::get('anexosData/{personatelefono}','ClientesController@anexosData');
 Route::post('/clientes/telefonos/{personatelefono}/anexos/add', 'ClientesController@storeAnexoTelefono');
 Route::post('/clientes/telefonos/{personatelefono}/anexos/update', 'ClientesController@updateAnexoTelefono');
 Route::post('/clientes/anexotelefonos/{anexotelefono}/delete', 'ClientesController@deleteAnexoTelefono');
-//Route::post('documento/{index}','ClientesController@documentoAtIndex');
-//Route::get('documentosDataTemp','ClientesController@documentosDataTemp');
-Route::get('profesionsData','ClientesController@profesionsData');
-Route::get('direccionesData','ClientesController@direccionesData');
-Route::get('correosData','ClientesController@correosData');
+// Direcciones
+Route::get('direccionesData/{persona}','ClientesController@direccionesData');
+Route::post('/clientes/{persona}/direcciones/add', 'ClientesController@storeDireccion');
+Route::post('/clientes/{persona}/direcciones/update', 'ClientesController@updateDireccion');
+Route::post('/clientes/direcciones/{direccionpersona}/delete', 'ClientesController@deleteDireccion');
+// Correos
+Route::get('correosData/{persona}','ClientesController@correosData');
+Route::post('/clientes/{persona}/correos/add', 'ClientesController@storeCorreo');
+Route::post('/clientes/{persona}/correos/update', 'ClientesController@updateCorreo');
+Route::post('/clientes/correos/{correoelectronico}/delete', 'ClientesController@deleteCorreo');
+// Profesiones
+Route::get('profesionesData/{personanatural}','ClientesController@profesionesData');
+Route::post('/clientes/pn/{personanatural}/profesiones/add', 'ClientesController@storeProfesion');
+Route::post('/clientes/pn/{personanatural}/profesiones/update', 'ClientesController@updateProfesion');
+Route::post('/clientes/pn/{personanatural}/profesiones/delete', 'ClientesController@deleteProfesion');
+// Vehiculos
+Route::get('vehiculosData/select', 'VehiculosController@vehiculosDataToSelect');
+Route::get('vehiculosData/{cliente}','ClientesController@vehiculosData');
+Route::post('/clientes/{cliente}/vehiculos/add', 'ClientesController@storeVehiculo');
+Route::post('/clientes/{cliente}/vehiculos/update', 'ClientesController@updateVehiculo');
+Route::post('/clientes/{cliente}/vehiculos/delete', 'ClientesController@deleteVehiculo');
 
 Route::get('/clientes', 'ClientesController@index');
-
+// Persona Natural
 Route::get('/clientes/new/pn', 'ClientesController@fillNewPN');
 Route::post('/clientes/add/pn', 'ClientesController@storePN');
 Route::get('/clientes/show/pn/{personanatural}', 'ClientesController@showPN');
 Route::get('/clientes/edit/pn/{personanatural}', 'ClientesController@edit');
 Route::post('/clientes/update/pn/{personanatural}', 'ClientesController@updatePN');
-Route::post('/clientes/{cliente}/delete', 'ClientesController@store');
+Route::post('/clientes/{cliente}/delete', 'ClientesController@deletePN');
