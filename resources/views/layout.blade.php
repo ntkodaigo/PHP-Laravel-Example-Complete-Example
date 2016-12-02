@@ -279,7 +279,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <ul class="treeview-menu">
             <li><a href="#"><i class="fa fa-circle-o"></i>Persona Natural</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i>Persona Juridica</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Compras</a></li>
+            <li><a href="/compras"><i class="fa fa-circle-o"></i>Compras</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -333,7 +333,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li><a href="/marcas"><i class="fa fa-circle-o"></i>Marca</a></li>
               </ul>
             </li>
-            <li><a href="#"><i class="fa fa-institution"></i> <span>Almacen</span></a></li>
+            <li><a href="/almacenes"><i class="fa fa-institution"></i> <span>Almacen</span></a></li>
       </ul>
 
       <ul class="sidebar-menu">

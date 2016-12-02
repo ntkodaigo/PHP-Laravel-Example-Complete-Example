@@ -84,10 +84,19 @@ class ProductosController extends Controller
 		return Datatables::of(Producto::all())->addColumn('action', function ($producto) {
             
             return '<a href="/productos/edit/'.$producto->idproducto.'">
-            <button class="btn btn-success btn-edit">Editar</button>
+            <button class="btn btn-success btn-edit"><i class="glyphicon glyphicon-edit"></i>Editar</button>
             </a>
 
             <button type="button" onclick="btnDeleteProducto('.$producto->idproducto.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>';
+               
+            })->make(true);
+	}
+
+	public function dataCompras()
+	{
+		return Datatables::of(Producto::all())->addColumn('action', function ($producto) {
+            
+            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
                
             })->make(true);
 	}

@@ -217,6 +217,7 @@ Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'suger
 Route::get('/productos','ProductosController@index');
 Route::get('/productos/new','ProductosController@fillNew');
 Route::get('/productos/data','ProductosController@data');
+Route::get('/productos/dataCompras','ProductosController@dataCompras');
 Route::post('/productos/add','ProductosController@store');
 
 //editar Producto
@@ -239,6 +240,34 @@ Route::patch('/servicios/{servicio}', 'ServiciosController@update');
 
 //eliminar Servicios
 Route::post('/servicios/{servicio}/delete', 'ServiciosController@delete');
+
+// Almacen
+//insertar Almacen
+Route::get('/almacenes','AlmacenesController@index');
+Route::get('/almacenes/new','AlmacenesController@fillNew');
+Route::get('/almacenes/data','AlmacenesController@data');
+Route::post('/almacenes/add','AlmacenesController@store');
+
+//editar Almacen
+Route::get('/almacenes/edit/{almacen}','AlmacenesController@edit');
+Route::patch('/almacenes/{almacen}', 'AlmacenesController@update');
+
+//eliminar Almacen
+Route::post('/almacenes/{almacen}/delete', 'AlmacenesController@delete');
+
+// Compras
+//insertar Compras
+Route::get('/compras','ComprasController@index');
+Route::get('/compras/new','ComprasController@fillNew');
+Route::get('/compras/data','ComprasController@data');
+Route::post('/compras/add','ComprasController@store');
+
+//editar Compras
+Route::get('/compras/edit/{compra}','ComprasController@edit');
+Route::patch('/compras/{compra}', 'ComprasController@update');
+
+//eliminar Compras
+Route::post('/compras/{compra}/delete', 'ComprasController@delete');
 
 //buscar cliente
 //Route::get('datatables', 'ClientesController@getIndex');

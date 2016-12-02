@@ -16,4 +16,9 @@ class Almacen extends Model
 	{
 		return $this->hasOne(Compra::class, 'idcompra', 'idcompra');
 	}
+
+	public function producto()
+	{
+		return $this->hasOne(Producto::class, 'idproducto', 'idproducto');
+	}
 }
