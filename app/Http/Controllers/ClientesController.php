@@ -184,17 +184,20 @@ class ClientesController extends Controller
     	$newId = str_pad($newId, 8, "0", STR_PAD_LEFT);
 
     	$newPersona = new Persona;
-    	$newPersona->idpersona = $newId;
-    	$newPersona->save();
-
-    	$newCliente = new Cliente;
-    	$newPersona->cliente()->save($newCliente);
+    	///$newPersona->idpersona = $newId;
 
     	$newPerNatural = new Personanatural;
+        $newPerNatural->idpersonanatural = $newId;
     	$newPerNatural->nombres = $request->nombres;
     	$newPerNatural->apellido_paterno = $request->apellido_paterno;
     	$newPerNatural->apellido_materno = $request->apellido_materno;
-    	$newPersona->personanatural()->save($newPerNatural);
+
+        $newPerNatural->mypersona()->save($newPersona);
+
+        $newPersona->personanatural()->save($newPerNatural);
+
+        $newCliente = new Cliente;
+        $newPersona->cliente()->save($newCliente);
 
     	$fechaNacCrea = new Nacimientocreacion;
     	$fechaNacCrea->fechanacimientocreacion = $request->fechanacimientocreacion;

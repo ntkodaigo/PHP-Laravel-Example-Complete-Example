@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Proveedor extends Model
 {
-    protected $table ='proveedorproducto';
+    protected $table ='proveedor';
 	protected $primaryKey = 'idproveedor'; 	
 	protected $fillable = ['idproveedor'];
 	public $timestamps = false;
@@ -15,5 +15,10 @@ class Proveedor extends Model
 	public function productos()
 	{
 		return $this->belongsToMany(Producto::class, 'proveedorproducto', 'idproveedor');
+	}
+
+	public function persona()
+	{
+		return $this->hasOne(Persona::class, 'idpersona', 'idproveedor');
 	}
 }
