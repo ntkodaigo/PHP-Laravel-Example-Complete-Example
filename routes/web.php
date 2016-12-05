@@ -336,3 +336,6 @@ Route::post('/clientes/{cliente}/delete', 'ClientesController@deletePN');
 Route::post('/personanaturales/{personanatural}/update/genero', 'PersonanaturalController@updateGenero');
 // NacimientoCreation
 Route::post('/personas/{persona}/update/nac-creac', 'PersonasController@updateNC');
+
+//Proveedores
+Route::get('/proveedoresData', 'ProveedoresController@proveedoresMorphData');
