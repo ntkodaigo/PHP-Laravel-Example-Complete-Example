@@ -12,7 +12,7 @@ class ProveedoresController extends Controller
 	{
 		return Datatables::of(Proveedor::with('persona.personabytype')->get())->addColumn('action', function ($entity) {
             
-            return '<button data-toggle="modal" data-target="#roles-modal" type="button" onclick="btnAllRoles('.$entity->idpersona.')" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>Roles</button>';
+            return '<button type="button" onclick="AgregarProveedor('.$entity->idproveedor.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
                
         	})->make(true);
 	}

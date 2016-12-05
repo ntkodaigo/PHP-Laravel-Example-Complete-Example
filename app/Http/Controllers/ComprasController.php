@@ -46,11 +46,14 @@ class ComprasController extends Controller
 
 	public function store(Request $request) 
 	{
-		$compra = new Compra ($request-> all());
-    	
-        $compra->save();
+		$last = Compra::orderBy('idcompra', 'desc')->first();
+    	$newId = ($last == null) ? 1 : $last->idcompra + 1;
 
-    	return redirect('/compras');
+    	$compras = new Compra($request->all());
+    	$compras->idcompra = $newId;
+    	$compras->save();
+
+    	return back();
 
 	}
 

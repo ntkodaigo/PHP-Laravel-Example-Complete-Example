@@ -17,10 +17,18 @@
             @endif>
         </div>
 
-        <div class="form-group">Fecha de compra
-            <input type="text" name="fechacompra" class="form-control"
+        <div class="form-group"> ID Proveedor
+            <input type="text" id="proveedor-id" name="idproveedor" class="form-control" placeholder="Escoja una Proveedor" disabled="true" 
             @if ($key=='u')
-            value="{{ $compra->fechacompra }}"
+            value="{{ $compra->idproveedor }}"
+            @endif>
+        </div>
+
+        <div class="form-group">Fecha de compra
+            <input type="date" name="fechacompra" class="form-control"
+            @if ($key=='u')
+            value="{{ $compra->fechacompra }}" @else 
+            value="{{ date('Y-m-d') }}"
             @endif>
         </div>
 
@@ -44,7 +52,7 @@
         {{ csrf_field() }}
 
     </form>
-    <div class=""> Productos</div>
+    <div class="col-xs-12"> Productos</div>
     <div class="panel-body">
     <table class="table table-hover" id="table-producto">
                   <thead class="thead-inverse">
@@ -132,21 +140,19 @@
                 { data: 'marcaproducto', name: 'marcaproducto' },
                 { data: 'modeloproducto', name: 'modeloproducto' },
                 { data: 'action', name: 'action', orderable: false, searchable: false}
-            ]            
-            }
+            ]  
         });
 
     table_prov = $('#table-proveedor').DataTable({
             ajax:'{{URL::asset('/proveedoresData')}}',
             columns: [
-                { data: 'personabytype.nombres', name: 'personabytype.nombres', defaultContent: '<i>No tiene</i>'},
-                { data: 'personabytype.apellido_paterno', name: 'personabytype.apellido_paterno', defaultContent: '<i>No tiene</i>'},
-                { data: 'personabytype.apellido_materno', name: 'personabytype.apellido_materno', defaultContent: '<i>No tiene</i>'},
-                { data: 'personabytype.razonsocial', name: 'personabytype.razonsocial', defaultContent: '<i>No tiene</i>'},
-                { data: 'personabytype.ruc', name: 'personabytype.ruc', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.nombres', name: 'persona.personabytype.nombres', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.apellido_paterno', name: 'persona.personabytype.apellido_paterno', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.apellido_materno', name: 'persona.personabytype.apellido_materno', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.razonsocial', name: 'persona.personabytype.razonsocial', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.ruc', name: 'persona.personabytype.ruc', defaultContent: '<i>No tiene</i>'},
                 { data: 'action', name: 'action', orderable: false, searchable: false}
-            ]            
-            }
+            ] 
         });
 
     });
@@ -154,6 +160,11 @@
   function AgregarProducto(producto)
 {
   document.getElementById('product-id').value = producto;
+}
+
+function AgregarProveedor(persona)
+{
+  document.getElementById('proveedor-id').value = persona;
 }
 </script>
 @endpush
