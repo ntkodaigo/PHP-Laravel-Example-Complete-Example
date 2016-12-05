@@ -77,7 +77,7 @@ class ClientesController extends Controller
                 return ucfirst(Tipotelefono::find($entity->idtipotelefono)->nombretipotelefono);
             })*/->addColumn('action', function ($entity) {
             
-            return '<button type="button" onclick="btnUpdateDireccion('.$entity->iddireccionpersona.','.$entity->nombredireccionpersona.', \''.$entity->iddistrito.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#direccion-modal"><i class="glyphicon glyphicon-edit"></i>Ver/Editar</button>
+            return '<button type="button" onclick="btnUpdateDireccion('.$entity->iddireccionpersona.',\''.$entity->nombredireccionpersona.'\','.$entity->idpais.','.$entity->iddepartamento.','.$entity->idprovincia.','.$entity->iddistrito.')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#direccion-modal"><i class="glyphicon glyphicon-edit"></i>Ver/Editar</button>
 
                 <button type="button" onclick="btnDeleteDireccion('.$entity->iddireccionpersona.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
                
@@ -90,7 +90,7 @@ class ClientesController extends Controller
                 return ucfirst(Tipotelefono::find($entity->idtipotelefono)->nombretipotelefono);
             })*/->addColumn('action', function ($entity) {
             
-            return '<button type="button" onclick="btnUpdateCorreo('.$entity->idcorreoelectronico.',\''.$entity->direccioncorreoelectronico.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#telefono-modal"><i class="glyphicon glyphicon-edit"></i>Ver/Editar</button>
+            return '<button type="button" onclick="btnUpdateCorreo('.$entity->idcorreoelectronico.',\''.$entity->direccioncorreoelectronico.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#correo-modal"><i class="glyphicon glyphicon-edit"></i>Ver/Editar</button>
 
                 <button type="button" onclick="btnDeleteCorreo('.$entity->idcorreoelectronico.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
                
@@ -101,7 +101,7 @@ class ClientesController extends Controller
     {
         return Datatables::of($personanatural->tipoprofesiones)->addColumn('action', function ($entity) {
             
-            return '<button type="button" onclick="btnUpdateProfesion('.$entity->idtipoprofesion.')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#documento-modal"><i class="glyphicon glyphicon-edit"></i>Editar</button>
+            return '<button type="button" onclick="btnUpdateProfesion('.$entity->idtipoprofesion.')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#profesion-modal"><i class="glyphicon glyphicon-edit"></i>Editar</button>
 
                 <button type="button" onclick="btnDeleteProfesion('.$entity->idtipoprofesion.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
                
@@ -112,7 +112,7 @@ class ClientesController extends Controller
     {
         return Datatables::of($cliente->vehiculosWithPivot())->addColumn('action', function ($entity) {
             
-            return '<button type="button" onclick="btnUpdateVehiculo('.$entity->idvehiculo.','.$entity->idmarca.','.$entity->idmodelo.',\''.$entity->añovehiculo.'\',\''.$entity->numeroplacavehivulo.'\',\''.$entity->descripcion.'\')" class="btn btn-success btn-edit" 78data-toggle="modal" data-target="#vehiculo-modal"><i class="glyphicon glyphicon-edit"></i>Ver / Editar</button>
+            return '<button type="button" onclick="btnUpdateVehiculo('.$entity->idvehiculo.','.$entity->idmarca.','.$entity->idmodelo.',\''.$entity->aniovehiculo.'\',\''.$entity->numeroplacavehivulo.'\',\''.$entity->descripcion.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#vehiculo-modal"><i class="glyphicon glyphicon-edit"></i>Ver / Editar</button>
 
                 <button type="button" onclick="btnRevisionsVehiculo('.$entity->idvehiculo.')" class="btn btn-edit"><i class="glyphicon glyphicon-trash"></i>Revisiones</button>
 
@@ -265,7 +265,7 @@ class ClientesController extends Controller
 
     public function deleteTelefono(Request $request, Personatelefono $personatelefono)
     {
-        $personatelefono->delete();
+        $personatelefono->deleteWithAnexos();
 
         return response()->json(['success' => true]);
     }

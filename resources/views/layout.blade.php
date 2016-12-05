@@ -9,8 +9,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Project Monterrey @yield('title')</title>
   <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <meta name="_token" content="{{ csrf_token() }}">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <!-- Bootstrap 3.3.6 >
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome >
@@ -258,6 +258,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
         <li class="header">Personas</li>
+        <li><a href="/personas"><i class="fa fa-circle-o"></i> <span>Búsqueda de personas</span></a></li>
         <!-- Optionally, you can add icons to the links -->
         <li class="treeview">
           <a href="#"><i class="fa fa-male"></i> <span>Clientes</span>
@@ -266,8 +267,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/clientes/new/pn"><i class="fa fa-circle-o"></i>Persona Natural</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Persona Juridica</a></li>
+            <li><a href="/clientes/new/pn"><i class="fa fa-circle-o"></i>Lista de clientes</a></li>
+            <li><a href="/clientes/new/pn"><i class="fa fa-circle-o"></i>Nueva Persona Natural</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i>Nueva Persona Juridica</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -277,6 +279,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </span>
           </a>
           <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-circle-o"></i>Lista de Proveedores</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i>Persona Natural</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i>Persona Juridica</a></li>
             <li><a href="/compras"><i class="fa fa-circle-o"></i>Compras</a></li>

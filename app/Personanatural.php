@@ -26,11 +26,14 @@ class Personanatural extends Model
 		return $this-> hasOne(Persona::class,'idpersona','idpersonanatural');
 	}	
 
+	public function mypersona()
+	{
+		return $this->morphOne(Persona::class, 'personabytype', 'persona_type', 'idpersona', 'idpersonanatural');
+	}
 
    	public function tipoprofesiones()
 	{
-		return $this -> belongsToMany(Personanatural::class,'personanaturaltipoprofesion','idpersonanatural','idtipoprofesion');
-
+		return $this -> belongsToMany(Tipoprofesion::class,'personanaturaltipoprofesion','idpersonanatural','idtipoprofesion');
 	}
 
 	public function tecnico()
@@ -41,6 +44,11 @@ class Personanatural extends Model
 	public function generos()
 	{
 		return $this-> belongsToMany(Genero::class,'personanaturalgenero','idpersonanatural','idgenero');
+	}
+
+	public function updateGenero($idgenero)
+	{
+		$this->generos()->sync(array('idgenero' => $idgenero));
 	}
 
 	public function tipodocumentos()
@@ -106,7 +114,7 @@ class Personanatural extends Model
 
 	public function updateProfesion($tp)
 	{
-		$this->tipoprofesiones()->updateExistingPivot($tp);
+		$this->tipoprofesiones()->updateExistingPivot($tp, array('idtipoprofesion' => $tp));
 	}
 
 	public function deleteProfesion($tp)

@@ -17,6 +17,11 @@ class Personajuridica extends Model
 		return $this->hasOne(Persona::class, 'idpersona', 'idpersonajuridica');
 	}
 
+	public function mypersona()
+	{
+		return $this->morphOne(Persona::class, 'personabytype', 'persona_type', 'idpersona', 'idpersonajuridica');
+	}
+
 	public function impuestofechas()
 	{
 		return $this->belongsToMany(Impuestofecha::class, 'personajuridicaimpuestofecha', 'idpersonajuridica', 'idimpuestofecha');

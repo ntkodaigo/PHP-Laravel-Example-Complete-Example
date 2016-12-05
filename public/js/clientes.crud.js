@@ -8,10 +8,35 @@ var clienteVehiculosTable;
 var vehiculosTable;
 var revisionesVehiculosTable;
 
+// datatables default
+$.extend( true, $.fn.dataTable.defaults, {
+    processing: true,
+  	serverSide: true,
+  	pageLength: 6,
+  	lengthMenu: [3, 6, 10, 15, 20, 50, 75, 100],
+  	language: {
+            lengthMenu: "Mostrando _MENU_ registros por pagina",
+            zeroRecords: "Nada encontrado - lo siento",
+            info: "Mostrando página _PAGE_ de _PAGES_",
+            infoEmpty: "Ningún registro disponible",
+            emptyTable: "No hay datos en la tabla",
+            infoFiltered: "(encontrados de _MAX_ registros totales)",
+            search: "<i class='glyphicon glyphicon-search'></i>",
+            paginate: {
+                previous: "Ant",
+                next: "Sig",
+                last: "Último",
+                first: "Primero",
+                page: "Página",
+                pageOf: "de"
+        	}
+        }
+} );
+
 $(function(){
 	$.ajaxSetup({
 	    headers: {
-	      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+	      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 	    }
 	  });
 
@@ -93,37 +118,68 @@ $(function(){
    		}
 	});
 
-	jQuery("a[name=aMaterno_edit]").click(function(){
+	jQuery("a[name=fnc_edit]").click(function(){
    		if (!jQuery("input[name=fechanacimientocreacion]").prop("readonly"))
    		{
    			var formData = {
 	            fechanacimientocreacion: $("#fechanacimientocreacion").val()
 	            //_method: jQuery("input[name=_method]").attr('value')
         	}
-        	var id = jQuery("input[name=idpersonanatural]").attr('value');
-			var url = "/clientes/update/pn/" + id;
+        	var id = jQuery("input[name=idpersona]").attr('value');
+			var url = "/personas/" + id +"/update/nac-creac";
 
         	$.post(url, formData, function(response){
 			    if(response.success)
 			    {
-			    	jQuery("input[name=apellido_materno]").attr("readonly",true);
-			    	jQuery("span[name=aMaterno_edit_glyph]").attr("class",'glyphicon glyphicon-pencil');
+			    	jQuery("input[name=fechanacimientocreacion]").attr("readonly",true);
+			    	jQuery("span[name=fnc_edit_glyph]").attr("class",'glyphicon glyphicon-pencil');
 			    }
 			}, 'json');
    		}
    		else
    		{
-   			jQuery("input[name=apellido_materno]").attr("readonly",false);
-   			$('#apellido_materno').focus();
-			jQuery("span[name=aMaterno_edit_glyph]").attr("class",'glyphicon glyphicon-floppy-disk');
+   			jQuery("input[name=fechanacimientocreacion]").attr("readonly",false);
+   			$('#fechanacimientocreacion').focus();
+			jQuery("span[name=fnc_edit_glyph]").attr("class",'glyphicon glyphicon-floppy-disk');
    		}
 	});
+
+	jQuery("a[name=genero_edit]").click(function(){
+   		if (!jQuery("input[id=genero-key]").prop("disabled"))
+   		{
+   			var formData = {
+	            idgenero: $("#idgenero").val()
+	            //_method: jQuery("input[name=_method]").attr('value')
+        	}
+        	var id = jQuery("input[name=idpersonanatural]").attr('value');
+			var url = "/personanaturales/" + id + "/update/genero";
+
+        	$.post(url, formData, function(response){
+			    if(response.success)
+			    {
+			    	$("input[id=genero-key]").prop("disabled", true);
+			    	$('#idgenero option:selected').siblings().prop('disabled', true);
+			    	jQuery("span[name=genero_edit_glyph]").attr("class",'glyphicon glyphicon-pencil');
+			    }
+			}, 'json');
+   		}
+   		else
+   		{
+   			$("input[id=genero-key]").prop("disabled", false);
+   			$('#idgenero option').prop("disabled", false);
+   			$('#idgenero').focus();
+			jQuery("span[name=genero_edit_glyph]").attr("class",'glyphicon glyphicon-floppy-disk');
+   		}
+	});
+
+
 	/*$('#birth-date .input-group.date').datepicker({
 		language: "es",
 	    calendarWeeks: true,
 	    autoclose: true,
 	    format: "dd/mm/yyyy",
 	});*/
+	
 });
 
 $('#frmClientePN').on('submit',function(e){
@@ -147,6 +203,9 @@ $('#frmCorreo').on('submit',function(e){
 $('#frmProfesion').on('submit',function(e){
 	jQuery("input[id=regprofesion]").attr("disabled",true);
 });
+$('#frmVehiculo').on('submit',function(e){
+	jQuery("input[id=regvehiculo]").attr("disabled",true);
+});
 
 $('#nombres').keypress(function(event){
   if(event.keyCode == 13){
@@ -162,6 +221,111 @@ $('#apellido_materno').keypress(function(event){
   if(event.keyCode == 13){
     $('#aMaterno_edit').click();
   }
+});
+
+$('#fechanacimientocreacion').keypress(function(event){
+  if(event.keyCode == 13){
+    $('#fnc_edit').click();
+  }
+});
+
+$('#idgenero').keypress(function(event){
+  if(event.keyCode == 13){
+    $('#genero_edit').click();
+  }
+});
+
+$('#idpais').on('change', function() {
+	var data = {
+	        idpais: $(this).val()
+	        //_method: jQuery("input[name=_method]").attr('value')
+	}
+  	$.post('/paises/' + $(this).val() + '/departamentos', data, function(response){
+	    if(response.success)
+	    {
+	        var departamentosSelect = $('#iddepartamento').empty();
+	        $.each(response.departamentos, function(i, departamento){
+	            $('<option/>', {
+	                value:departamento.iddepartamento,
+	                text:departamento.nombredepartamento
+	            }).appendTo(departamentosSelect);
+	        })
+
+	        $("#iddepartamento").prop("selectedIndex", -1);
+
+	        $('#idprovincia').empty();
+	        $("#idprovincia").prop("selectedIndex", -1);
+
+	        $('#iddistrito').empty();
+	        $("#iddistrito").prop("selectedIndex", -1);
+	    }
+	}, 'json');
+});
+
+$('#iddepartamento').on('change', function() {
+	var data = {
+	        iddepartamento: $(this).val()
+	        //_method: jQuery("input[name=_method]").attr('value')
+	}
+  	$.post('/departamentos/' + $(this).val() + '/provincias', data, function(response){
+	    if(response.success)
+	    {
+	        var selectToFill = $('#idprovincia').empty();
+	        $.each(response.provincias, function(i, provincia){
+	            $('<option/>', {
+	                value:provincia.idprovincia,
+	                text:provincia.nombreprovincia
+	            }).appendTo(selectToFill);
+	        })
+
+	        $("#idprovincia").prop("selectedIndex", -1);
+
+	        $('#iddistrito').empty();
+	        $("#iddistrito").prop("selectedIndex", -1);
+	    }
+	}, 'json');
+});
+
+$('#idprovincia').on('change', function() {
+	var data = {
+	        idprovincia: $(this).val()
+	        //_method: jQuery("input[name=_method]").attr('value')
+	}
+  	$.post('/provincias/' + $(this).val() + '/distritos', data, function(response){
+	    if(response.success)
+	    {
+	        var selectToFill = $('#iddistrito').empty();
+	        $.each(response.distritos, function(i, distrito){
+	            $('<option/>', {
+	                value:distrito.iddistrito,
+	                text:distrito.nombredistrito
+	            }).appendTo(selectToFill);
+	        })
+
+	        $("#iddistrito").prop("selectedIndex", -1);
+	    }
+	}, 'json');
+});
+
+$('#idmarca').on('change', function() {
+	var data = {
+	        idmarca: $(this).val()
+	        //_method: jQuery("input[name=_method]").attr('value')
+	}
+  	$.post('/marcas/' + $(this).val() + '/modelos', data, function(response){
+	    if(response.success)
+	    {
+	        var modelosSelect = $('#idmodelo').empty();
+	        $.each(response.modelos, function(i, modelo){
+	            $('<option/>', {
+	                value:modelo.idmodelo,
+	                text:modelo.nombremodelo
+	            }).appendTo(modelosSelect);
+	        })
+
+	        $("#idmodelo").prop("selectedIndex", -1);
+	    }
+	}, 'json');
 });
 
 /*$('#save_cliente').click(function(){
@@ -216,7 +380,7 @@ function btnUpdateDocumento(idTipoDoc, numDoc)
 	jQuery("input[id=regdocumento]").attr("disabled",false);
 
 	$('#numerodocumento').attr('value', numDoc);
-	$('#idtipodocumento option[value=' + idTipoDoc + ']').attr('selected', true).attr('disabled', false).siblings().attr('disabled', true).attr('selected', false);
+	$('#idtipodocumento option[value=' + idTipoDoc + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', true).prop('selected', false);
 
 	var id = jQuery("input[name=idpersonanatural]").attr('value');
 	jQuery("form[id=frmDocumento]").attr('action','/clientes/pn/' + id + '/documentos/update');
@@ -321,32 +485,12 @@ function btnUpdateTelefono(idPerTelf, idTipoTelf, numTelf)
 	if (anexosTable == null)
 	{
 		anexosTable = $('#anexos-table').DataTable({
-	          processing: true,
-	          serverSide: true,
 	          ajax:'/anexosData/' + idPerTelf,
 	          pageLength: 3,
-	          lengthMenu: [3, 6, 10, 15, 20],
 	          columns: [
 	              { data: 'numeroanexotelefono', name: 'numeroanexotelefono' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
-	          ],
-	          language: {
-		            lengthMenu: "Mostrando _MENU_ registros por pagina",
-		            zeroRecords: "Nada encontrado - lo siento",
-		            info: "Mostrando página _PAGE_ de _PAGES_",
-		            infoEmpty: "Ningún registro disponible",
-		            emptyTable: "No hay datos en la tabla",
-		            infoFiltered: "(encontrados de _MAX_ registros totales)",
-		            search: "<i class='glyphicon glyphicon-search'></i>",
-	                paginate: {
-	                    previous: "Ant",
-	                    next: "Sig",
-	                    last: "Último",
-	                    first: "Primero",
-	                    page: "Página",
-	                    pageOf: "de"
-		        	}
-		        }
+	          ]
 	      });
 
 		/*anexosTable.page.len( 3 ).draw();*/
@@ -360,7 +504,7 @@ function btnUpdateTelefono(idPerTelf, idTipoTelf, numTelf)
 
 function btnDeleteTelefono(idPerTelf)
 {
-	if (confirm("¿Está seguro?"))
+	if (confirm("Tambien borrara los anexos asociados. ¿Está seguro?"))
 	{
 		/*var id = jQuery("input[name=idpersona]").attr('value');*/
 		var url="/clientes/telefonos/"+ idPerTelf +"/delete";
@@ -439,14 +583,13 @@ function btnDeleteAnexo(idAnex)
 	        //_method: jQuery("input[name=_method]").attr('value')
 		}
 
-		/*
 		$.ajaxPrefilter(function(options, originalOptions, xhr) { // this will run before each request
-	        var token = $('meta[name="_token"]').attr('content'); // or _token, whichever you are using
+	        var token = $('meta[name="csrf-token"]').attr('content'); // or _token, whichever you are using
 
 	        if (token) {
 	            return xhr.setRequestHeader('X-CSRF-TOKEN', token); // adds directly to the XmlHttpRequest Object
 	        }
-	    });*/
+	    });
 
 	    $.post(url, formData, function(response){
 		    if(response.success)
@@ -467,17 +610,37 @@ $('#frmDireccion').on('submit',function(e){
         var formData=form.serialize();
         var url=form.attr('action');
 
-        $.post(url, formData, function(response){
-		    if(response.success)
-		    {
-				$('#direccion-modal').modal('hide');
-				direccionesTable.ajax.reload();
-		    }
+        var thereAreDistrito = false;
+	    var inputs = formData.split("&");
 
-		    $( '#frmDireccion' ).each(function(){
-		    	this.reset();
-			});
-		}, 'json');
+	    for (i = 0; i < inputs.length; i++) { 
+		    if (inputs[i].includes("iddistrito"))
+		    {
+		    	thereAreDistrito = true;
+		    	break;
+		    }
+		}
+
+        if (thereAreDistrito)
+        {
+	        $.post(url, formData, function(response){
+			    if(response.success)
+			    {
+					$('#direccion-modal').modal('hide');
+					direccionesTable.ajax.reload();
+			    }
+
+			    $( '#frmDireccion' ).each(function(){
+			    	this.reset();
+				});
+			}, 'json');
+    	}
+    	else
+    	{
+    		alert("Debe seleccionar un distrito.");
+
+    		jQuery("input[id=regdireccion]").attr("disabled",false);
+    	}
 });
 
 function btnNewDireccion()
@@ -488,9 +651,20 @@ function btnNewDireccion()
 	
 	var id = jQuery("input[name=idpersona]").attr('value');
 	jQuery("form[id=frmDireccion]").attr('action','/clientes/' + id + '/direcciones/add');
+
+	$("#idpais").prop("selectedIndex", -1);
+	        
+    $('#iddepartamento').empty();
+    $("#iddepartamento").prop("selectedIndex", -1);
+
+    $('#idprovincia').empty();
+    $("#idprovincia").prop("selectedIndex", -1);
+
+    $('#iddistrito').empty();
+    $("#iddistrito").prop("selectedIndex", -1);
 }
 
-function btnUpdateDireccion(idDirec, nomDirPer, iddistrito)
+function btnUpdateDireccion(idDirec, nomDirPer, idpais, iddepartamento, idprovincia, iddistrito)
 {
 	jQuery("input[id=regdireccion]").attr("disabled",false);
 
@@ -499,6 +673,55 @@ function btnUpdateDireccion(idDirec, nomDirPer, iddistrito)
 
 	var id = jQuery("input[name=idpersona]").attr('value');
 	jQuery("form[id=frmDireccion]").attr('action','/clientes/' + id + '/direcciones/update');
+
+	$('#idpais option[value=' + idpais + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', false).prop('selected', false);
+	/*$('#idpais').change();*/
+	var data = {
+	        idpais: $('#idpais').val()
+	        //_method: jQuery("input[name=_method]").attr('value')
+	}
+	$.post('/paises/' + $('#idpais').val() + '/departamentos', data, function(response){
+	    if(response.success)
+	    {
+	        var departamentosSelect = $('#iddepartamento').empty();
+	        $.each(response.departamentos, function(i, departamento){
+	            $('<option/>', {
+	                value:departamento.iddepartamento,
+	                text:departamento.nombredepartamento
+	            }).appendTo(departamentosSelect);
+	        })
+
+	        $('#iddepartamento option[value=' + iddepartamento + ']').attr('selected', true).attr('disabled', false).siblings().attr('disabled', false).attr('selected', false);
+	        $.post('/departamentos/' + $('#iddepartamento').val() + '/provincias', data, function(response){
+			    if(response.success)
+			    {
+			        var provinciasSelect = $('#idprovincia').empty();
+			        $.each(response.provincias, function(i, provincia){
+			            $('<option/>', {
+			                value:provincia.idprovincia,
+			                text:provincia.nombreprovincia
+			            }).appendTo(provinciasSelect);
+			        })
+
+			        $('#idprovincia option[value=' + idprovincia + ']').attr('selected', true).attr('disabled', false).siblings().attr('disabled', false).attr('selected', false);
+			        $.post('/provincias/' + $('#idprovincia').val() + '/distritos', data, function(response){
+					    if(response.success)
+					    {
+					        var distritosSelect = $('#iddistrito').empty();
+					        $.each(response.distritos, function(i, distrito){
+					            $('<option/>', {
+					                value:distrito.iddistrito,
+					                text:distrito.nombredistrito
+					            }).appendTo(distritosSelect);
+					        })
+
+					        $('#iddistrito option[value=' + iddistrito + ']').attr('selected', true).attr('disabled', false).siblings().attr('disabled', false).attr('selected', false);
+					    }
+					}, 'json');
+			    }
+			}, 'json');
+	    }
+	}, 'json');
 }
 
 function btnDeleteDireccion(idDirec)
@@ -597,6 +820,10 @@ $('#frmProfesion').on('submit',function(e){
 				$('#profesion-modal').modal('hide');
 				profesionesTable.ajax.reload();
 		    }
+		    else
+		    {
+		    	alert("Esta profesion ya fue asignada a este cliente.");
+		    }
 
 		    $( '#frmProfesion' ).each(function(){
 		    	this.reset();
@@ -608,7 +835,7 @@ function btnNewProfesion()
 {
 	jQuery("input[id=regprofesion]").attr("disabled",false);
 
-	$('#idtipoprofesion option:first').attr('selected', true).attr('disabled', false).siblings().attr('disabled', false).attr('selected', false);
+	$('#idtipoprofesion option:first').prop('selected', true).prop('disabled', false).siblings().prop('disabled', false).prop('selected', false);
 	
 	var id = jQuery("input[name=idpersonanatural]").attr('value');
 	jQuery("form[id=frmProfesion]").attr('action','/clientes/pn/' + id + '/profesiones/add');
@@ -618,7 +845,7 @@ function btnUpdateProfesion(idTipoProf)
 {
 	jQuery("input[id=regprofesion]").attr("disabled",false);
 
-	$('#idtipoprofesion option[value=' + idTipoProf + ']').attr('selected', true).attr('disabled', false).siblings().attr('disabled', true).attr('selected', false);
+	$('#idtipoprofesion option[value=' + idTipoProf + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', true).prop('selected', false);
 
 	var id = jQuery("input[name=idpersonanatural]").attr('value');
 	jQuery("form[id=frmProfesion]").attr('action','/clientes/pn/' + id + '/profesiones/update');
@@ -657,7 +884,8 @@ $('#frmVehiculo').on('submit',function(e){
 		    if(response.success)
 		    {
 				$('#vehiculo-modal').modal('hide');
-				profesionesTable.ajax.reload();
+				vehiculosTable.ajax.reload();
+				clienteVehiculosTable.ajax.reload();
 		    }
 
 		    $( '#frmVehiculo' ).each(function(){
@@ -666,38 +894,130 @@ $('#frmVehiculo').on('submit',function(e){
 		}, 'json');
 });
 
-function btnNewVehiculo()
-{
-	jQuery("input[id=regvehiculo]").attr("disabled",false);
-
-	var id = jQuery("input[name=idcliente]").attr('value');
-	jQuery("form[id=frmProfesion]").attr('action','/clientes/pn/' + id + '/profesiones/add');
-}
-
 function btnNewClienteVehiculo()
 {
-	jQuery("input[id=regvehiculo]").attr("disabled",false);
-
-	var id = jQuery("input[name=idcliente]").attr('value');
-	jQuery("form[id=frmProfesion]").attr('action','/clientes/pn/' + id + '/profesiones/add');
 }
 
-function btnStoreClienteVehiculo()
+function btnStoreClienteVehiculo(idVehiculo)
 {
+	if (confirm("¿Asignar este vehículo al cliente?"))
+	{
+		var id = jQuery("input[name=idcliente]").attr('value');
+		var url="/clientes/"+ id +"/vehiculos/add";
+		var formData = {
+	        idvehiculo: idVehiculo
+		}
+
+	    $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+	             clienteVehiculosTable.ajax.reload();
+	             $('#clientevehiculo-modal').modal('hide');
+		    }
+		    else
+		    {
+		    	alert("El vehículo ya fue asignado a este cliente anteriormente.");
+		    }
+		}, 'json');
+	}
+}
+
+function btnDeleteClienteVehiculo(idVeh)
+{
+	if (confirm("No se borraran datos del vehiculo, solo lo relacionado a este cliente incluyendo ¡sus revisiones! ¿Está seguro?"))
+	{
+		var id = jQuery("input[name=idcliente]").attr('value');
+		var url="/clientes/"+ id +"/vehiculos/delete";
+		var formData = {
+	        idvehiculo: idVeh
+		}
+
+	    $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+	             clienteVehiculosTable.ajax.reload();
+		    }
+		    else
+		    {
+		    	alert("FAIL");
+		    }
+		}, 'json');
+	}
+}
+
+function btnNewVehiculo()
+{
+	$("#vehiculo-modal").removeClass('PopUp').addClass('PopUp-focus');
+
 	jQuery("input[id=regvehiculo]").attr("disabled",false);
 
-	var id = jQuery("input[name=idcliente]").attr('value');
-	jQuery("form[id=frmProfesion]").attr('action','/clientes/pn/' + id + '/profesiones/add');
+	$("#idmarca").prop("selectedIndex", -1);
+	$('#idmodelo').empty();
+	$("#idmodelo").prop("selectedIndex", -1);
+	$("#aniovehiculo").attr("value", '');
+	$("#numeroplacavehivulo").attr("value", '');
+	$("#descripcion").html('');
+
+	jQuery("form[id=frmVehiculo]").attr('action','/vehiculos/add/ajax');
 }
 
 function btnUpdateVehiculo(idVeh, idMar, idMol, anio, numPlaca, descrip)
 {
-	jQuery("input[id=regprofesion]").attr("disabled",false);
+	$("#vehiculo-modal").removeClass('PopUp').addClass('PopUp-focus');
 
-	$('#idtipoprofesion option[value=' + idTipoProf + ']').attr('selected', true).attr('disabled', false).siblings().attr('disabled', true).attr('selected', false);
+	jQuery("input[id=regvehiculo]").attr("disabled",false);
 
-	var id = jQuery("input[name=idpersonanatural]").attr('value');
-	jQuery("form[id=frmProfesion]").attr('action','/clientes/pn/' + id + '/profesiones/update');
+	$("input[name=idvehiculo]").attr("value", idVeh);
+
+	$('#idmarca option[value=' + idMar + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', false).prop('selected', false);
+	/*$('#idpais').change();*/
+	var data = {
+	        idmarca: idMar
+	        //_method: jQuery("input[name=_method]").attr('value')
+	}
+	$.post('/marcas/' + idMar + '/modelos', data, function(response){
+	    if(response.success)
+	    {
+	        var modelosSelect = $('#idmodelo').empty();
+	        $.each(response.modelos, function(i, modelo){
+	            $('<option/>', {
+	                value:modelo.idmodelo,
+	                text:modelo.nombremodelo
+	            }).appendTo(modelosSelect);
+	        })
+
+	        $('#idmarca option[value=' + idMol + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', false).prop('selected', false);
+	    }
+	}, 'json');
+	
+	$("#aniovehiculo").attr("value", anio);
+	$("#numeroplacavehivulo").attr("value", numPlaca);
+	$("#descripcion").html(descrip);
+
+	jQuery("form[id=frmVehiculo]").attr('action','/vehiculos/' + idVeh + '/update/ajax');
+}
+
+function btnDeleteVehiculo(idVeh)
+{
+	if (confirm("Borrara datos de este vehiculo y todos los clientes asociados. ¿Está seguro?"))
+	{
+		var url="/vehiculos/"+ idVeh +"/delete";
+		var formData = {
+	        idvehiculo: idVeh
+		}
+
+	    $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+	             vehiculosTable.ajax.reload();
+	             clienteVehiculosTable.ajax.reload();
+		    }
+		    else
+		    {
+		    	alert("FAIL");
+		    }
+		}, 'json');
+	}
 }
 
 function btnRevisionsVehiculo(idVeh)
@@ -739,51 +1059,5 @@ function btnRevisionsVehiculo(idVeh)
 	{
 		revisionesVehiculosTable.ajax.url('/anexosData/' + idPerTelf).load();
 		revisionesVehiculosTable.page.len(3).draw();
-	}
-}
-
-function btnDeleteClienteVehiculo(idVeh)
-{
-	if (confirm("¿Está seguro?"))
-	{
-		var id = jQuery("input[name=idpersonanatural]").attr('value');
-		var url="/clientes/pn/"+ id +"/profesiones/delete";
-		var formData = {
-	        idtipoprofesion: idTipoProf
-		}
-
-	    $.post(url, formData, function(response){
-		    if(response.success)
-		    {
-	             profesionesTable.ajax.reload();
-		    }
-		    else
-		    {
-		    	alert("FAIL");
-		    }
-		}, 'json');
-	}
-}
-
-function btnDeleteVehiculo(idVeh)
-{
-	if (confirm("¿Está seguro?"))
-	{
-		var id = jQuery("input[name=idpersonanatural]").attr('value');
-		var url="/clientes/pn/"+ id +"/profesiones/delete";
-		var formData = {
-	        idtipoprofesion: idTipoProf
-		}
-
-	    $.post(url, formData, function(response){
-		    if(response.success)
-		    {
-	             profesionesTable.ajax.reload();
-		    }
-		    else
-		    {
-		    	alert("FAIL");
-		    }
-		}, 'json');
 	}
 }

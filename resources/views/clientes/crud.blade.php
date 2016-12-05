@@ -131,8 +131,11 @@
 
 			        <div class="form-group">
 			            <label for="idgenero" class="col-sm-2 col-form-label">Género</label>
+			            @if ($key == 's')
+			            	<input type="hidden" id="genero-key" disabled>
+			            @endif
 			            <div class="col-sm-8">
-				            <select name="idgenero" class="form-control dropdown-toggle">
+				            <select name="idgenero" id="idgenero" class="form-control dropdown-toggle">
 				                @foreach ($generos as $genero)
 				                	<option value="{{ $genero -> idgenero }}" 
 				                	@if ($key == 's')
@@ -274,37 +277,18 @@
 
 		@if ($key == 's' )
 	      documentosTable = $('#documentos-table').DataTable({
-	          processing: true,
-	          serverSide: true,
 	          ajax:'/documentosData/{{ $personanatural->idpersonanatural }}',
+	          /*aoColumnDefs: [
+			      { sType: 'string', aTargets: [ 0 ] }
+		      ],*/
 	          columns: [
-	              { data: 'nombretipodocumento', name: 'nombretipodocumento' },
+	              { data: 'nombretipodocumento', name: 'nombretipodocumento', defaultContent: '<i>No tiene</i>' },
 	              { data: 'pivot.numerodocumento', name: 'pivot.numerodocumento' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
-	          ],
-	          language: {
-		            lengthMenu: "Mostrando _MENU_ registros por pagina",
-		            zeroRecords: "Nada encontrado - lo siento",
-		            info: "Mostrando página _PAGE_ de _PAGES_",
-		            infoEmpty: "Ningún registro disponible",
-		            emptyTable: "No hay datos en la tabla",
-		            infoFiltered: "(encontrados de _MAX_ registros totales)",
-		            search: "<i class='glyphicon glyphicon-search'></i>",
-	                paginate: {
-	                    previous: "Ant",
-	                    next: "Sig",
-	                    last: "Último",
-	                    first: "Primero",
-	                    page: "Página",
-	                    pageOf: "de"
-		        	}
-		        }
+	          ]
 	      });
 
 	      telefonosTable = $('#telefonos-table').DataTable({
-	          processing: true,
-	          serverSide: true,
-
 	          ajax:'/telefonosData/{{ $personanatural->persona->idpersona }}',
 	          columns: [
 	              { data: 'nombretipotelefono', name: 'nombretipotelefono', searchable: true },
@@ -314,59 +298,20 @@
 	          createdRow: function ( row, data, index ) {
 	          		var text = $('td', row).eq(0).html();
 	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
-	          },
-	          language: {
-		            lengthMenu: "Mostrando _MENU_ registros por pagina",
-		            zeroRecords: "Nada encontrado - lo siento",
-		            info: "Mostrando página _PAGE_ de _PAGES_",
-		            infoEmpty: "Ningún registro disponible",
-		            emptyTable: "No hay datos en la tabla",
-		            infoFiltered: "(encontrados de _MAX_ registros totales)",
-		            search: "<i class='glyphicon glyphicon-search'></i>",
-	                paginate: {
-	                    previous: "Ant",
-	                    next: "Sig",
-	                    last: "Último",
-	                    first: "Primero",
-	                    page: "Página",
-	                    pageOf: "de"
-		        	}
-		        }
+	          }
 	      });
 
 	      @if ($personanatural->persona->hasTelefonos())
 		      anexosTable = $('#anexos-table').DataTable({
-		          processing: true,
-		          serverSide: true,
 		          ajax:'/anexosData/{{ $personanatural->persona->personatelefonos()->first()->idpersonatelefono }}',
 		          columns: [
 		              { data: 'numeroanexotelefono', name: 'numeroanexotelefono' },
 		              { data: 'action', name: 'action', orderable: false, searchable: false}
-		          ],
-		          language: {
-			            lengthMenu: "Mostrando _MENU_ registros por pagina",
-			            zeroRecords: "Nada encontrado - lo siento",
-			            info: "Mostrando página _PAGE_ de _PAGES_",
-			            infoEmpty: "Ningún registro disponible",
-			            emptyTable: "No hay datos en la tabla",
-			            infoFiltered: "(encontrados de _MAX_ registros totales)",
-			            search: "<i class='glyphicon glyphicon-search'></i>",
-		                paginate: {
-		                    previous: "Ant",
-		                    next: "Sig",
-		                    last: "Último",
-		                    first: "Primero",
-		                    page: "Página",
-		                    pageOf: "de"
-			        	}
-			        }
+		          ]
 		      });
 		  @endif
 
 		  direccionesTable = $('#direcciones-table').DataTable({
-	          processing: true,
-	          serverSide: true,
-
 	          ajax:'/direccionesData/{{ $personanatural->persona->idpersona }}',
 	          columns: [
 	              { data: 'nombredireccionpersona', name: 'nombredireccionpersona' },
@@ -375,162 +320,45 @@
 	              { data: 'provincia.nombreprovincia', name: 'provincia.nombreprovincia' },
 	              { data: 'distrito.nombredistrito', name: 'distrito.nombredistrito' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
-	          ],
-	          /*createdRow: function ( row, data, index ) {
-	          		var text = $('td', row).eq(0).html();
-	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
-	          },*/
-	          language: {
-		            lengthMenu: "Mostrando _MENU_ registros por pagina",
-		            zeroRecords: "Nada encontrado - lo siento",
-		            info: "Mostrando página _PAGE_ de _PAGES_",
-		            infoEmpty: "Ningún registro disponible",
-		            emptyTable: "No hay datos en la tabla",
-		            infoFiltered: "(encontrados de _MAX_ registros totales)",
-		            search: "<i class='glyphicon glyphicon-search'></i>",
-	                paginate: {
-	                    previous: "Ant",
-	                    next: "Sig",
-	                    last: "Último",
-	                    first: "Primero",
-	                    page: "Página",
-	                    pageOf: "de"
-		        	}
-		        }
+	          ]
 	      });
 
 	      correosTable = $('#correos-table').DataTable({
-	          processing: true,
-	          serverSide: true,
-
 	          ajax:'/correosData/{{ $personanatural->persona->idpersona }}',
 	          columns: [
 	              { data: 'direccioncorreoelectronico', name: 'direccioncorreoelectronico' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
-	          ],
-	          /*createdRow: function ( row, data, index ) {
-	          		var text = $('td', row).eq(0).html();
-	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
-	          },*/
-	          language: {
-		            lengthMenu: "Mostrando _MENU_ registros por pagina",
-		            zeroRecords: "Nada encontrado - lo siento",
-		            info: "Mostrando página _PAGE_ de _PAGES_",
-		            infoEmpty: "Ningún registro disponible",
-		            emptyTable: "No hay datos en la tabla",
-		            infoFiltered: "(encontrados de _MAX_ registros totales)",
-		            search: "<i class='glyphicon glyphicon-search'></i>",
-	                paginate: {
-	                    previous: "Ant",
-	                    next: "Sig",
-	                    last: "Último",
-	                    first: "Primero",
-	                    page: "Página",
-	                    pageOf: "de"
-		        	}
-		        }
+	          ]
 	      });
 
 	      profesionesTable = $('#profesiones-table').DataTable({
-	          processing: true,
-	          serverSide: true,
-
 	          ajax:'/profesionesData/{{ $personanatural->idpersonanatural }}',
 	          columns: [
 	              { data: 'nombretipoprofesion', name: 'nombretipoprofesion' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
-	          ],
-	          /*createdRow: function ( row, data, index ) {
-	          		var text = $('td', row).eq(0).html();
-	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
-	          },*/
-	          language: {
-		            lengthMenu: "Mostrando _MENU_ registros por pagina",
-		            zeroRecords: "Nada encontrado - lo siento",
-		            info: "Mostrando página _PAGE_ de _PAGES_",
-		            infoEmpty: "Ningún registro disponible",
-		            emptyTable: "No hay datos en la tabla",
-		            infoFiltered: "(encontrados de _MAX_ registros totales)",
-		            search: "<i class='glyphicon glyphicon-search'></i>",
-	                paginate: {
-	                    previous: "Ant",
-	                    next: "Sig",
-	                    last: "Último",
-	                    first: "Primero",
-	                    page: "Página",
-	                    pageOf: "de"
-		        	}
-		        }
+	          ]
 	      });
 
 	      clienteVehiculosTable = $('#clientevehiculos-table').DataTable({
-	          processing: true,
-	          serverSide: true,
-
 	          ajax:'/vehiculosData/{{ $personanatural->persona->cliente->idcliente }}',
 	          columns: [
 	              { data: 'numeroplacavehivulo', name: 'numeroplacavehivulo' },
 	              { data: 'marca.nombremarca', name: 'marca.nombremarca' },
 	              { data: 'modelo.nombremodelo', name: 'modelo.nombremodelo' },
-	              { data: 'añovehiculo', name: 'añovehiculo' },
+	              { data: 'aniovehiculo', name: 'aniovehiculo' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
-	          ],
-	          /*createdRow: function ( row, data, index ) {
-	          		var text = $('td', row).eq(0).html();
-	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
-	          },*/
-	          language: {
-		            lengthMenu: "Mostrando _MENU_ registros por pagina",
-		            zeroRecords: "Nada encontrado - lo siento",
-		            info: "Mostrando página _PAGE_ de _PAGES_",
-		            infoEmpty: "Ningún registro disponible",
-		            emptyTable: "No hay datos en la tabla",
-		            infoFiltered: "(encontrados de _MAX_ registros totales)",
-		            search: "<i class='glyphicon glyphicon-search'></i>",
-	                paginate: {
-	                    previous: "Ant",
-	                    next: "Sig",
-	                    last: "Último",
-	                    first: "Primero",
-	                    page: "Página",
-	                    pageOf: "de"
-		        	}
-		        }
+	          ]
 	      });
 
 	      vehiculosTable = $('#vehiculos-table').DataTable({
-	          processing: true,
-	          serverSide: true,
-
 	          ajax:'/vehiculosData/select',
 	          columns: [
 	              { data: 'numeroplacavehivulo', name: 'numeroplacavehivulo' },
 	              { data: 'marca.nombremarca', name: 'marca.nombremarca' },
 	              { data: 'modelo.nombremodelo', name: 'modelo.nombremodelo' },
-	              { data: 'añovehiculo', name: 'añovehiculo' },
+	              { data: 'aniovehiculo', name: 'aniovehiculo' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
-	          ],
-	          /*createdRow: function ( row, data, index ) {
-	          		var text = $('td', row).eq(0).html();
-	                $('td', row).eq(0).html(capitalizeFirstLetter(text));
-	          },*/
-	          language: {
-		            lengthMenu: "Mostrando _MENU_ registros por pagina",
-		            zeroRecords: "Nada encontrado - lo siento",
-		            info: "Mostrando página _PAGE_ de _PAGES_",
-		            infoEmpty: "Ningún registro disponible",
-		            emptyTable: "No hay datos en la tabla",
-		            infoFiltered: "(encontrados de _MAX_ registros totales)",
-		            search: "<i class='glyphicon glyphicon-search'></i>",
-	                paginate: {
-	                    previous: "Ant",
-	                    next: "Sig",
-	                    last: "Último",
-	                    first: "Primero",
-	                    page: "Página",
-	                    pageOf: "de"
-		        	}
-		        }
+	          ]
 	      });
 
 	      vehiculosTable.page.len(3).draw();

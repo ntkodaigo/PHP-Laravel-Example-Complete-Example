@@ -294,6 +294,10 @@ Route::get('direccionesData/{persona}','ClientesController@direccionesData');
 Route::post('/clientes/{persona}/direcciones/add', 'ClientesController@storeDireccion');
 Route::post('/clientes/{persona}/direcciones/update', 'ClientesController@updateDireccion');
 Route::post('/clientes/direcciones/{direccionpersona}/delete', 'ClientesController@deleteDireccion');
+// Ubigeo
+Route::post('paises/{pais}/departamentos', 'paisController@getDepartamentos');
+Route::post('departamentos/{departamento}/provincias', 'DepartamentoController@getProvincias');
+Route::post('provincias/{provincia}/distritos', 'ProvinciasController@getDistritos');
 // Correos
 Route::get('correosData/{persona}','ClientesController@correosData');
 Route::post('/clientes/{persona}/correos/add', 'ClientesController@storeCorreo');
@@ -307,11 +311,21 @@ Route::post('/clientes/pn/{personanatural}/profesiones/delete', 'ClientesControl
 // Vehiculos
 Route::get('vehiculosData/select', 'VehiculosController@vehiculosDataToSelect');
 Route::get('vehiculosData/{cliente}','ClientesController@vehiculosData');
+Route::post('/vehiculos/add/ajax', 'VehiculosController@storeAjax');
+Route::post('/vehiculos/{vehiculo}/update/ajax', 'VehiculosController@updateAjax');
+Route::get('/vehiculos', 'VehiculosController@index');
+Route::post('/vehiculos/add', 'VehiculosController@store');
+Route::post('/vehiculos/{vehiculo}/update', 'VehiculosController@update');
+Route::post('/vehiculos/{vehiculo}/delete', 'VehiculosController@delete');
+// CLiente vehiculo
 Route::post('/clientes/{cliente}/vehiculos/add', 'ClientesController@storeVehiculo');
 Route::post('/clientes/{cliente}/vehiculos/update', 'ClientesController@updateVehiculo');
 Route::post('/clientes/{cliente}/vehiculos/delete', 'ClientesController@deleteVehiculo');
-
-Route::get('/clientes', 'ClientesController@index');
+// Marcas
+Route::post('marcas/{marca}/modelos','marcaController@getModelos');
+// Persona
+Route::get('/personas', 'PersonasController@index');
+Route::get('/personasData', 'PersonasController@personasMorphData');
 // Persona Natural
 Route::get('/clientes/new/pn', 'ClientesController@fillNewPN');
 Route::post('/clientes/add/pn', 'ClientesController@storePN');
@@ -319,3 +333,6 @@ Route::get('/clientes/show/pn/{personanatural}', 'ClientesController@showPN');
 Route::get('/clientes/edit/pn/{personanatural}', 'ClientesController@edit');
 Route::post('/clientes/update/pn/{personanatural}', 'ClientesController@updatePN');
 Route::post('/clientes/{cliente}/delete', 'ClientesController@deletePN');
+Route::post('/personanaturales/{personanatural}/update/genero', 'PersonanaturalController@updateGenero');
+// NacimientoCreation
+Route::post('/personas/{persona}/update/nac-creac', 'PersonasController@updateNC');

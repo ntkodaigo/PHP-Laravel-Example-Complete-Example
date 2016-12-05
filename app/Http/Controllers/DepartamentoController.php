@@ -52,4 +52,10 @@ class DepartamentoController extends Controller
 		return back();
 
 	}
+
+	public function getProvincias(Departamento $departamento)
+	{
+		$provincias = $departamento->provincias;
+		return response()->json(['success' => true, 'provincias' => $provincias]);
+	}
 }
