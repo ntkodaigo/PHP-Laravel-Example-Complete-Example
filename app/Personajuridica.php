@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Personajuridica extends Model
 {
+	public static $entityName = "Persona Jurídica";
+
     protected $table ='personajuridica';
 	protected $primaryKey = 'idpersonajuridica'; 	
 	protected $fillable = ['razonsocial', 'ruc'];

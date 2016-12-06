@@ -3,8 +3,15 @@
 @section('content')
 	
 	@include('personas/roles')
+	<center>
+		<h2>Lista de personas del Sistema</h2>
+	</center>
 
-	<h1>Lista de personas del Sistema</h1>
+	<center>
+		<h4>En esta tabla se muestran todas las personas previamente registradas. Busque a la persona antes de registrar una nueva, puede usar los datos previamente registrados para registrarlo con un nuevo rol (Cliente, Proveedor o Tecnico). </h4>
+	</center>
+
+	<br>
 
 	<input type="hidden" name="idpersona">
 
@@ -63,11 +70,11 @@
 		personasTable = $('#personas-table').DataTable({
 	          ajax:'/personasData',
 	          columns: [
-	              { data: 'personabytype.nombres', name: 'personabytype.nombres', defaultContent: '<i>No tiene</i>'},
-	              { data: 'personabytype.apellido_paterno', name: 'personabytype.apellido_paterno', defaultContent: '<i>No tiene</i>'},
-	              { data: 'personabytype.apellido_materno', name: 'personabytype.apellido_materno', defaultContent: '<i>No tiene</i>'},
-	              { data: 'personabytype.razonsocial', name: 'personabytype.razonsocial', defaultContent: '<i>No tiene</i>'},
-	              { data: 'personabytype.ruc', name: 'personabytype.ruc', defaultContent: '<i>No tiene</i>'},
+	              { data: 'personabytype.nombres', name: 'personabytype.nombres', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+	              { data: 'personabytype.apellido_paterno', name: 'personabytype.apellido_paterno', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+	              { data: 'personabytype.apellido_materno', name: 'personabytype.apellido_materno', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+	              { data: 'personabytype.razonsocial', name: 'personabytype.razonsocial', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+	              { data: 'personabytype.ruc', name: 'personabytype.ruc', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
 	          ]
 	      });
@@ -75,9 +82,204 @@
 		//personasTable.page.len(10).draw();
 	});
 
-	function btnAllRoles(idpersona)
+	function btnAllRoles(idpersona, persona_type)
 	{
-		
+		var url="/personas/" + idpersona + "/searchRoles";
+		var formData = {
+	        idpersona: idpersona
+	        //_method: jQuery("input[name=_method]").attr('value')
+		}
+
+		hideAllRoles();
+
+	    $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+	             switch(persona_type)
+	             {
+	             	case "AppPersonanatural":
+	             		// Cliente layer is 1
+	             		if ((response.rollayer & 1) > 0)
+	             		{
+	             			$('#cliente-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+							$('a[id=cliente-rol]').attr("href", '/clientes/show/pn/' + idpersona);
+	             		}
+	             		else
+	             		{
+	             			$('#cliente-new-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+	             			$("form[id=cliente-new-rol]").attr('action','/clientes/addfrom/' + idpersona + '/pn');
+	             		}
+	             		// Proveedor layer is 2
+	             		if((response.rollayer & 2) > 0)
+	             		{
+	             			$('#proveedor-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+							$('a[id=proveedor-rol]').attr("href", '/proveedores/show/pn/' + idpersona);
+	             		}
+	             		else
+	             		{
+	             			$('#proveedor-new-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+	             			$("form[id=proveedor-new-rol]").attr('action','/proveedores/addfrom/' + idpersona + '/pn');
+	             		}
+	             		// Tecnico layer is 4
+	             		if((response.rollayer & 4) > 0)
+	             		{
+	             			$('#tecnico-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+							$('a[id=tecnico-rol]').attr("href", '/tecnicos/show/' + idpersona);
+	             		}
+	             		else
+	             		{
+	             			$('#tecnico-new-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+	             			$("form[id=tecnico-new-rol]").attr('action','/tecnicos/addfrom/' + idpersona);
+	             		}
+
+	             		if (response.rollayer == 7)
+	             			hideRegisterToLabel();
+	             		break;
+             		case "AppPersonajuridica":
+             			// Clientes layer is 1
+             			if ((response.rollayer & 1) > 0)
+	             		{
+	             			$('#cliente-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+							$('a[id=cliente-rol]').attr("href", '/clientes/show/pj/' + idpersona);
+	             		}
+	             		else
+	             		{
+	             			$('#cliente-new-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+	             			$("form[id=cliente-new-rol]").attr('action','/clientes/addfrom/' + idpersona + '/pj');
+	             		}
+	             		// Proveedor layer is 2
+	             		if((response.rollayer & 2) > 0)
+	             		{
+	             			$('#proveedor-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+							$('a[id=proveedor-rol]').attr("href", '/proveedores/show/pj/' + idpersona);
+	             		}
+	             		else
+	             		{
+	             			$('#proveedor-new-rol-node').each(
+								function()
+								{
+									$(this).show();
+								}
+							);
+
+	             			$("form[id=proveedor-new-rol]").attr('action','/proveedores/addfrom/' + idpersona + '/pj');
+	             		}
+
+	             		if (response.rollayer == 3)
+	             			hideRegisterToLabel();
+             			break;
+	             }
+		    }
+		    else
+		    {
+		    	alert("Hubo algún error.");
+		    }
+		}, 'json');
+	}
+
+	function hideAllRoles()
+	{
+		$('#cliente-rol-node').each(
+			function()
+			{
+				$(this).hide();
+			}
+		);
+		$('#proveedor-rol-node').each(
+			function()
+			{
+				$(this).hide();
+			}
+		);
+		$('#tecnico-rol-node').each(
+			function()
+			{
+				$(this).hide();
+			}
+		);
+
+		$('#cliente-new-rol-node').each(
+			function()
+			{
+				$(this).hide();
+			}
+		);
+		$('#proveedor-new-rol-node').each(
+			function()
+			{
+				$(this).hide();
+			}
+		);
+		$('#tecnico-new-rol-node').each(
+			function()
+			{
+				$(this).hide();
+			}
+		);
+	}
+
+	function hideRegisterToLabel()
+	{
+		$('#register-to-label').each(
+			function()
+			{
+				$(this).hide();
+			}
+		);
 	}
 </script>
 @endpush

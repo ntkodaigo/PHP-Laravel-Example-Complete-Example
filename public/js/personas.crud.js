@@ -48,7 +48,7 @@ $(function(){
 	            //_method: jQuery("input[name=_method]").attr('value')
         	}
         	var id = jQuery("input[name=idpersonanatural]").attr('value');
-			var url = "/clientes/update/pn/" + id;
+			var url = "/pn/" + id + "/update";
 
         	$.post(url, formData, function(response){
 			    if(response.success)
@@ -74,7 +74,7 @@ $(function(){
 	            //_method: jQuery("input[name=_method]").attr('value')
         	}
         	var id = jQuery("input[name=idpersonanatural]").attr('value');
-			var url = "/clientes/update/pn/" + id;
+			var url = "/pn/" + id + "/update";
 
         	$.post(url, formData, function(response){
 			    if(response.success)
@@ -100,7 +100,7 @@ $(function(){
 	            //_method: jQuery("input[name=_method]").attr('value')
         	}
         	var id = jQuery("input[name=idpersonanatural]").attr('value');
-			var url = "/clientes/update/pn/" + id;
+			var url = "/pn/" + id + "/update";
 
         	$.post(url, formData, function(response){
 			    if(response.success)
@@ -152,7 +152,7 @@ $(function(){
 	            //_method: jQuery("input[name=_method]").attr('value')
         	}
         	var id = jQuery("input[name=idpersonanatural]").attr('value');
-			var url = "/personanaturales/" + id + "/update/genero";
+			var url = "/pn/" + id + "/update/genero";
 
         	$.post(url, formData, function(response){
 			    if(response.success)
@@ -172,6 +172,58 @@ $(function(){
    		}
 	});
 
+	/* --- PERSONA JURIDICA --- */
+	jQuery("a[name=razonsocial_edit]").click(function(){
+   		if (!jQuery("input[name=razonsocial]").prop("readonly"))
+   		{
+   			var formData = {
+	            razonsocial: $("#razonsocial").val()
+	            //_method: jQuery("input[name=_method]").attr('value')
+        	}
+        	var id = jQuery("input[name=idpersonajuridica]").attr('value');
+			var url = "/pj/" + id + "/update";
+
+        	$.post(url, formData, function(response){
+			    if(response.success)
+			    {
+			    	jQuery("input[name=razonsocial]").attr("readonly",true);
+			    	jQuery("span[name=razonsocial_edit_glyph]").attr("class",'glyphicon glyphicon-pencil');
+			    }
+			}, 'json');
+   		}
+   		else
+   		{
+   			jQuery("input[name=razonsocial]").attr("readonly",false);
+   			$('#razonsocial').focus();
+			jQuery("span[name=razonsocial_edit_glyph]").attr("class",'glyphicon glyphicon-floppy-disk');
+   		}
+	});
+
+	jQuery("a[name=ruc_edit]").click(function(){
+   		if (!jQuery("input[name=ruc]").prop("readonly"))
+   		{
+   			var formData = {
+	            ruc: $("#ruc").val()
+	            //_method: jQuery("input[name=_method]").attr('value')
+        	}
+        	var id = jQuery("input[name=idpersonajuridica]").attr('value');
+			var url = "/pj/" + id + "/update";
+
+        	$.post(url, formData, function(response){
+			    if(response.success)
+			    {
+			    	jQuery("input[name=ruc]").attr("readonly",true);
+			    	jQuery("span[name=ruc_edit_glyph]").attr("class",'glyphicon glyphicon-pencil');
+			    }
+			}, 'json');
+   		}
+   		else
+   		{
+   			jQuery("input[name=ruc]").attr("readonly",false);
+   			$('#ruc').focus();
+			jQuery("span[name=ruc_edit_glyph]").attr("class",'glyphicon glyphicon-floppy-disk');
+   		}
+	});
 
 	/*$('#birth-date .input-group.date').datepicker({
 		language: "es",
@@ -182,8 +234,8 @@ $(function(){
 	
 });
 
-$('#frmClientePN').on('submit',function(e){
-	jQuery("button[id=save_cliente]").attr("disabled",true);
+$('#frmPersona').on('submit',function(e){
+	jQuery("button[id=save_persona]").attr("disabled",true);
 });
 $('#frmDocumento').on('submit',function(e){
 	jQuery("input[id=regdocumento]").attr("disabled",true);
@@ -232,6 +284,18 @@ $('#fechanacimientocreacion').keypress(function(event){
 $('#idgenero').keypress(function(event){
   if(event.keyCode == 13){
     $('#genero_edit').click();
+  }
+});
+
+$('#razonsocial').keypress(function(event){
+  if(event.keyCode == 13){
+    $('#razonsocial_edit').click();
+  }
+});
+
+$('#ruc').keypress(function(event){
+  if(event.keyCode == 13){
+    $('#ruc_edit').click();
   }
 });
 
@@ -372,7 +436,7 @@ function btnNewDocumento()
 	$('#idtipodocumento option:first').attr('selected', true);
 
 	var id = jQuery("input[name=idpersonanatural]").attr('value');
-	jQuery("form[id=frmDocumento ]").attr('action','/clientes/pn/' + id + '/documentos/add');
+	jQuery("form[id=frmDocumento ]").attr('action','/pn/' + id + '/documentos/add');
 }
 
 function btnUpdateDocumento(idTipoDoc, numDoc)
@@ -383,7 +447,7 @@ function btnUpdateDocumento(idTipoDoc, numDoc)
 	$('#idtipodocumento option[value=' + idTipoDoc + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', true).prop('selected', false);
 
 	var id = jQuery("input[name=idpersonanatural]").attr('value');
-	jQuery("form[id=frmDocumento]").attr('action','/clientes/pn/' + id + '/documentos/update');
+	jQuery("form[id=frmDocumento]").attr('action','/pn/' + id + '/documentos/update');
 }
 
 function btnDeleteDocumento(idTipoDoc)
@@ -392,7 +456,7 @@ function btnDeleteDocumento(idTipoDoc)
 	{
 	    // continue with delete
 		var id = jQuery("input[name=idpersonanatural]").attr('value');
-		var url="/clientes/pn/" + id + "/documentos/delete";
+		var url="/pn/" + id + "/documentos/delete";
 		var formData = {
 	        idtipodocumento: idTipoDoc
 	        //_method: jQuery("input[name=_method]").attr('value')
@@ -444,7 +508,7 @@ function btnNewTelefono()
 	$('#idtipotelefono option:first').prop('selected', true);
 
 	var id = jQuery("input[name=idpersona]").attr('value');
-	jQuery("form[id=frmTelefono]").attr('action','/clientes/' + id + '/telefonos/add');
+	jQuery("form[id=frmTelefono]").attr('action','/p/' + id + '/telefonos/add');
 
 	$('#anexos-table-node').each(
 		function()
@@ -473,7 +537,7 @@ function btnUpdateTelefono(idPerTelf, idTipoTelf, numTelf)
 	$('#idtipotelefono option[value=' + idTipoTelf + ']').prop('selected', true).siblings().prop('selected', false);
 
 	var id = jQuery("input[name=idpersona]").attr('value');
-	jQuery("form[id=frmTelefono]").attr('action','/clientes/' + id + '/telefonos/update');
+	jQuery("form[id=frmTelefono]").attr('action','/p/' + id + '/telefonos/update');
 
 	$('#anexos-table-node').each(
 		function()
@@ -507,7 +571,7 @@ function btnDeleteTelefono(idPerTelf)
 	if (confirm("Tambien borrara los anexos asociados. ¿Está seguro?"))
 	{
 		/*var id = jQuery("input[name=idpersona]").attr('value');*/
-		var url="/clientes/telefonos/"+ idPerTelf +"/delete";
+		var url="/p/telefonos/"+ idPerTelf +"/delete";
 		var formData = {
 	        idpersonatelefono: idPerTelf
 	        //_method: jQuery("input[name=_method]").attr('value')
@@ -555,7 +619,7 @@ function btnNewAnexo()
 	$('#numeroanexotelefono').attr('value', '');
 	
 	var id = jQuery("input[name=idpersonatelefono]").attr('value');
-	jQuery("form[id=frmAnexo]").attr('action','/clientes/telefonos/' + id + '/anexos/add');
+	jQuery("form[id=frmAnexo]").attr('action','/p/telefonos/' + id + '/anexos/add');
 }
 
 function btnUpdateAnexo(idAnex, numAnexTelf)
@@ -568,7 +632,7 @@ function btnUpdateAnexo(idAnex, numAnexTelf)
 	jQuery("input[id=reganexo]").attr("disabled",false);
 
 	var id = jQuery("input[name=idpersonatelefono]").attr('value');
-	jQuery("form[id=frmAnexo]").attr('action','/clientes/telefonos/' + id + '/anexos/update');
+	jQuery("form[id=frmAnexo]").attr('action','/p/telefonos/' + id + '/anexos/update');
 }
 
 function btnDeleteAnexo(idAnex)
@@ -576,20 +640,20 @@ function btnDeleteAnexo(idAnex)
 	if (confirm("¿Está seguro?"))
 	{
 		/*var id = jQuery("input[name=idpersona]").attr('value');*/
-		var url="/clientes/anexotelefonos/"+ idAnex +"/delete";
+		var url="/p/anexotelefonos/"+ idAnex +"/delete";
 		/*var token = jQuery("input[name=_token]").attr('value');*/
 		var formData = {
 	        idanexo: idAnex
 	        //_method: jQuery("input[name=_method]").attr('value')
 		}
 
-		$.ajaxPrefilter(function(options, originalOptions, xhr) { // this will run before each request
+		/*$.ajaxPrefilter(function(options, originalOptions, xhr) { // this will run before each request
 	        var token = $('meta[name="csrf-token"]').attr('content'); // or _token, whichever you are using
 
 	        if (token) {
 	            return xhr.setRequestHeader('X-CSRF-TOKEN', token); // adds directly to the XmlHttpRequest Object
 	        }
-	    });
+	    });*/
 
 	    $.post(url, formData, function(response){
 		    if(response.success)
@@ -650,7 +714,7 @@ function btnNewDireccion()
 	$('#nombredireccionpersona').attr('value', '');
 	
 	var id = jQuery("input[name=idpersona]").attr('value');
-	jQuery("form[id=frmDireccion]").attr('action','/clientes/' + id + '/direcciones/add');
+	jQuery("form[id=frmDireccion]").attr('action','/p/' + id + '/direcciones/add');
 
 	$("#idpais").prop("selectedIndex", -1);
 	        
@@ -672,7 +736,7 @@ function btnUpdateDireccion(idDirec, nomDirPer, idpais, iddepartamento, idprovin
 	$('#nombredireccionpersona').attr('value', nomDirPer);
 
 	var id = jQuery("input[name=idpersona]").attr('value');
-	jQuery("form[id=frmDireccion]").attr('action','/clientes/' + id + '/direcciones/update');
+	jQuery("form[id=frmDireccion]").attr('action','/p/' + id + '/direcciones/update');
 
 	$('#idpais option[value=' + idpais + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', false).prop('selected', false);
 	/*$('#idpais').change();*/
@@ -728,7 +792,7 @@ function btnDeleteDireccion(idDirec)
 {
 	if (confirm("¿Está seguro?"))
 	{
-		var url="/clientes/direcciones/"+ idDirec +"/delete";
+		var url="/p/direcciones/"+ idDirec +"/delete";
 		var formData = {
 	        iddireccionpersona: idDirec
 		}
@@ -772,7 +836,7 @@ function btnNewCorreo()
 	$('#direccioncorreoelectronico').attr('value', '');
 	
 	var id = jQuery("input[name=idpersona]").attr('value');
-	jQuery("form[id=frmCorreo]").attr('action','/clientes/' + id + '/correos/add');
+	jQuery("form[id=frmCorreo]").attr('action','/p/' + id + '/correos/add');
 }
 
 function btnUpdateCorreo(idCorreo, dirCorreo)
@@ -783,14 +847,14 @@ function btnUpdateCorreo(idCorreo, dirCorreo)
 	$('#direccioncorreoelectronico').attr('value', dirCorreo);
 
 	var id = jQuery("input[name=idpersona]").attr('value');
-	jQuery("form[id=frmCorreo]").attr('action','/clientes/' + id + '/correos/update');
+	jQuery("form[id=frmCorreo]").attr('action','/p/' + id + '/correos/update');
 }
 
 function btnDeleteCorreo(idCorreo)
 {
 	if (confirm("¿Está seguro?"))
 	{
-		var url="/clientes/correos/"+ idCorreo +"/delete";
+		var url="/p/correos/"+ idCorreo +"/delete";
 		var formData = {
 	        idcorreoelectronico: idCorreo
 		}
@@ -838,7 +902,7 @@ function btnNewProfesion()
 	$('#idtipoprofesion option:first').prop('selected', true).prop('disabled', false).siblings().prop('disabled', false).prop('selected', false);
 	
 	var id = jQuery("input[name=idpersonanatural]").attr('value');
-	jQuery("form[id=frmProfesion]").attr('action','/clientes/pn/' + id + '/profesiones/add');
+	jQuery("form[id=frmProfesion]").attr('action','/pn/' + id + '/profesiones/add');
 }
 
 function btnUpdateProfesion(idTipoProf)
@@ -848,7 +912,7 @@ function btnUpdateProfesion(idTipoProf)
 	$('#idtipoprofesion option[value=' + idTipoProf + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', true).prop('selected', false);
 
 	var id = jQuery("input[name=idpersonanatural]").attr('value');
-	jQuery("form[id=frmProfesion]").attr('action','/clientes/pn/' + id + '/profesiones/update');
+	jQuery("form[id=frmProfesion]").attr('action','/pn/' + id + '/profesiones/update');
 }
 
 function btnDeleteProfesion(idTipoProf)
@@ -856,7 +920,7 @@ function btnDeleteProfesion(idTipoProf)
 	if (confirm("¿Está seguro?"))
 	{
 		var id = jQuery("input[name=idpersonanatural]").attr('value');
-		var url="/clientes/pn/"+ id +"/profesiones/delete";
+		var url="/pn/"+ id +"/profesiones/delete";
 		var formData = {
 	        idtipoprofesion: idTipoProf
 		}
@@ -986,7 +1050,7 @@ function btnUpdateVehiculo(idVeh, idMar, idMol, anio, numPlaca, descrip)
 	            }).appendTo(modelosSelect);
 	        })
 
-	        $('#idmarca option[value=' + idMol + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', false).prop('selected', false);
+	        $('#idmodelo option[value=' + idMol + ']').prop('selected', true).prop('disabled', false).siblings().prop('disabled', false).prop('selected', false);
 	    }
 	}, 'json');
 	

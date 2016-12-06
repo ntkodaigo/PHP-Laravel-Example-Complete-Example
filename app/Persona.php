@@ -28,9 +28,14 @@ class Persona extends Model
 		return $this->hasOne(Cliente::class, 'idcliente', 'idpersona');
 	}
 
-	public function provedor()
+	public function proveedor()
 	{
 		return $this->hasOne(Proveedor::class, 'idproveedor', 'idpersona');
+	}
+
+	public function tecnico()
+	{
+		return $this->hasOne(Tecnico::class, 'idtecnico', 'idpersona');
 	}
 
 	public function personanatural()
