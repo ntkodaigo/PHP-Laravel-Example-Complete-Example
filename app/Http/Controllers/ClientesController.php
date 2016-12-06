@@ -31,6 +31,18 @@ class ClientesController extends Controller
     	return view('marcas.search', compact('marcas'));
     }*/
 
+    public function clientesMorphData()
+    {
+        return Datatables::of(Cliente::with('persona.personabytype')->get())->addColumn('action', function ($entity) {
+            
+            return '<button data-toggle="modal" data-target="#roles-modal" type="button" onclick="btnAllRoles(\''.$entity->idpersona.'\', \''.$entity->persona_type.'\')" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>Roles</button>';
+               
+            })->make(true);
+    }
+
+
+
+
     public function vehiculosData(Cliente $cliente)
     {
         return Datatables::of($cliente->vehiculosWithPivot())->addColumn('action', function ($entity) {

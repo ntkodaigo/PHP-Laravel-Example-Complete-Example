@@ -1125,3 +1125,9 @@ function btnRevisionsVehiculo(idVeh)
 		revisionesVehiculosTable.page.len(3).draw();
 	}
 }
+
+
+function btnNewFactura()
+{
+
+}

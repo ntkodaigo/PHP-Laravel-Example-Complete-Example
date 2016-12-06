@@ -20,7 +20,7 @@ class facturasController extends Controller
     	$clientes=Cliente::all();
 
     	$init_route=config('constants.init_route');
-    	return view('facturas.crud', compact('facturas','key','articulos','clientes','init_route'));
+    	return view('clientes.factura', compact('facturas','key','articulos','clientes','init_route'));
     }
 
     public function fillNew()
@@ -66,14 +66,14 @@ class facturasController extends Controller
 
     public function data()
     {
-    	return Datatables::of(Factura::all());
+    	/*return Datatables::of(Factura::all());
     	addCollum('action',function ($factura)){
 
-    		return 
-    	}
+    		//return ;
+    	})->make(true);*/
     }
-
+}
 
     
 
-}
+

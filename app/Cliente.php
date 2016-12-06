@@ -40,7 +40,7 @@ class Cliente extends Model
 
 	public function persona()
 	{
-		return $this->hasOne(Cliente::class, 'idpersona', 'idcliente');
+		return $this->hasOne(Persona::class, 'idpersona', 'idcliente');
 	}
 
 	public function exitsVehiculo($v)

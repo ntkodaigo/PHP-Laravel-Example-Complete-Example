@@ -19,6 +19,7 @@
 		@if ($entityName == 'Cliente')
 			@include('clientes/clientevehiculo')
 			@include('clientes/vehiculo')
+			@include('clientes/factura')
 		@endif
 	@endif
 		<!--div class="row"-->
@@ -265,6 +266,13 @@
 					    </table>
 
 					    <div class="alert alert-info" role="alert"><h2 style="color: black;">Facturas pactadas con el Cliente</h2></div>
+
+
+					    <button data-toggle="modal" data-target="#factura-modal" type="button" onclick="btnNewFactura()"><i class="glyphicon glyphicon-book"></i>Nueva Factura</button>
+
+					    
+
+
 				    @elseif ($entityName == 'Proveedor')
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Productos que ofrece el Proveedor</h2></div>
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Compras efectuadas previamente</h2></div>
