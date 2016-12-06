@@ -1029,7 +1029,7 @@ CREATE TABLE `vehiculo` (
   `idmarca` int(10) unsigned NOT NULL,
   `idmodelo` int(10) unsigned NOT NULL,
   `idvehiculo` varchar(8) NOT NULL,
-  `añovehiculo` int(10) unsigned NOT NULL,
+  `aniovehiculo` int(10) unsigned NOT NULL,
   `numeroplacavehivulo` varchar(45) NOT NULL,
   `descripcion` varchar(400) NOT NULL,
   PRIMARY KEY  (`idmarca`,`idmodelo`,`idvehiculo`),

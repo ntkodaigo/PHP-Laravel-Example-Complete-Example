@@ -28,9 +28,14 @@ class Persona extends Model
 		return $this->hasOne(Cliente::class, 'idcliente', 'idpersona');
 	}
 
-	public function provedor()
+	public function proveedor()
 	{
 		return $this->hasOne(Proveedor::class, 'idproveedor', 'idpersona');
+	}
+
+	public function tecnico()
+	{
+		return $this->hasOne(Tecnico::class, 'idtecnico', 'idpersona');
 	}
 
 	public function personanatural()
@@ -42,6 +47,11 @@ class Persona extends Model
 	{
 		return $this-> hasOne(Personajuridica::class,'idpersonajuridica','idpersona');
 	}	
+
+	public function personabytype()
+    {
+        return $this->morphTo('personabytype', 'persona_type', 'idpersona');
+    }
 
 	public function personatelefonos()
 	{
@@ -87,7 +97,18 @@ class Persona extends Model
 		$pt->idtipotelefono = $tt;
 		$pt->numeropersonatelefono = $numeroPerTelf;
 
+		// save temp and delete all anexos
+		$temp = $pt->anexotelefonos;
+		for ($i=0; $i < count($temp); $i++) { 
+			$pt->anexotelefonos[$i]->delete();
+		}
+
 		$this->personatelefonos()->save($pt);
+
+		for ($i=0; $i < count($temp); $i++) { 
+			$temp[$i]->idtipotelefono = $tt;
+			$pt->anexotelefonos()->save($temp[$i]);
+		}
 	}
 
 	public function saveDireccion($nomDirPer, $distrito)
@@ -112,7 +133,7 @@ class Persona extends Model
 		$dp = $this->direccionpersonas()->find($dp);
 		$dp->nombredireccionpersona = $nomDirPer;
 		$distrito = Distrito::find($distrito);
- 		$dp->distrito = $distrito->iddistrito;
+ 		$dp->iddistrito = $distrito->iddistrito;
  		$dp->iddepartamento = $distrito->iddepartamento;
  		$dp->idprovincia = $distrito->idprovincia;
  		$dp->idpais = $distrito->idpais;

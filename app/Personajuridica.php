@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Personajuridica extends Model
 {
+	public static $entityName = "Persona Jurídica";
+
     protected $table ='personajuridica';
 	protected $primaryKey = 'idpersonajuridica'; 	
 	protected $fillable = ['razonsocial', 'ruc'];
@@ -15,6 +17,11 @@ class Personajuridica extends Model
 	public function persona()
 	{
 		return $this->hasOne(Persona::class, 'idpersona', 'idpersonajuridica');
+	}
+
+	public function mypersona()
+	{
+		return $this->morphOne(Persona::class, 'personabytype', 'persona_type', 'idpersona', 'idpersonajuridica');
 	}
 
 	public function impuestofechas()

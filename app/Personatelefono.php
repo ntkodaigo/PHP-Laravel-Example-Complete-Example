@@ -27,6 +27,15 @@ class Personatelefono extends Model
 		return $this->belongsToMany(Persona::class, 'idpersona','idpersona');
 	}
 
+	public function deleteWithAnexos()
+	{
+		foreach ($this->anexotelefonos as $anexo) {
+			$anexo->delete();
+		}
+
+		$this->delete();
+	}
+
 	public function saveAnexoTelefono($numeroAnexTelf)
 	{
 		$newAnexo = new Anexotelefono;

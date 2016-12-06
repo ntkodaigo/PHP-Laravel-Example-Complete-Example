@@ -17,10 +17,18 @@
             @endif>
         </div>
 
-        <div class="form-group">Fecha de compra
-            <input type="text" name="fechacompra" class="form-control"
+        <div class="form-group"> ID Proveedor
+            <input type="text" id="proveedor-id" name="idproveedor" class="form-control" placeholder="Escoja una Proveedor" disabled="true" 
             @if ($key=='u')
-            value="{{ $compra->fechacompra }}"
+            value="{{ $compra->idproveedor }}"
+            @endif>
+        </div>
+
+        <div class="form-group">Fecha de compra
+            <input type="date" name="fechacompra" class="form-control"
+            @if ($key=='u')
+            value="{{ $compra->fechacompra }}" @else 
+            value="{{ date('Y-m-d') }}"
             @endif>
         </div>
 
@@ -44,15 +52,31 @@
         {{ csrf_field() }}
 
     </form>
-
+    <div class="col-xs-12"> Productos</div>
     <div class="panel-body">
-    <table class="table table-hover" id="table-compra">
+    <table class="table table-hover" id="table-producto">
                   <thead class="thead-inverse">
                       <tr>
                           <th>Codigo Producto</th>
                           <th>Nombre Producto</th>
                           <th>Marca</th>
                           <th>Modelo</th>
+                          <th>Acciones</th>
+                      </tr>
+                  </thead>
+              </table>
+  </div>
+
+  <div class="">Proveedores</div>
+    <div class="panel-body">
+    <table class="table table-hover" id="table-proveedor">
+                  <thead class="thead-inverse">
+                      <tr>
+                          <th>Nombres</th>
+                          <th>A. Paterno</th>
+                          <th>A. Materno</th>
+                          <th>Razon Social</th>
+                          <th>Ruc</th>
                           <th>Acciones</th>
                       </tr>
                   </thead>
@@ -78,13 +102,37 @@
     }
   });
 
-  var table;
+  // datatables default
+  $.extend( true, $.fn.dataTable.defaults, {
+      processing: true,
+      serverSide: true,
+      pageLength: 10,
+      lengthMenu: [3, 6, 10, 15, 20, 50, 75, 100],
+      language: {
+              lengthMenu: "Mostrando _MENU_ registros por pagina",
+              zeroRecords: "Nada encontrado - lo siento",
+              info: "Mostrando página _PAGE_ de _PAGES_",
+              infoEmpty: "Ningún registro disponible",
+              emptyTable: "No hay datos en la tabla",
+              infoFiltered: "(encontrados de _MAX_ registros totales)",
+              search: "<i class='glyphicon glyphicon-search'></i>",
+              paginate: {
+                  previous: "Ant",
+                  next: "Sig",
+                  last: "Último",
+                  first: "Primero",
+                  page: "Página",
+                  pageOf: "de"
+            }
+          }
+  } );
+
+  var table_prod;
+  var table_prov;
 
   $(function() {
 
-    table = $('#table-compra').DataTable({
-            processing: true,
-            serverSide: true,
+    table_prod = $('#table-producto').DataTable({
             ajax:'{{URL::asset('/productos/dataCompras')}}',
             columns: [
                 { data: 'codigoproducto', name: 'codigoproducto' },
@@ -92,24 +140,19 @@
                 { data: 'marcaproducto', name: 'marcaproducto' },
                 { data: 'modeloproducto', name: 'modeloproducto' },
                 { data: 'action', name: 'action', orderable: false, searchable: false}
-            ],
-            language: {
-                lengthMenu: "Mostrando _MENU_ registros por pagina",
-                zeroRecords: "Nada encontrado - lo siento",
-                info: "Mostrando página _PAGE_ de _PAGES_",
-                infoEmpty: "Ningún registro disponible",
-                emptyTable: "No hay datos en la tabla",
-                infoFiltered: "(encontrados de _MAX_ registros totales)",
-                search: "<i class='glyphicon glyphicon-search'></i>",
-                  paginate: {
-                      previous: "Ant",
-                      next: "Sig",
-                      last: "Último",
-                      first: "Primero",
-                      page: "Página",
-                      pageOf: "de"
-              }
-            }
+            ]  
+        });
+
+    table_prov = $('#table-proveedor').DataTable({
+            ajax:'{{URL::asset('/proveedoresData')}}',
+            columns: [
+                { data: 'persona.personabytype.nombres', name: 'persona.personabytype.nombres', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.apellido_paterno', name: 'persona.personabytype.apellido_paterno', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.apellido_materno', name: 'persona.personabytype.apellido_materno', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.razonsocial', name: 'persona.personabytype.razonsocial', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.ruc', name: 'persona.personabytype.ruc', defaultContent: '<i>No tiene</i>'},
+                { data: 'action', name: 'action', orderable: false, searchable: false}
+            ] 
         });
 
     });
@@ -117,6 +160,11 @@
   function AgregarProducto(producto)
 {
   document.getElementById('product-id').value = producto;
+}
+
+function AgregarProveedor(persona)
+{
+  document.getElementById('proveedor-id').value = persona;
 }
 </script>
 @endpush

@@ -75,4 +75,9 @@ class marcaController extends Controller
 		return back();
 	}
 
+	public function getModelos(Marca $marca)
+	{
+		$modelos = $marca->modelos;
+		return response()->json(['success' => true, 'modelos' => $modelos]);
+	}
 }
