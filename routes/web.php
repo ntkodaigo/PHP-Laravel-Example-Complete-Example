@@ -319,3 +319,6 @@ Route::get('/clientes/show/pn/{personanatural}', 'ClientesController@showPN');
 Route::get('/clientes/edit/pn/{personanatural}', 'ClientesController@edit');
 Route::post('/clientes/update/pn/{personanatural}', 'ClientesController@updatePN');
 Route::post('/clientes/{cliente}/delete', 'ClientesController@deletePN');
+
+//factura
+Route::get('/facturas/add','facturasController@index');
