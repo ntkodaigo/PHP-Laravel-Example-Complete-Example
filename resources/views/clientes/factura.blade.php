@@ -1,4 +1,4 @@
-<!-- Modal -->
+  <!-- Modal -->
   <div class="modal fade" id="factura-modal" role="dialog"  >
     <div class="modal-dialog">
       <!-- Modal content-->
@@ -13,25 +13,60 @@
 
           <div class="modal-body">
 
-
-           <div tclass="col-sm-4" id="tecnico-new-rol-node">            
-              <button type="button" class="form-control btn btn-default">Seleccionar Producto</button>
-          </div>
-
-           <div class="col-sm-4" id="tecnico-new-rol-node">            
-              <button type="button" class="form-control btn btn-default">Seleccionar Servicio</button>
-          </div>
-
-
             <div class="form-group">
-              <label for="fechaemision" class="col-sm-3 control-label">Fecha de Emisión</label>
-              <div class="col-sm-9">
-                <input type="date" class="form-control" id="fechaemision" name="fechaemision">
+              <div class="col-sm-4">
+                <button type="button" onclick="" class="form-control btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Producto</button>
+              </div>
+              <div class="col-sm-4">
+                <button type="button" onclick="" class="form-control btn btn-default" id="btnselectservicio" name="btnselectservicio">Sekeccionar Servicio</button>
               </div>
             </div>
 
+            <div class="form-group">
+              <label for="numeroplacavehivulo" class="col-sm-3 control-label">Numero de placa</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="numeroplacavehivulo" name="numeroplacavehivulo">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="idmarca" class="col-sm-3 control-label">Marca</label>
+              <div class="col-sm-9">
+                <select id="idmarca" name="idmarca" class="form-control dropdown-toggle">
+                    @foreach ($marcas as $marca)
+                      <option value="{{ $marca -> idmarca }}">
+                        {{ ucfirst($marca-> nombremarca) }}
+                      </option>
+                    @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="idmodelo" class="col-sm-3 control-label">Modelo</label>
+              <div class="col-sm-9">
+                <select id="idmodelo" name="idmodelo" class="form-control dropdown-toggle">
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="aniovehiculo" class="col-sm-3 control-label">Año</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="aniovehiculo" name="aniovehiculo">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="descripcion" class="col-sm-3 control-label">Descripcion</label>
+              <div class="col-sm-9">
+                <textarea class="form-control" rows="4" id="descripcion" name="descripcion"></textarea>
+              </div>
+            </div>
+          </div>
+
           <div class="modal-footer">
-            <input type="submit" id="ragfactura" class="btn btn-primary" value="Guardar">
+            <input type="submit" id="regvehiculo" class="btn btn-primary" value="Guardar">
             
             <button id="closebutton" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
           </div>

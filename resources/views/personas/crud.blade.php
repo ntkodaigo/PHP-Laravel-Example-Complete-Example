@@ -15,7 +15,7 @@
 		@include('personas/anexo')
 		@include('personas/direccion')
 		@include('personas/correo')
-		
+
 		@if ($entityName == 'Cliente')
 			@include('clientes/clientevehiculo')
 			@include('clientes/vehiculo')
