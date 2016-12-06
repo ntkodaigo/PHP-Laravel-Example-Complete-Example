@@ -94,6 +94,14 @@ class ProveedoresController extends Controller
         //return response()->json(['success' => true, 'data' => $newCliente]);
     }
 
+    public function storeFromPN(Personanatural $personanatural)
+    {
+        $proveedor =  new Proveedor;
+        $personanatural->persona->proveedor()->save($proveedor);
+
+        return redirect('proveedores/show/pn/'.$personanatural->idpersonanatural);
+    }
+
     public function fillNewPJ()
     {
         $init_route = config('constants.init_route');
@@ -148,5 +156,13 @@ class ProveedoresController extends Controller
         $newPersona->nacimientocreacion()->save($fechaNacCrea);
 
         return redirect('proveedores/show/pj/'.$newPerJuridica->idpersonajuridica);
+    }
+
+    public function storeFromPJ(Personajuridica $personajuridica)
+    {
+        $proveedor =  new Proveedor;
+        $personajuridica->persona->proveedor()->save($proveedor);
+
+        return redirect('proveedores/show/pj/'.$personajuridica->idpersonajuridica);
     }
 }

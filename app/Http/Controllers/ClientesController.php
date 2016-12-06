@@ -136,6 +136,14 @@ class ClientesController extends Controller
         //return response()->json(['success' => true, 'data' => $newCliente]);
     }
 
+    public function storeFromPN(Personanatural $personanatural)
+    {
+        $cliente =  new Cliente;
+        $personanatural->persona->cliente()->save($cliente);
+
+        return redirect('clientes/show/pn/'.$personanatural->idpersonanatural);
+    }
+
     public function fillNewPJ()
     {
         $init_route = config('constants.init_route');
@@ -191,6 +199,14 @@ class ClientesController extends Controller
         $newPersona->nacimientocreacion()->save($fechaNacCrea);
 
         return redirect('clientes/show/pj/'.$newPerJuridica->idpersonajuridica);
+    }
+
+    public function storeFromPJ(Personajuridica $personajuridica)
+    {
+        $cliente =  new Cliente;
+        $personajuridica->persona->cliente()->save($cliente);
+
+        return redirect('clientes/show/pj/'.$personajuridica->idpersonajuridica);
     }
 
     /*public function delete(Marca $marca)

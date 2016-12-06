@@ -7,7 +7,7 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Esta persona esta registrado como:</h4>
         </div>
-        <form class="form-horizontal" role="form" id="frmRoles">
+        <div class="form-horizontal" id="frmRoles">
 
           <div class="modal-body">
             <div class="form-group">
@@ -57,7 +57,7 @@
             <button id="closebutton" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
           </div>
 
-        </form>
+        </div>
              
       </div>
     </div>

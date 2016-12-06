@@ -335,26 +335,26 @@ Route::post('/clientes/{cliente}/vehiculos/delete', 'ClientesController@deleteVe
 // --- Clientes - Persona Natural ---
 Route::get('/clientes/new/pn', 'ClientesController@fillNewPN');
 Route::post('/clientes/add/pn', 'ClientesController@storePN');
-Route::post('/clientes/addfrom/{persona}/pn', 'ClientesController@storeFromPN');
+Route::post('/clientes/addfrom/{personanatural}/pn', 'ClientesController@storeFromPN');
 Route::get('/clientes/show/pn/{personanatural}', 'ClientesController@showPN');
 //Route::get('/clientes/edit/pn/{personanatural}', 'ClientesController@edit');
 //Route::post('/clientes/{cliente}/delete', 'ClientesController@deletePN');
 // --- Clientes - Persona Juridica ---
 Route::get('/clientes/new/pj', 'ClientesController@fillNewPJ');
 Route::post('/clientes/add/pj', 'ClientesController@storePJ');
-Route::post('/clientes/addfrom/{persona}/pj', 'ClientesController@storeFromPJ');
+Route::post('/clientes/addfrom/{personajuridica}/pj', 'ClientesController@storeFromPJ');
 Route::get('/clientes/show/pj/{personajuridica}', 'ClientesController@showPJ');
 // --- PROVEEDORES ---
 Route::get('/proveedoresData', 'ProveedoresController@proveedoresMorphData');
 // --- Proveedores - Persona Natural ---
 Route::get('/proveedores/new/pn', 'ProveedoresController@fillNewPN');
 Route::post('/proveedores/add/pn', 'ProveedoresController@storePN');
-Route::post('/proveedores/addfrom/{persona}/pn', 'ProveedoresController@storeFromPN');
+Route::post('/proveedores/addfrom/{personanatural}/pn', 'ProveedoresController@storeFromPN');
 Route::get('/proveedores/show/pn/{personanatural}', 'ProveedoresController@showPN');
 // --- Proveedores - Persona Juridica ---
 Route::get('/proveedores/new/pj', 'ProveedoresController@fillNewPJ');
 Route::post('/proveedores/add/pj', 'ProveedoresController@storePJ');
-Route::post('/proveedores/addfrom/{persona}/pj', 'ProveedoresController@storeFromPJ');
+Route::post('/proveedores/addfrom/{personajuridica}/pj', 'ProveedoresController@storeFromPJ');
 Route::get('/proveedores/show/pj/{personajuridica}', 'ProveedoresController@showPJ');
 // --- TECNICOS ---
 Route::get('/tecnicos/new', 'TecnicosController@fillNew');

@@ -169,7 +169,9 @@
 	             		}
 
 	             		if (response.rollayer == 7)
-	             			hideRegisterToLabel();
+	             			showRegisterToLabel(false);
+	             		else
+	             			showRegisterToLabel(true);
 	             		break;
              		case "AppPersonajuridica":
              			// Clientes layer is 1
@@ -220,7 +222,9 @@
 	             		}
 
 	             		if (response.rollayer == 3)
-	             			hideRegisterToLabel();
+	             			showRegisterToLabel(false);
+	             		else
+	             			showRegisterToLabel(true);
              			break;
 	             }
 		    }
@@ -272,12 +276,15 @@
 		);
 	}
 
-	function hideRegisterToLabel()
+	function showRegisterToLabel(show)
 	{
 		$('#register-to-label').each(
 			function()
 			{
-				$(this).hide();
+				if (!show)
+					$(this).hide();
+				else
+					$(this).show();
 			}
 		);
 	}

@@ -83,4 +83,12 @@ class TecnicosController extends Controller
 		//return redirect()->route('clientes/show/pn', ['personanatural' => $newPerNatural->idpersonanatural]);
         //return response()->json(['success' => true, 'data' => $newCliente]);
     }
+
+    public function storeFrom(Personanatural $personanatural)
+    {
+        $tecnico =  new Tecnico;
+        $personanatural->persona->tecnico()->save($tecnico);
+
+        return redirect('tecnicos/show/'.$personanatural->idpersonanatural);
+    }
 }
