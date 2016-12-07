@@ -11,34 +11,43 @@
 
           <input type="hidden" name="idfactura" value="">
 
+          <input type="hidden" name="idarticulo" value="">
+
+         
+
           <div class="modal-body">
 
             <div class="form-group">
-              <div class="col-sm-4">
-                <button type="button" onclick="" class="form-control btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Producto</button>
+              <div class="col-sm-6">
+                <button type="button" data-toggle="modal" data-target="#select-productos-modal" onclick="btnShowProductos()" class="form-control btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Producto</button>
               </div>
-              <div class="col-sm-4">
-                <button type="button" onclick="" class="form-control btn btn-default" id="btnselectservicio" name="btnselectservicio">Sekeccionar Servicio</button>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="numeroplacavehivulo" class="col-sm-3 control-label">Numero de placa</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="numeroplacavehivulo" name="numeroplacavehivulo">
+              <div class="col-sm-6">
+                <button type="button" data-toggle="modal" data-target="#select-servicio-modal"  onclick="" class="form-control btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Servicio</button>
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="idmarca" class="col-sm-3 control-label">Marca</label>
+             <div class="form-group">
+              <label for="nombreproducto" class="col-sm-3 control-label">Producto</label>
               <div class="col-sm-9">
-                <select id="idmarca" name="idmarca" class="form-control dropdown-toggle">
-                    @foreach ($marcas as $marca)
-                      <option value="{{ $marca -> idmarca }}">
-                        {{ ucfirst($marca-> nombremarca) }}
-                      </option>
-                    @endforeach
-                </select>
+                <input type="text" class="form-control" id="nombreproducto" value="" placeholder="Seleccione un Producto" readonly>
+              </div>
+          </div>
+
+
+
+
+            <div class="form-group">
+              <label for="fechaemision" class="col-sm-3 control-label">Fecha de Emisión</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control" id="fechaemision" name="fechaemision">
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label for="fechaemision" class="col-sm-3 control-label">Fecha de Emisión</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control" id="fechaemision" name="fechaemision">
               </div>
             </div>
 

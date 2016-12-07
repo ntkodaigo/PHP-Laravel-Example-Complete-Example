@@ -213,6 +213,7 @@ Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'suger
 
 
 // Productos
+Route::get('/productosData/select','ProductosController@productosDataToSelect');
 //insertar Producto
 Route::get('/productos','ProductosController@index');
 Route::get('/productos/new','ProductosController@fillNew');
