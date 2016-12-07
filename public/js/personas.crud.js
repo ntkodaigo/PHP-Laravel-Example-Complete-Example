@@ -9,6 +9,8 @@ var vehiculosTable;
 var clivehRevisionesTable;
 var tecnicosTable;
 var serviciosTable;
+var comprasTable;
+var proveedorProductosTable;
 
 // datatables default
 $.extend( true, $.fn.dataTable.defaults, {

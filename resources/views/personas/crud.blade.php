@@ -279,7 +279,34 @@
 
 				    @elseif ($entityName == 'Proveedor')
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Productos que ofrece el Proveedor</h2></div>
+				    	<button data-toggle="modal" data-target="#factura-modal" type="button" onclick=""><i class="glyphicon glyphicon-book"></i>Asignar Productos</button>
+				    	<br><br>
+				    	<table class="table table-hover" id="productos-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					            	  <th>Codigo Producto</th>
+			                          <th>Nombre Producto</th>
+			                          <th>Marca</th>
+			                          <th>Modelo</th>
+			                          <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Compras efectuadas previamente</h2></div>
+
+				    	<table class="table table-hover" id="table-compra">
+			                <thead class="thead-inverse">
+			                    <tr>
+			                          <th>Codigo Producto</th>
+			                          <th>Nombre Producto</th>
+			                          <th>Fecha de Compra</th>
+			                          <th>Cantidad de Compra</th>
+			                          <th>Precio de Compra</th>
+			                          <th>Acciones</th>
+			                    </tr>
+			                </thead>
+			            </table>
+
 			    	@elseif ($entityName == 'Técnico')
 			    		<div class="alert alert-info" role="alert"><h2 style="color: black;">Revisiones pactadas por el Técnico</h2></div>
 				    @endif
@@ -506,6 +533,41 @@
 		        });
 
 		        vehiculosTable.page.len(3).draw();
+		    @elseif ($entityName == 'Proveedor')
+		     var ajaxString;
+		     var idproveedor = '{{ $personanatural->persona->proveedor->idproveedor }}';
+			    @if ($personaTypeName == 'Persona Natural')
+			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
+			        @elseif ($personaTypeName == 'Persona Jurídica')
+			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
+		        @endif
+		        proveedorProductosTable = $('#productos-table').DataTable({
+		          ajax:ajaxString,
+		          columns: [
+		              { data: 'codigoproducto', name: 'codigoproducto' },
+		              { data: 'nombreproducto', name: 'nombreproducto' },
+		              { data: 'marcaproducto', name: 'marcaproducto' },
+		              { data: 'modeloproducto', name: 'modeloproducto' },
+		              { data: 'action', name: 'action', orderable: false, searchable: false}
+		          ]
+		        });
+
+		        @if ($personaTypeName == 'Persona Natural')
+			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
+			        @elseif ($personaTypeName == 'Persona Jurídica')
+			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
+		        @endif
+		        comprasTable = $('#table-compra').DataTable({
+		          ajax:ajaxString,
+		          columns: [
+		              { data: 'codigoproducto', name: 'codigoproducto' },
+		              { data: 'nombreproducto', name: 'nombreproducto' },
+		              { data: 'fechacompra ', name: 'fechacompra ' },
+		              { data: 'cantidadcompra ', name: 'cantidadcompra ' },
+		              { data: 'preciocompra ', name: 'preciocompra ' },
+		              { data: 'action', name: 'action', orderable: false, searchable: false}
+		          ]
+		        });
 	        @endif
 	    @endif
 
