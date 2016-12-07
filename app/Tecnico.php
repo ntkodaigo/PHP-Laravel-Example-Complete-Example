@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tecnico extends Model
 {
+	public static $entityName = 'Técnico';
+
    	protected $table ='tecnico';
 	protected $primaryKey = 'idtecnico'; 	
-	public $incrementing = false
+	public $incrementing = false;
 	public $timestamps = false;
-
 
     public function personanatural()
 	{
-		return $this -> hasOne(Personanatural::class,'idpersonatural','idtecnico');
-
+		return $this -> hasOne(Personanatural::class,'idpersonanatural','idtecnico');
 	}
 
 	public function revisions()
@@ -23,8 +23,8 @@ class Tecnico extends Model
 		return $this -> hasMany(Revision::class,'idtecnico','idtecnico');
 	}
 
-	public function revisions()
+	public function persona()
 	{
-		return $this -> hasMany(Revision::class,'idtecnico','idtecnico');
+		return $this->hasOne(Persona::class, 'idpersona', 'idtecnico');
 	}
 }

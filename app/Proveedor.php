@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Proveedor extends Model
 {
+	public static $entityName = 'Proveedor';
+
     protected $table ='proveedor';
 	protected $primaryKey = 'idproveedor'; 	
 	protected $fillable = ['idproveedor'];

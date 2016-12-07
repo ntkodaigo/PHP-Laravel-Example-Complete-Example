@@ -20,7 +20,7 @@ class Cliente extends Model
 
 	public function revisionsOfVehiculo($idvehiculo)
 	{
-		return $this->revisions()->where('idvehiculo', $idvehiculo)->get();
+		return $this->revisions()->where('idvehiculo', $idvehiculo);
 	}
 
 	public function vehiculos()
@@ -40,7 +40,7 @@ class Cliente extends Model
 
 	public function persona()
 	{
-		return $this->hasOne(Cliente::class, 'idpersona', 'idcliente');
+		return $this->hasOne(Persona::class, 'idpersona', 'idcliente');
 	}
 
 	public function exitsVehiculo($v)

@@ -146,11 +146,11 @@
     table_prov = $('#table-proveedor').DataTable({
             ajax:'{{URL::asset('/proveedoresData')}}',
             columns: [
-                { data: 'persona.personabytype.nombres', name: 'persona.personabytype.nombres', defaultContent: '<i>No tiene</i>'},
-                { data: 'persona.personabytype.apellido_paterno', name: 'persona.personabytype.apellido_paterno', defaultContent: '<i>No tiene</i>'},
-                { data: 'persona.personabytype.apellido_materno', name: 'persona.personabytype.apellido_materno', defaultContent: '<i>No tiene</i>'},
-                { data: 'persona.personabytype.razonsocial', name: 'persona.personabytype.razonsocial', defaultContent: '<i>No tiene</i>'},
-                { data: 'persona.personabytype.ruc', name: 'persona.personabytype.ruc', defaultContent: '<i>No tiene</i>'},
+                { data: 'persona.personabytype.nombres', name: 'persona.personabytype.nombres', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+                { data: 'persona.personabytype.apellido_paterno', name: 'persona.personabytype.apellido_paterno', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+                { data: 'persona.personabytype.apellido_materno', name: 'persona.personabytype.apellido_materno', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+                { data: 'persona.personabytype.razonsocial', name: 'persona.personabytype.razonsocial', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+                { data: 'persona.personabytype.ruc', name: 'persona.personabytype.ruc', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
                 { data: 'action', name: 'action', orderable: false, searchable: false}
             ] 
         });

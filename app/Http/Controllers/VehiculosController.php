@@ -34,6 +34,7 @@ class VehiculosController extends Controller
     {
     	$last = Vehiculo::orderBy('idvehiculo', 'desc')->first();
     	$newId = ($last == null) ? 1 : $last->idvehiculo + 1;
+        $newId = str_pad($newId, 8, "0", STR_PAD_LEFT);
 
     	$vehiculo = new Vehiculo($request->all());
     	$vehiculo->idvehiculo = $newId;
@@ -46,6 +47,7 @@ class VehiculosController extends Controller
     {
     	$last = Vehiculo::orderBy('idvehiculo', 'desc')->first();
     	$newId = ($last == null) ? 1 : $last->idvehiculo + 1;
+        $newId = str_pad($newId, 8, "0", STR_PAD_LEFT);
 
     	$vehiculo = new Vehiculo($request->all());
     	$vehiculo->idvehiculo = $newId;

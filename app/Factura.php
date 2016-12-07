@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Articulo;
 
 class Factura extends Model
 {
@@ -14,11 +15,11 @@ class Factura extends Model
 
 	public function articulos()
 	{
-		return $this->hasMany(Asticulo::class, 'idarticulo', 'idarticulo');
+		return $this->hasMany(Articulo::class, 'idarticulo', 'idarticulo');
 	}
 
 	public function cliente()
 	{
-		return $this->belongsTo(Asticulo::class, 'idcliente');
+		return $this->belongsTo(Articulo::class, 'idcliente');
 	}
 }

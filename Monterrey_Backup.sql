@@ -518,6 +518,7 @@ INSERT INTO `pais` (`idpais`,`nombrepais`) VALUES
 DROP TABLE IF EXISTS `persona`;
 CREATE TABLE `persona` (
   `idpersona` varchar(8) NOT NULL,
+  `persona_type` varchar(100) NOT NULL,
   PRIMARY KEY  (`idpersona`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

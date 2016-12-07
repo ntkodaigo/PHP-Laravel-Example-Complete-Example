@@ -32,8 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-        <!-- Bootstrap -->
-        
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/fonts.css') }}">
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datepicker3.min.css') }}">
@@ -267,9 +266,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/clientes/new/pn"><i class="fa fa-circle-o"></i>Lista de clientes</a></li>
-            <li><a href="/clientes/new/pn"><i class="fa fa-circle-o"></i>Nueva Persona Natural</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Nueva Persona Juridica</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i>Lista de clientes</a></li>
+            <li>
+              <a href="#"><i class="fa fa-circle-o"></i> Nuevo Cliente
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/clientes/new/pn"><i class="fa fa-circle-o"></i> Persona Natural</a></li>
+                <li><a href="/clientes/new/pj"><i class="fa fa-circle-o"></i> Persona Jurídica</a></li>
+              </ul>
+            </li>
+            <li><a href="#"><i class="fa fa-circle-o"></i>Facturas</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i>Vehículos por Cliente</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -279,27 +289,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i>Lista de Proveedores</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Persona Natural</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i>Persona Juridica</a></li>
+            <li><a href=""><i class="fa fa-circle-o"></i>Lista de Proveedores</a></li>
+            <li>
+              <a href="#"><i class="fa fa-circle-o"></i> Nuevo Proveedor
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/proveedores/new/pn"><i class="fa fa-circle-o"></i> Persona Natural</a></li>
+                <li><a href="/proveedores/new/pj"><i class="fa fa-circle-o"></i> Persona Jurídica</a></li>
+              </ul>
+            </li>
             <li><a href="/compras"><i class="fa fa-circle-o"></i>Compras</a></li>
+            <li><a href="/compras"><i class="fa fa-circle-o"></i>Productos por Proveedor</a></li>
           </ul>
         </li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-user"></i> <span>Tecnicos</span>
+          <a href="#"><i class="fa fa-user"></i> <span>Técnicos</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i>Lista Tecnicos</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i>Lista de Técnicos</a></li>
+            <li><a href="/tecnicos/new"><i class="fa fa-circle-o"></i>Nuevo Técnico</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i>Revisiones</a></li>
           </ul>
         </li>
       </ul>
 
       <ul class="sidebar-menu">
-          <li class="header">Articulos</li>
+          <li class="header">Artículos</li>
             <li class="treeview">
               <a href="#"><i class="fa fa-shopping-cart"></i> <span>Productos</span>
                 <span class="pull-right-container">
@@ -307,9 +328,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </span>
               </a>
               <ul class="treeview-menu">
-              <li><a href="/productos"><i class="fa fa-circle-o"></i>Lista Productos</a></li>
-                <li><a href="/categoriaproductos"><i class="fa fa-circle-o"></i>Categoria</a></li>
-                <li><a href="/subcategoriaproductos"><i class="fa fa-circle-o"></i>Subcategoria</a></li>
+              <li><a href="/productos"><i class="fa fa-circle-o"></i>Lista de Productos</a></li>
+                <li><a href="/categoriaproductos"><i class="fa fa-circle-o"></i>Categorias</a></li>
+                <li><a href="/subcategoriaproductos"><i class="fa fa-circle-o"></i>Subcategorias</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -320,20 +341,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="treeview-menu">
               <li><a href="/servicios"><i class="fa fa-circle-o"></i>Lista Servicios</a></li>
-                <li><a href="categoriaservicios"><i class="fa fa-circle-o"></i>Categoria</a></li>
-                <li><a href="subcategoriaservicios"><i class="fa fa-circle-o"></i>Subcategoria</a></li>
+                <li><a href="categoriaservicios"><i class="fa fa-circle-o"></i>Categorias</a></li>
+                <li><a href="subcategoriaservicios"><i class="fa fa-circle-o"></i>Subcategorias</a></li>
               </ul>
             </li>
             <li class="treeview">
-              <a href="#"><i class="fa fa-car"></i> <span>Vehiculos</span>
+              <a href="#"><i class="fa fa-car"></i> <span>Vehículos</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
               <ul class="treeview-menu">
-              <li><a href="#"><i class="fa fa-circle-o"></i>Lista Vehiculos</a></li>
-                <li><a href="/modelos"><i class="fa fa-circle-o"></i>Modelo</a></li>
-                <li><a href="/marcas"><i class="fa fa-circle-o"></i>Marca</a></li>
+              <li><a href="#"><i class="fa fa-circle-o"></i>Lista Vehículos</a></li>
+                <li><a href="/marcas"><i class="fa fa-circle-o"></i>Marcas</a></li>
+                <li><a href="/modelos"><i class="fa fa-circle-o"></i>Modelos</a></li>
               </ul>
             </li>
             <li><a href="/almacenes"><i class="fa fa-institution"></i> <span>Almacen</span></a></li>
@@ -341,10 +362,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <ul class="sidebar-menu">
           <li class="header">General</li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> <span>Profesiones</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> <span>Tipo Documentos</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> <span> Tipo Telefono</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> <span>Tipo Impuesto</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> <span>Tipos de Profesión</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> <span>Tipos de Documento</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> <span> Tipos de Teléfono</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> <span>Tipos de Impuesto</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
