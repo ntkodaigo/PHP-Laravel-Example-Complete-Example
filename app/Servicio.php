@@ -21,6 +21,11 @@ class Servicio extends Model
 		return $this->belongsTo(Subcategoriaservicio::class, 'idsubcategoriaservicio');
 	}
 
+	public function categoriaservicio()
+	{
+		return $this->belongsTo(Categoriaservicio::class, 'idcategoriaservicio');
+	}
+
 	public function articulo()
 	{
 		return $this->hasOne(Articulo::class, 'idarticulo','idservicio');

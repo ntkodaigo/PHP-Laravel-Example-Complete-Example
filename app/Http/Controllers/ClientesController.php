@@ -49,7 +49,7 @@ class ClientesController extends Controller
             
             return '<button type="button" onclick="btnUpdateVehiculo('.$entity->idvehiculo.','.$entity->idmarca.','.$entity->idmodelo.',\''.$entity->aniovehiculo.'\',\''.$entity->numeroplacavehivulo.'\',\''.$entity->descripcion.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#vehiculo-modal"><i class="glyphicon glyphicon-edit"></i>Ver / Editar</button>
 
-                <button type="button" onclick="btnRevisionsVehiculo('.$entity->idvehiculo.')" class="btn btn-edit"><i class="glyphicon glyphicon-trash"></i>Revisiones</button>
+                <button type="button" onclick="btnRevisionesVehiculo('.$entity->idvehiculo.',\''.$entity->numeroplacavehivulo.'\')" class="btn btn-edit" data-toggle="modal" data-target="#clivehrevision-modal"><i class="glyphicon glyphicon-trash"></i>Revisiones</button>
 
                 <button type="button" onclick="btnDeleteClienteVehiculo('.$entity->idvehiculo.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
                

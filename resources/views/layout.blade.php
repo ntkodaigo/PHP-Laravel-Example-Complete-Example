@@ -32,8 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-        <!-- Bootstrap -->
-        
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/fonts.css') }}">
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datepicker3.min.css') }}">

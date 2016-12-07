@@ -15,7 +15,7 @@ class Tecnico extends Model
 
     public function personanatural()
 	{
-		return $this -> hasOne(Personanatural::class,'idpersonatural','idtecnico');
+		return $this -> hasOne(Personanatural::class,'idpersonanatural','idtecnico');
 	}
 
 	public function revisions()

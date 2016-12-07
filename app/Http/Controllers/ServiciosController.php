@@ -12,6 +12,15 @@ use App\Http\Requests;
 
 class ServiciosController extends Controller
 {
+	public function serviciosDataToSelect()
+    {
+        return Datatables::of(Servicio::with('categoriaservicio', 'subcategoriaservicio')->get())->addColumn('action', function ($entity) {
+            
+            return '<button type="button" onclick="btnSelectServicio('.$entity->idservicio.',\''.$entity->nombreservicio.'\')" class="btn btn-success btn-edit"><i class="glyphicon glyphicon-edit"></i>Seleccionar</button>';
+               
+            })->make(true);
+    }
+
     public function index()
 	{
 		$servicios=Servicio::all();

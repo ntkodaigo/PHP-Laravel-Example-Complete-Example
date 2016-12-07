@@ -18,7 +18,11 @@
 
 		@if ($entityName == 'Cliente')
 			@include('clientes/clientevehiculo')
+			@include('clientes/clientevehiculorevision')
 			@include('clientes/vehiculo')
+			@include('clientes/revision')
+			@include('clientes/select-servicio')
+			@include('clientes/select-tecnico')
 			@include('clientes/factura')
 		@endif
 	@endif
@@ -509,6 +513,11 @@
 
   	function capitalizeFirstLetter(string) {
 	    return String(string).charAt(0).toUpperCase() + String(string).slice(1);
+	}
+
+	function getBaseUrl() {
+	    var re = new RegExp(/^.*\//);
+    	return re.exec(window.location.href);
 	}
 
 </script>

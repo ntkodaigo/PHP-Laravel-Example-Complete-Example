@@ -20,7 +20,7 @@ class Cliente extends Model
 
 	public function revisionsOfVehiculo($idvehiculo)
 	{
-		return $this->revisions()->where('idvehiculo', $idvehiculo)->get();
+		return $this->revisions()->where('idvehiculo', $idvehiculo);
 	}
 
 	public function vehiculos()

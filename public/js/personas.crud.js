@@ -6,7 +6,9 @@ var correosTable;
 var profesionesTable;
 var clienteVehiculosTable;
 var vehiculosTable;
-var revisionesVehiculosTable;
+var clivehRevisionesTable;
+var tecnicosTable;
+var serviciosTable;
 
 // datatables default
 $.extend( true, $.fn.dataTable.defaults, {
@@ -257,6 +259,9 @@ $('#frmProfesion').on('submit',function(e){
 });
 $('#frmVehiculo').on('submit',function(e){
 	jQuery("input[id=regvehiculo]").attr("disabled",true);
+});
+$('#frmRevision').on('submit',function(e){
+	$("input[id=regrevision]").attr("disabled", true);
 });
 
 $('#nombres').keypress(function(event){
@@ -1084,48 +1089,168 @@ function btnDeleteVehiculo(idVeh)
 	}
 }
 
-function btnRevisionsVehiculo(idVeh)
+function btnRevisionesVehiculo(idVeh, numPlaca)
 {
-	if (revisionesVehiculosTable == null)
+	$("input[name=idvehiculo]").attr("value", idVeh);
+	$('#numeroplaca').html("Placa: " + numPlaca);
+
+	var id;
+
+	if (clivehRevisionesTable == null)
 	{
-		revisionesVehiculosTable = $('#anexos-table').DataTable({
-	          processing: true,
-	          serverSide: true,
-	          ajax:'/anexosData/' + idPerTelf,
-	          pageLength: 3,
-	          lengthMenu: [3, 6, 10, 15, 20],
+		id = $('input[name=idcliente]').attr("value");
+		clivehRevisionesTable = $('#clivehrevisiones-table').DataTable({
+	          ajax: '/vehiculos/' + idVeh + '/revisionesData/' + id,
 	          columns: [
-	              { data: 'numeroanexotelefono', name: 'numeroanexotelefono' },
+	              { data: 'servicio.nombreservicio', name: 'servicio.nombreservicio' },
+	              { data: 'tecnico.personanatural.nombres', name: 'tecnico.personanatural.nombres' },
+	              { data: 'fecharevision', name: 'fecharevision' },
+	              { data: 'estadorevision', name: 'estadorevision' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
-	          ],
-	          language: {
-		            lengthMenu: "Mostrando _MENU_ registros por pagina",
-		            zeroRecords: "Nada encontrado - lo siento",
-		            info: "Mostrando página _PAGE_ de _PAGES_",
-		            infoEmpty: "Ningún registro disponible",
-		            emptyTable: "No hay datos en la tabla",
-		            infoFiltered: "(encontrados de _MAX_ registros totales)",
-		            search: "<i class='glyphicon glyphicon-search'></i>",
-	                paginate: {
-	                    previous: "Ant",
-	                    next: "Sig",
-	                    last: "Último",
-	                    first: "Primero",
-	                    page: "Página",
-	                    pageOf: "de"
-		        	}
-		        }
+	          ]
 	      });
 
-		/*anexosTable.page.len( 3 ).draw();*/
+		clivehRevisionesTable.page.len(3).draw();
 	}
 	else
 	{
-		revisionesVehiculosTable.ajax.url('/anexosData/' + idPerTelf).load();
-		revisionesVehiculosTable.page.len(3).draw();
+		id = $('input[name=idcliente]').attr("value");
+		clivehRevisionesTable.ajax.url('/vehiculos/'+ idVeh +'/revisionesData/' + id).load();
+		clivehRevisionesTable.page.len(3).draw();
 	}
 }
 
+function btnShowTecnicosTable()
+{
+	if (tecnicosTable == null)
+	{
+		tecnicosTable = $('#tecnicos-table').DataTable({
+	          ajax: '/tecnicosData/select',
+	          columns: [
+	              { data: 'personanatural.nombres', name: 'personanatural.nombres' },
+	              { data: 'personanatural.apellido_paterno', name: 'personanatural.apellido_paterno' },
+	              { data: 'personanatural.apellido_materno', name: 'personanatural.apellido_materno' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ]
+	      });
+
+		tecnicosTable.page.len(3).draw();
+	}
+	else
+	{
+		tecnicosTable.ajax.reload();
+		tecnicosTable.page.len(3).draw();
+	}
+}
+
+function btnShowServicosTable()
+{
+	if (serviciosTable == null)
+	{
+		serviciosTable = $('#servicios-table').DataTable({
+	          ajax: '/serviciosData/select',
+	          columns: [
+	              { data: 'nombreservicio', name: 'nombreservicio' },
+	              { data: 'categoriaservicio.nombrecategoriaservicio', name: 'categoriaservicio.nombrecategoriaservicio' },
+	              { data: 'subcategoriaservicio.nombresubcategoriaservicio', name: 'subcategoriaservicio.nombresubcategoriaservicio' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ]
+	      });
+
+		serviciosTable.page.len(3).draw();
+	}
+	else
+	{
+		serviciosTable.ajax.reload();
+		serviciosTable.page.len(3).draw();
+	}
+}
+
+function btnSelectTecnico(idTec, tecFullname)
+{
+	$('input[name=idtecnico]').attr("value", idTec);
+	$('input[id=nombretecnico]').attr("value", tecFullname);
+
+	$('#select-tecnico-modal').modal('hide');
+}
+
+function btnSelectServicio(idSer, serName)
+{
+	$('input[name=idservicio]').attr("value", idSer);
+	$('input[id=nombreservicio]').attr("value", serName);
+	
+	$('#select-servicio-modal').modal('hide');
+}
+
+$('#frmRevision').on('submit',function(e){
+    e.preventDefault();
+    var form=$('#frmRevision');
+    var formData=form.serialize();
+    var url=form.attr('action');
+
+    $.post(url, formData, function(response){
+	    if(response.success)
+	    {
+			$('#revision-modal').modal('hide');
+			clivehRevisionesTable.ajax.reload();
+	    }
+
+	    $( '#frmRevision' ).each(function(){
+	    	this.reset();
+		});
+	}, 'json');
+});
+
+function btnNewRevision()
+{
+	$("input[id=regrevision]").attr("disabled",false);
+
+	var idVeh = $("input[name=idvehiculo]").attr("value");
+	var idCli = $("input[name=idcliente]").attr("value");
+	$("form[id=frmRevision]").attr('action','/clientes/' + idCli + '/vehiculos/' + idVeh + '/revisiones/add');
+}
+
+function btnUpdateRevision(idRev, idTec, idSer, kilom, estado, tiempo, fecha, fechaPos, periodo, tecNombre, serNombre)
+{
+	$("input[id=regrevision]").attr("disabled",false);
+
+	$('input[name=idrevision]').attr("value", idRev);
+	$('input[name=idtecnico]').attr("value", idTec);
+	$('input[name=idservicio]').attr("value", idSer);
+	$('input[name=kilometrajerevision]').attr("value", kilom);
+	$('input[name=estadorevision]').attr("value", estado);
+	$('input[name=tiemporeparacion]').attr("value", tiempo);
+	$('input[name=fecharevision]').attr("value", fecha);
+	$('input[name=fecharevisionposterior]').attr("value", fechaPos);
+	$('input[name=periodorevision]').attr("value", periodo);
+	$('input[id=nombretecnico]').attr("value", tecNombre);
+	$('input[id=nombreservicio]').attr("value", serNombre);
+
+	var idCli = $("input[name=idcliente]").attr("value");
+	$("form[id=frmRevision]").attr('action','/clientes/' + idCli + '/vehiculos/revisiones/update');
+}
+
+function btnDeleteRevision(idRev)
+{
+	if (confirm("Borrara los datos de esta revisión. ¿Está seguro?"))
+	{
+		var url="/revisiones/"+ idRev +"/delete";
+		var formData = {
+	        idrevision: idRev
+		}
+
+	    $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+	             clivehRevisionesTable.ajax.reload();
+		    }
+		    else
+		    {
+		    	alert("FAIL");
+		    }
+		}, 'json');
+	}
+}
 
 function btnNewFactura()
 {

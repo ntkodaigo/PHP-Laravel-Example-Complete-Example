@@ -227,7 +227,8 @@ Route::patch('/productos/{producto}', 'ProductosController@update');
 //eliminar Producto
 Route::post('/productos/{producto}/delete', 'ProductosController@delete');
 
-// Servicios
+// --- SERVICIOS ---
+Route::get('/serviciosData/select','ServiciosController@serviciosDataToSelect');
 //insertar Servicios
 Route::get('/servicios','ServiciosController@index');
 Route::get('/servicios/new','ServiciosController@fillNew');
@@ -331,6 +332,8 @@ Route::get('vehiculosData/{cliente}','ClientesController@vehiculosData');
 Route::post('/clientes/{cliente}/vehiculos/add', 'ClientesController@storeVehiculo');
 Route::post('/clientes/{cliente}/vehiculos/update', 'ClientesController@updateVehiculo');
 Route::post('/clientes/{cliente}/vehiculos/delete', 'ClientesController@deleteVehiculo');
+// Revisiones
+Route::get('/vehiculos/{idvehiculo}/revisionesData/{cliente}','RevisionesController@cliVehRevisionesData');
 // --- CLIENTES ---
 // --- Clientes - Persona Natural ---
 Route::get('/clientes/new/pn', 'ClientesController@fillNewPN');
@@ -361,10 +364,15 @@ Route::post('/proveedores/add/pj', 'ProveedoresController@storePJ');
 Route::post('/proveedores/addfrom/{personajuridica}/pj', 'ProveedoresController@storeFromPJ');
 Route::get('/proveedores/show/pj/{personajuridica}', 'ProveedoresController@showPJ');
 // --- TECNICOS ---
+Route::get('/tecnicosData/select','TecnicosController@tecnicosDataToSelect');
 Route::get('/tecnicos/new', 'TecnicosController@fillNew');
 Route::post('/tecnicos/add', 'TecnicosController@store');
 Route::post('/tecnicos/addfrom/{personanatural}', 'TecnicosController@storeFrom');
 Route::get('/tecnicos/show/{personanatural}', 'TecnicosController@show');
+// --- REVISIONES---
+Route::post('/clientes/{cliente}/vehiculos/{vehiculo}/revisiones/add','RevisionesController@storeForClienteVehiculo');
+Route::post('/clientes/{cliente}/vehiculos/revisiones/update','RevisionesController@updateForClienteVehiculo');
+Route::post('/revisiones/{revision}/delete', 'RevisionesController@delete');
 // --- FACTURAS ---
 Route::get('/facturas/add','facturasController@index');
 

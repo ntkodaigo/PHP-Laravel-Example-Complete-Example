@@ -20,6 +20,10 @@ class Personanatural extends Model
 			'idtipodocumento' => '1',
 			'numerodocumento' => '12121',
 		);*/
+	public function fullname()
+	{
+		return $this->nombres . " " . $this->apellido_paterno . " " . $this->apellido_materno;
+	} 
 
 	public function persona()
 	{

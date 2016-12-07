@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 use App\Tecnico;
 use App\Genero;
 use App\Persona;
@@ -16,6 +17,15 @@ use App\Tipoprofesion;
 
 class TecnicosController extends Controller
 {
+    public function tecnicosDataToSelect()
+    {
+        return Datatables::of(Tecnico::with('personanatural')->get())->addColumn('action', function ($entity) {
+            
+            return '<button type="button" onclick="btnSelectTecnico(\''.$entity->idtecnico.'\',\''.$entity->personanatural->nombres.' '.$entity->personanatural->apellido_paterno.' '.$entity->personanatural->apellido_materno.'\')" class="btn btn-success btn-edit"><i class="glyphicon glyphicon-edit"></i>Seleccionar</button>';
+               
+            })->make(true);
+    }
+
     public function fillNew()
     {
     	$init_route = config('constants.init_route');
