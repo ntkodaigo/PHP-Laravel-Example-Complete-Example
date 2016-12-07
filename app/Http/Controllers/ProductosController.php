@@ -96,7 +96,7 @@ class ProductosController extends Controller
 	{
 		return Datatables::of(Producto::all())->addColumn('action', function ($producto) {
             
-            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
+            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.','.$producto->idcategoriaproducto.','.$producto->idsubcategoriaproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
                
             })->make(true);
 	}

@@ -269,6 +269,20 @@ Route::patch('/compras/{compra}', 'ComprasController@update');
 //eliminar Compras
 Route::post('/compras/{compra}/delete', 'ComprasController@delete');
 
+// Proveedorproductos
+//insertar Proveedorproductos
+Route::get('/proveedorproductos','ProveedorproductoController@index');
+Route::get('/proveedorproductos/new','ProveedorproductoController@fillNew');
+Route::get('/proveedorproductos/data','ProveedorproductoController@data');
+Route::post('/proveedorproductos/add','ProveedoresController@storeProducto');
+
+//editar Proveedorproductos
+Route::get('/proveedorproductos/edit/{proveedorproducto}','ProveedorproductoController@edit');
+Route::patch('/proveedorproductos/{proveedorproducto}', 'ProveedorproductoController@update');
+
+//eliminar Proveedorproductos
+Route::post('/proveedorproductos/{proveedorproducto}/delete', 'ProveedorproductoController@delete');
+
 //buscar cliente
 //Route::get('datatables', 'ClientesController@getIndex');
 //Route::get('data', 'ClientesController@data');
@@ -339,3 +353,4 @@ Route::post('/personas/{persona}/update/nac-creac', 'PersonasController@updateNC
 
 //Proveedores
 Route::get('/proveedoresData', 'ProveedoresController@proveedoresMorphData');
+Route::get('/ProdProveedor', 'ProveedoresController@ProductoProveedor');
