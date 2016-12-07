@@ -13,6 +13,18 @@ use App\Http\Requests;
 
 class ProductosController extends Controller
 {
+
+	public function productosDataToSelect()
+    {
+        return Datatables::of(Producto::with('articulo')->get())->addColumn('action', function ($entity) {
+            
+
+
+            return '<button type="button" onclick="btnSelectProducto('.$entity->articulo->idarticulo.',\''.$entity->nombreproducto.'\')" class="btn btn-success btn-edit"><i class="glyphicon glyphicon-edit"></i>Seleccionar</button>';
+               
+            })->make(true);
+    }
+
     public function index()
 	{
 		$productos=Producto::all();

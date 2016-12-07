@@ -9,8 +9,12 @@ var vehiculosTable;
 var clivehRevisionesTable;
 var tecnicosTable;
 var serviciosTable;
+
 var comprasTable;
 var proveedorProductosTable;
+
+var productosTable;
+
 
 // datatables default
 $.extend( true, $.fn.dataTable.defaults, {
@@ -1257,4 +1261,36 @@ function btnDeleteRevision(idRev)
 function btnNewFactura()
 {
 
+}
+
+function btnShowProductos()
+{
+	if (productosTable == null)
+	{
+		productosTable = $('#productos-table').DataTable({
+	          ajax: '/productosData/select',
+	          columns: [
+	              { data: 'codigoproducto', name: 'codigoproducto' },
+	              { data: 'nombreproducto', name: 'nombreproducto' },
+	              { data: 'marcaproducto', name: 'marcaproducto' },
+	              { data: 'modeloproducto', name: 'modeloproducto' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ]
+	      });
+
+		serviciosTable.page.len(3).draw();
+	}
+	else
+	{
+		serviciosTable.ajax.reload();
+		serviciosTable.page.len(3).draw();
+	}
+}
+
+function btnSelectProducto(idArt, proName)
+{
+	$('input[name=idarticulo]').attr("value", idArt);
+	$('input[id=nombreproducto]').attr("value", proName);
+	
+	$('#select-productos-modal').modal('hide');
 }

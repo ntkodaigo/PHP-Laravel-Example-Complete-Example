@@ -21,9 +21,11 @@
 			@include('clientes/clientevehiculorevision')
 			@include('clientes/vehiculo')
 			@include('clientes/revision')
+			@include('clientes/factura')
 			@include('clientes/select-servicio')
 			@include('clientes/select-tecnico')
-			@include('clientes/factura')
+			@include('clientes/select-producto')
+			
 		@endif
 	@endif
 		<!--div class="row"-->
