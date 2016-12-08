@@ -276,6 +276,22 @@
 
 					    <button data-toggle="modal" data-target="#factura-modal" type="button" onclick="btnNewFactura()"><i class="glyphicon glyphicon-book"></i>Nueva Factura</button>
 
+
+
+					    <table class="table table-hover" id="facturas-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Producto</th>
+					                <th>Servicio</th>
+					                <th>Fecha de Emisión</th>
+					                <th>Cantidad</th>
+					                <th>Precio Unitario</th>
+					                <th>Estado</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
+
 					    
 
 
@@ -508,10 +524,29 @@
 		        });
 
 		        vehiculosTable.page.len(3).draw();
+
+
+		        facturasTable = $('#facturas-table').DataTable({
+		          ajax:'/facturasData',
+		          columns: [
+		              { data: 'articulo.articulobytype.nombreproducto', name: 'articulo.articulobytype.nombreproducto',defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+		              { data: 'articulo.articulobytype..servicio', name: 'articulo.articulobytype..servicio',defaultContent: '<i style="color: lightgray;">No tiene</i>' },
+		              { data: 'documentoreferencial', name: 'documentoreferencial' },
+		              { data: 'fechaemision', name: 'fechaemision' },
+		              { data: 'preciounitario', name: 'preciounitario' },
+		              { data: 'estado', name: 'estado' },
+		              { data: 'action', name: 'action', orderable: false, searchable: false}
+		          ]
+		        });
+
+
 	        @endif
 	    @endif
 
   	});
+
+
+ 									
 
   	function capitalizeFirstLetter(string) {
 	    return String(string).charAt(0).toUpperCase() + String(string).slice(1);

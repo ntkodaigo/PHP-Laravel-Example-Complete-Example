@@ -64,13 +64,13 @@ class facturasController extends Controller
     	return response()->json(['success'=>true]);
     }
 
-    public function data()
+    public function facturasData()
     {
-    	/*return Datatables::of(Factura::all());
-    	addCollum('action',function ($factura)){
-
-    		//return ;
-    	})->make(true);*/
+        return Datatables::of(Factura::with('articulos.articulobytype')->get())->addColumn('action', function ($entity) {
+            
+            return '<button data-toggle="modal" data-target="#roles-modal" type="button" onclick="btnAllRoles(\''.$entity->idpersona.'\', \''.$entity->persona_type.'\')" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>Roles</button>';
+               
+            })->make(true);
     }
 }
 

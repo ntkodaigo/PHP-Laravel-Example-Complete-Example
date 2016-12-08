@@ -26,4 +26,9 @@ class Producto extends Model
 		return $this->belongsToMany(Proveedor::class, 'proveedorproducto', 'idproducto');
 	}
 
+	public function myarticulo()
+	{
+		return $this->morphOne(Articulo::class, 'articulobytype', 'articulo_type', 'idarticulo', 'idproducto');
+	}
+
 }

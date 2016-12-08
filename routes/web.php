@@ -406,3 +406,4 @@ Route::post('/clientes/{cliente}/vehiculos/revisiones/update','RevisionesControl
 Route::post('/revisiones/{revision}/delete', 'RevisionesController@delete');
 // --- FACTURAS ---
 Route::get('/facturas/add','facturasController@index');
+Route::get('/facturasData','facturasController@facturasData');

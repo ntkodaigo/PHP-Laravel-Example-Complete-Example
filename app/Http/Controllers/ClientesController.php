@@ -15,6 +15,7 @@ use App\Tipotelefono;
 use App\Pais;
 use App\Tipoprofesion;
 use App\Marca;
+use App\Factura;
 
 class ClientesController extends Controller
 {

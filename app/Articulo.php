@@ -30,4 +30,9 @@ class Articulo extends Model
 		return $this->hasOne(Producto::class, 'idproducto','idarticulo');
 	}
 
+	public function articulobytype()
+    {
+        return $this->morphTo('articulobytype', 'articulo_type', 'idarticulo');
+    }
+
 }
