@@ -266,7 +266,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i>Lista de clientes</a></li>
+            <!--li><a href="#"><i class="fa fa-circle-o"></i>Lista de clientes</a></li-->
             <li>
               <a href="#"><i class="fa fa-circle-o"></i> Nuevo Cliente
                 <span class="pull-right-container">
@@ -289,7 +289,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i>Lista de Proveedores</a></li>
+            <!--li><a href=""><i class="fa fa-circle-o"></i>Lista de Proveedores</a></li-->
             <li>
               <a href="#"><i class="fa fa-circle-o"></i> Nuevo Proveedor
                 <span class="pull-right-container">
@@ -312,7 +312,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i>Lista de Técnicos</a></li>
+            <!--li><a href="#"><i class="fa fa-circle-o"></i>Lista de Técnicos</a></li-->
             <li><a href="/tecnicos/new"><i class="fa fa-circle-o"></i>Nuevo Técnico</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i>Revisiones</a></li>
           </ul>
@@ -341,8 +341,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
               <ul class="treeview-menu">
               <li><a href="/servicios"><i class="fa fa-circle-o"></i>Lista Servicios</a></li>
-                <li><a href="categoriaservicios"><i class="fa fa-circle-o"></i>Categorias</a></li>
-                <li><a href="subcategoriaservicios"><i class="fa fa-circle-o"></i>Subcategorias</a></li>
+                <li><a href="/categoriaservicios"><i class="fa fa-circle-o"></i>Categorias</a></li>
+                <li><a href="/subcategoriaservicios"><i class="fa fa-circle-o"></i>Subcategorias</a></li>
               </ul>
             </li>
             <li class="treeview">

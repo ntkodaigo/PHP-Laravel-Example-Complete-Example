@@ -5,3 +5,7 @@
 .PopUp-focus {
     z-index:9999;
     }
+
+.modal { 
+	overflow: auto !important; 
+}

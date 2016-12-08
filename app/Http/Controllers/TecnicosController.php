@@ -26,6 +26,17 @@ class TecnicosController extends Controller
             })->make(true);
     }
 
+    public function tecnicoRevisionesData(Tecnico $tecnico)
+    {
+        return Datatables::of($tecnico->revisions()->with('cliente.persona.personabytype', 'vehiculo', 'servicio')->get())->addColumn('action', function ($entity) {
+            
+            return '<button type="button" onclick="btnUpdateRevisionForTecnico(\''.$entity->idrevision.'\',\''.$entity->idcliente.'\',\''.$entity->idvehiculo.'\','.$entity->idservicio.','.$entity->kilometrajerevision.',\''.$entity->estadorevision.'\','.$entity->tiemporeparacion.',\''.explode(' ',$entity->fecharevision)[0].'\',\''.explode(' ',$entity->fecharevisionposterior)[0].'\',\''.$entity->periodorevision.'\',\''.$entity->cliente->persona->personabytype->nombres.' '.$entity->cliente->persona->personabytype->apellido_paterno.' '.$entity->cliente->persona->personabytype->apellido_materno.'\',\''.$entity->cliente->persona->personabytype->razonsocial.'\',\''.$entity->servicio->nombreservicio.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#revision-modal"><i class="glyphicon glyphicon-edit"></i>Detalles</button>
+
+                <button type="button" onclick="btnDeleteRevision(\''.$entity->idrevision.'\')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
+               
+            })->make(true);
+    }
+
     public function fillNew()
     {
     	$init_route = config('constants.init_route');

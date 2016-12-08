@@ -9,6 +9,7 @@ var vehiculosTable;
 var clivehRevisionesTable;
 var tecnicosTable;
 var serviciosTable;
+var tecnicoRevisionesTable;
 
 // datatables default
 $.extend( true, $.fn.dataTable.defaults, {
@@ -1250,6 +1251,11 @@ function btnDeleteRevision(idRev)
 		    }
 		}, 'json');
 	}
+}
+
+function btnNewRevisionFromTecnico()
+{
+	
 }
 
 function btnNewFactura()
