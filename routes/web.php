@@ -278,7 +278,8 @@ Route::post('/compras/{compra}/delete', 'ComprasController@delete');
 Route::get('/proveedorproductos','ProveedorproductoController@index');
 Route::get('/proveedorproductos/new','ProveedorproductoController@fillNew');
 Route::get('/proveedorproductos/data','ProveedorproductoController@data');
-Route::post('/proveedorproductos/add','ProveedoresController@storeProducto');
+Route::post('/proveedorproductos/{proveedor}/add','ProveedoresController@storeProducto');
+Route::post('/proveedorproductos/{proveedor}/delete','ProveedoresController@deleteProducto');
 
 //editar Proveedorproductos
 Route::get('/proveedorproductos/edit/{proveedorproducto}','ProveedorproductoController@edit');
@@ -395,6 +396,8 @@ Route::get('/proveedores/new/pj', 'ProveedoresController@fillNewPJ');
 Route::post('/proveedores/add/pj', 'ProveedoresController@storePJ');
 Route::post('/proveedores/addfrom/{personajuridica}/pj', 'ProveedoresController@storeFromPJ');
 Route::get('/proveedores/show/pj/{personajuridica}', 'ProveedoresController@showPJ');
+Route::get('/proveedores/dataProducto/{producto}','ProveedoresController@dataProducto');
+
 // --- TECNICOS ---
 Route::get('/tecnicosData/select','TecnicosController@tecnicosDataToSelect');
 Route::get('/tecnicos/new', 'TecnicosController@fillNew');

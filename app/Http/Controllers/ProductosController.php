@@ -109,7 +109,7 @@ class ProductosController extends Controller
 	{
 		return Datatables::of(Producto::all())->addColumn('action', function ($producto) {
             
-            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.','.$producto->idcategoriaproducto.','.$producto->idsubcategoriaproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
+            return '<button type="button" onclick="PickProducto('.$producto->idproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Seleccionar</button>';
                
             })->make(true);
 	}
@@ -118,7 +118,7 @@ class ProductosController extends Controller
 	{
 		return Datatables::of($proveedor->productos)->addColumn('action', function ($producto) {
             
-            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.','.$producto->idcategoriaproducto.','.$producto->idsubcategoriaproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
+            return '<button type="button" onclick="btnSelectProveedor('.$producto->idproducto.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Seleccionar</button>';
                
             })->make(true);
 	}

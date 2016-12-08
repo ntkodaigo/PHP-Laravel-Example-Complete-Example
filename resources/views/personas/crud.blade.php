@@ -25,7 +25,8 @@
 			@include('clientes/select-servicio')
 			@include('clientes/select-tecnico')
 			@include('clientes/select-producto')
-			
+		@elseif ($entityName == 'Proveedor')
+			@include('clientes/select-producto')
 		@endif
 	@endif
 		<!--div class="row"-->
@@ -281,9 +282,9 @@
 
 				    @elseif ($entityName == 'Proveedor')
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Productos que ofrece el Proveedor</h2></div>
-				    	<button data-toggle="modal" data-target="#factura-modal" type="button" onclick=""><i class="glyphicon glyphicon-book"></i>Asignar Productos</button>
+				    	<button type="button" data-toggle="modal" data-target="#select-productos-modal" onclick="btnAsignarProducto()" class="btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Producto</button>
 				    	<br><br>
-				    	<table class="table table-hover" id="productos-table">
+				    	<table class="table table-hover" id="proveedorProductos-table">
 					        <thead class="thead-inverse">
 					            <tr>
 					            	  <th>Codigo Producto</th>
@@ -543,7 +544,7 @@
 			        @elseif ($personaTypeName == 'Persona Jurídica')
 			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
 		        @endif
-		        proveedorProductosTable = $('#productos-table').DataTable({
+		        proveedorProductosTable = $('#proveedorProductos-table').DataTable({
 		          ajax:ajaxString,
 		          columns: [
 		              { data: 'codigoproducto', name: 'codigoproducto' },
@@ -555,9 +556,9 @@
 		        });
 
 		        @if ($personaTypeName == 'Persona Natural')
-			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
+			          	ajaxString = '/productos/dataCompras/' + idproveedor;
 			        @elseif ($personaTypeName == 'Persona Jurídica')
-			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
+			          	ajaxString = '/productos/dataCompras/' + idproveedor;
 		        @endif
 		        comprasTable = $('#table-compra').DataTable({
 		          ajax:ajaxString,

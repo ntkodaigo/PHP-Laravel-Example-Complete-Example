@@ -14,6 +14,7 @@ var comprasTable;
 var proveedorProductosTable;
 
 var productosTable;
+var key;
 
 
 // datatables default
@@ -1263,6 +1264,12 @@ function btnNewFactura()
 
 }
 
+function btnAsignarProducto()
+{
+	key = 'p';
+	btnShowProductos();
+}
+
 function btnShowProductos()
 {
 	if (productosTable == null)
@@ -1278,19 +1285,66 @@ function btnShowProductos()
 	          ]
 	      });
 
-		serviciosTable.page.len(3).draw();
+		productosTable.page.len(3).draw();
 	}
 	else
 	{
-		serviciosTable.ajax.reload();
-		serviciosTable.page.len(3).draw();
+		productosTable.ajax.reload();
+		productosTable.page.len(3).draw();
 	}
 }
 
 function btnSelectProducto(idArt, proName)
 {
-	$('input[name=idarticulo]').attr("value", idArt);
-	$('input[id=nombreproducto]').attr("value", proName);
+	switch(key)
+	{
+		case 'p':
+			var proveedor = $('input[name=idproveedor]').attr("value");
+			var url="/proveedorproductos/"+ proveedor +"/add";
+			var formData = {
+		        idproducto: idArt
+			}
+
+		    $.post(url, formData, function(response){
+			    if(response.success)
+			    {
+		             proveedorProductosTable.ajax.reload();
+			    }
+			    else
+			    {
+			    	alert("El articulo ya esta seleccionado");
+			    }
+			}, 'json');
+		break;
+		case 'f':
+			$('input[name=idarticulo]').attr("value", idArt);
+			$('input[id=nombreproducto]').attr("value", proName);
+			
+			$('#select-productos-modal').modal('hide');
+		break;
+	}
 	
-	$('#select-productos-modal').modal('hide');
+}
+
+function btnDeleteProducto(idArt)
+{
+	if (confirm("Quitara el producto del proveedor. ¿Está seguro?"))
+	{
+		var proveedor = $('input[name=idproveedor]').attr("value");
+		var url="/proveedorproductos/"+ proveedor +"/delete";
+		var formData = {
+	        idproducto: idArt
+		}
+
+	    $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+	             proveedorProductosTable.ajax.reload();
+		    }
+		    else
+		    {
+		    	alert("FAIL");
+		    }
+		}, 'json');
+	}
 }

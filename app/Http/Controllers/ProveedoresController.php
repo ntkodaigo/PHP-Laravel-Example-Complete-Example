@@ -50,6 +50,16 @@ class ProveedoresController extends Controller
         else
             return response()->json(['success' => false]);
     }
+
+    public function deleteProducto(Request $request, Proveedor $proveedor)
+    {
+
+        $proveedor->deleteProducto($request->idproducto);
+
+        return response()->json(['success' => true]);
+    
+    }
+
 	public function fillNewPN()
     {
     	$init_route = config('constants.init_route');
@@ -189,5 +199,14 @@ class ProveedoresController extends Controller
 
         return redirect('proveedores/show/pj/'.$personajuridica->idpersonajuridica);
 
+    }
+
+    public function dataProducto(Producto $producto)
+    {
+        return Datatables::of($producto->proveedores)->addColumn('action', function ($entity) {
+            
+            return '<button type="button" onclick="btnSelectAll('.$entity->idproveedor.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
+               
+            })->make(true);
     }
 }

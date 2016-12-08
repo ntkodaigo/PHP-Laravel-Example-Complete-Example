@@ -35,6 +35,11 @@ class Proveedor extends Model
 		$this->productos()->attach($v, array('idcategoriaproducto' => $v->idcategoriaproducto, 'idsubcategoriaproducto' => $v->idsubcategoriaproducto));
 	}
 
+	public function deleteProducto($v)
+	{
+		$this->productos()->detach($v);
+	}
+
 	public function compras()
 	{
 		return $this->hasMany(Compra::class,'idproveedor','idproveedor');

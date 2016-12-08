@@ -21,9 +21,9 @@ class Producto extends Model
 		return $this->hasOne(Articulo::class, 'idarticulo','idproducto');
 	}
 
-	public function provedores()
+	public function proveedores()
 	{
-		return $this->belongsToMany(Proveedor::class, 'proveedorproducto', 'idproducto');
+		return $this->belongsToMany(Proveedor::class, 'proveedorproducto', 'idproducto', 'idproveedor')->withPivot('idcategoriaproducto', 'idsubcategoriaproducto');
 	}
 
 }

@@ -11,14 +11,14 @@
     @endif
 
         <div class="form-group"> ID Producto
-            <input type="text" id="product-id" name="idproducto" class="form-control" placeholder="Escoja una Producto" disabled="true" 
+            <input type="text" id="product-id" name="idproducto" class="form-control" placeholder="Escoja una Producto" readonly 
             @if ($key=='u')
             value="{{ $compra->idproducto }}"
             @endif>
         </div>
 
         <div class="form-group"> ID Proveedor
-            <input type="text" id="proveedor-id" name="idproveedor" class="form-control" placeholder="Escoja una Proveedor" disabled="true" 
+            <input type="text" id="proveedor-id" name="idproveedor" class="form-control" placeholder="Escoja una Proveedor" readonly 
             @if ($key=='u')
             value="{{ $compra->idproveedor }}"
             @endif>
@@ -142,9 +142,14 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false}
             ]  
         });
+    });
 
+  function PickProducto(producto)
+{
+  if (table_prov == null)
+  {
     table_prov = $('#table-proveedor').DataTable({
-            ajax:'{{URL::asset('/proveedoresData')}}',
+            ajax:'/proveedores/dataProducto/' + producto,
             columns: [
                 { data: 'persona.personabytype.nombres', name: 'persona.personabytype.nombres', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
                 { data: 'persona.personabytype.apellido_paterno', name: 'persona.personabytype.apellido_paterno', defaultContent: '<i style="color: lightgray;">No tiene</i>'},
@@ -154,12 +159,11 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false}
             ] 
         });
-
-    });
-
-  function AgregarProducto(producto)
-{
-  document.getElementById('product-id').value = producto;
+  }
+  else
+  {
+    table_prov.ajax.url('/proveedores/dataProducto/' + producto).load();
+  }
 }
 
 function AgregarProveedor(persona)
