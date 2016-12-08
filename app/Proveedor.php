@@ -16,11 +16,27 @@ class Proveedor extends Model
 
 	public function productos()
 	{
-		return $this->belongsToMany(Producto::class, 'proveedorproducto', 'idproveedor');
+		return $this->belongsToMany(Producto::class, 'proveedorproducto', 'idproveedor', 'idproducto')->withPivot('idcategoriaproducto', 'idsubcategoriaproducto');
 	}
 
 	public function persona()
 	{
 		return $this->hasOne(Persona::class, 'idpersona', 'idproveedor');
+	}
+
+	public function exitsProducto($v)
+	{
+		return $this->productos->contains($v);
+	}
+
+	public function saveProducto($v)
+	{
+		$v = Producto::find($v);
+		$this->productos()->attach($v, array('idcategoriaproducto' => $v->idcategoriaproducto, 'idsubcategoriaproducto' => $v->idsubcategoriaproducto));
+	}
+
+	public function compras()
+	{
+		return $this->hasMany(Compra::class,'idproveedor','idproveedor');
 	}
 }

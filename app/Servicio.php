@@ -30,4 +30,10 @@ class Servicio extends Model
 	{
 		return $this->hasOne(Articulo::class, 'idarticulo','idservicio');
 	}
+
+	public function myarticulo()
+	{
+		return $this->morphOne(Articulo::class, 'articulobytype', 'articulo_type', 'idarticulo', 'idservicio');
+	}
+
 }

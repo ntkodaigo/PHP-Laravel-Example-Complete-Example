@@ -83,4 +83,13 @@ class ComprasController extends Controller
                
             })->make(true);
 	}
+
+	public function dataProveedor(Proveedor $proveedor)
+	{
+		return Datatables::of($proveedor->compras)->addColumn('action', function ($producto) {
+            
+            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.','.$producto->idcategoriaproducto.','.$producto->idsubcategoriaproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
+               
+            })->make(true);
+	}
 }

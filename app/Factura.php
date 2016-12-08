@@ -13,7 +13,7 @@ class Factura extends Model
 	public $timestamps = false;
 	public $incrementing = false;
 
-	public function articulos()
+	public function articulo()
 	{
 		return $this->hasMany(Articulo::class, 'idarticulo', 'idarticulo');
 	}

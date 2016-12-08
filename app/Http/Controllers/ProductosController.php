@@ -8,10 +8,23 @@ use App\Producto;
 use App\Subcategoriaproducto;
 use App\Categoriaproducto;
 use App\Articulo;
+use App\Proveedor;
 use App\Http\Requests;
 
 class ProductosController extends Controller
 {
+
+	public function productosDataToSelect()
+    {
+        return Datatables::of(Producto::with('articulo')->get())->addColumn('action', function ($entity) {
+            
+
+
+            return '<button type="button" onclick="btnSelectProducto('.$entity->articulo->idarticulo.',\''.$entity->nombreproducto.'\')" class="btn btn-success btn-edit"><i class="glyphicon glyphicon-edit"></i>Seleccionar</button>';
+               
+            })->make(true);
+    }
+
     public function index()
 	{
 		$productos=Producto::all();
@@ -52,14 +65,19 @@ class ProductosController extends Controller
 	public function store(Request $request) 
 	{
 		$producto = new Producto ($request-> all());
+
 		$articulo = new Articulo;
 		$lastArticulo = Articulo::orderBy('idarticulo', 'desc')->first();
     	$newId = ($lastArticulo == null) ? 1 : $lastArticulo->idarticulo + 1;
 
+    	$producto->idproducto=$newId;
+    	$producto->myarticulo()->save($articulo);
     	$articulo->idarticulo = $newId;
-    	$articulo->save();
-    	$producto->idproducto = $newId;
-        $producto->save();
+    	$articulo->producto()->save($producto);
+    	//$articulo->idarticulo = $newId;
+    	//$articulo->save();
+    	//$producto->idproducto = $newId;
+        //$producto->save();
 
     	return redirect('/productos');
 
@@ -96,7 +114,16 @@ class ProductosController extends Controller
 	{
 		return Datatables::of(Producto::all())->addColumn('action', function ($producto) {
             
-            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
+            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.','.$producto->idcategoriaproducto.','.$producto->idsubcategoriaproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
+               
+            })->make(true);
+	}
+
+	public function dataProveedor(Proveedor $proveedor)
+	{
+		return Datatables::of($proveedor->productos)->addColumn('action', function ($producto) {
+            
+            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.','.$producto->idcategoriaproducto.','.$producto->idsubcategoriaproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
                
             })->make(true);
 	}

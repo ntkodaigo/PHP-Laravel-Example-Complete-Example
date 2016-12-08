@@ -21,9 +21,11 @@
 			@include('clientes/clientevehiculorevision')
 			@include('clientes/vehiculo')
 			@include('clientes/revision')
+			@include('clientes/factura')
 			@include('clientes/select-servicio')
 			@include('clientes/select-tecnico')
-			@include('clientes/factura')
+			@include('clientes/select-producto')
+			
 		@endif
 	@endif
 		<!--div class="row"-->
@@ -274,10 +276,51 @@
 
 					    <button data-toggle="modal" data-target="#factura-modal" type="button" onclick="btnNewFactura()"><i class="glyphicon glyphicon-book"></i>Nueva Factura</button>
 
+					    <table class="table table-hover" id="facturas-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Producto</th>
+					                <th>Servicio</th>
+					                <th>Fecha de Emisión</th>
+					                <th>Cantidad</th>
+					                <th>Precio Unitario</th>
+					                <th>Estado</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
 
+					    
 				    @elseif ($entityName == 'Proveedor')
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Productos que ofrece el Proveedor</h2></div>
+				    	<button data-toggle="modal" data-target="#factura-modal" type="button" onclick=""><i class="glyphicon glyphicon-book"></i>Asignar Productos</button>
+				    	<br><br>
+				    	<table class="table table-hover" id="productos-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					            	  <th>Codigo Producto</th>
+			                          <th>Nombre Producto</th>
+			                          <th>Marca</th>
+			                          <th>Modelo</th>
+			                          <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Compras efectuadas previamente</h2></div>
+
+				    	<table class="table table-hover" id="table-compra">
+			                <thead class="thead-inverse">
+			                    <tr>
+			                          <th>Codigo Producto</th>
+			                          <th>Nombre Producto</th>
+			                          <th>Fecha de Compra</th>
+			                          <th>Cantidad de Compra</th>
+			                          <th>Precio de Compra</th>
+			                          <th>Acciones</th>
+			                    </tr>
+			                </thead>
+			            </table>
+
 			    	@elseif ($entityName == 'Técnico')
 			    		<div class="alert alert-info" role="alert"><h2 style="color: black;">Revisiones pactadas por el Técnico</h2></div>
 			    		<button data-toggle="modal" data-target="#revision-modal" type="button" onclick="btnNewRevisionFromTecnico()"><i class="glyphicon glyphicon-book"></i>Nueva Revisión</button>
@@ -508,7 +551,20 @@
 
 		        vehiculosTable.page.len(3).draw();
 
-	        @elseif($entityName == 'Técnico')
+		        facturasTable = $('#facturas-table').DataTable({
+		          ajax:'/facturasData',
+		          columns: [
+		              { data: 'articulo.articulobytype.nombreproducto', name: 'articulo.articulobytype.nombreproducto',defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+		              { data: 'articulo.articulobytype..servicio', name: 'articulo.articulobytype..servicio',defaultContent: '<i style="color: lightgray;">No tiene</i>' },
+		              { data: 'documentoreferencial', name: 'documentoreferencial' },
+		              { data: 'fechaemision', name: 'fechaemision' },
+		              { data: 'preciounitario', name: 'preciounitario' },
+		              { data: 'estado', name: 'estado' },
+		              { data: 'action', name: 'action', orderable: false, searchable: false }
+		              ]
+	              });
+
+	        @elseif ($entityName == 'Técnico')
 
         		tecnicoRevisionesTable = $('#tecnicorevisiones-table').DataTable({
 		          ajax: '/tecnicos/' + idTecnico + '/revisionesData',
@@ -522,10 +578,43 @@
 		              { data: 'action', name: 'action', orderable: false, searchable: false}
 		          ]
 		      	});
+
+		    @elseif ($entityName == 'Proveedor')
+		     var ajaxString;
+		     var idproveedor = '{{ $personanatural->persona->proveedor->idproveedor }}';
+			    @if ($personaTypeName == 'Persona Natural')
+			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
+			        @elseif ($personaTypeName == 'Persona Jurídica')
+			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
+		        @endif
+		        proveedorProductosTable = $('#productos-table').DataTable({
+		          ajax:ajaxString,
+		          columns: [
+		              { data: 'codigoproducto', name: 'codigoproducto' },
+		              { data: 'nombreproducto', name: 'nombreproducto' },
+		              { data: 'marcaproducto', name: 'marcaproducto' },
+		              { data: 'modeloproducto', name: 'modeloproducto' },
+
+		              { data: 'action', name: 'action', orderable: false, searchable: false}
+		          ]
+		        });
+
+		        comprasTable = $('#table-compra').DataTable({
+		          ajax:ajaxString,
+		          columns: [
+		              { data: 'codigoproducto', name: 'codigoproducto' },
+		              { data: 'nombreproducto', name: 'nombreproducto' },
+		              { data: 'fechacompra ', name: 'fechacompra ' },
+		              { data: 'cantidadcompra ', name: 'cantidadcompra ' },
+		              { data: 'preciocompra ', name: 'preciocompra ' },
+		              { data: 'action', name: 'action', orderable: false, searchable: false}
+		          ]
+		        });
+
 	        @endif
 	    @endif
 
-  	});
+  	});							
 
   	function capitalizeFirstLetter(string) {
 	    return String(string).charAt(0).toUpperCase() + String(string).slice(1);

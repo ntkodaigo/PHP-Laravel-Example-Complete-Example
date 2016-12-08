@@ -213,11 +213,13 @@ Route::delete('/sugerenciaprecioarticulos/{subcategoriaservicio}/delete', 'suger
 
 
 // Productos
+Route::get('/productosData/select','ProductosController@productosDataToSelect');
 //insertar Producto
 Route::get('/productos','ProductosController@index');
 Route::get('/productos/new','ProductosController@fillNew');
 Route::get('/productos/data','ProductosController@data');
 Route::get('/productos/dataCompras','ProductosController@dataCompras');
+Route::get('/productos/dataProveedor/{proveedor}','ProductosController@dataProveedor');
 Route::post('/productos/add','ProductosController@store');
 
 //editar Producto
@@ -270,12 +272,39 @@ Route::patch('/compras/{compra}', 'ComprasController@update');
 //eliminar Compras
 Route::post('/compras/{compra}/delete', 'ComprasController@delete');
 
+
+// Proveedorproductos
+//insertar Proveedorproductos
+Route::get('/proveedorproductos','ProveedorproductoController@index');
+Route::get('/proveedorproductos/new','ProveedorproductoController@fillNew');
+Route::get('/proveedorproductos/data','ProveedorproductoController@data');
+Route::post('/proveedorproductos/add','ProveedoresController@storeProducto');
+
+//editar Proveedorproductos
+Route::get('/proveedorproductos/edit/{proveedorproducto}','ProveedorproductoController@edit');
+Route::patch('/proveedorproductos/{proveedorproducto}', 'ProveedorproductoController@update');
+
+//eliminar Proveedorproductos
+Route::post('/proveedorproductos/{proveedorproducto}/delete', 'ProveedorproductoController@delete');
+
+//buscar cliente
+//Route::get('datatables', 'ClientesController@getIndex');
+//Route::get('data', 'ClientesController@data');
+//Route::post('/deletemarca','ClientesController@deleteMarca');
+// Clientes
+// Documentos
+Route::get('documentosData/{personanatural}','ClientesController@documentosData');
+Route::post('/clientes/pn/{personanatural}/documentos/add', 'ClientesController@storeDocumento');
+Route::post('/clientes/pn/{personanatural}/documentos/update', 'ClientesController@updateDocumento');
+Route::post('/clientes/pn/{personanatural}/documentos/delete', 'ClientesController@deleteDocumento');
+
 // --- PERSONA ---
 Route::get('/personas', 'PersonasController@index');
 Route::get('/personasData', 'PersonasController@personasMorphData');
 Route::post('/personas/{persona}/searchRoles','PersonasController@searchRoles');
 // Nacimiento creacion
 Route::post('/personas/{persona}/update/nac-creac', 'PersonasController@updateNC');
+
 // Telefonos
 Route::get('telefonosData/{persona}','PersonasController@telefonosData');
 Route::post('/p/{persona}/telefonos/add', 'PersonasController@storeTelefono');
@@ -353,6 +382,9 @@ Route::post('/clientes/addfrom/{personajuridica}/pj', 'ClientesController@storeF
 Route::get('/clientes/show/pj/{personajuridica}', 'ClientesController@showPJ');
 // --- PROVEEDORES ---
 Route::get('/proveedoresData', 'ProveedoresController@proveedoresMorphData');
+
+Route::get('/ProdProveedor', 'ProveedoresController@ProductoProveedor');
+
 // --- Proveedores - Persona Natural ---
 Route::get('/proveedores/new/pn', 'ProveedoresController@fillNewPN');
 Route::post('/proveedores/add/pn', 'ProveedoresController@storePN');
@@ -377,4 +409,4 @@ Route::post('/clientes/{cliente}/vehiculos/revisiones/update','RevisionesControl
 Route::post('/revisiones/{revision}/delete', 'RevisionesController@delete');
 // --- FACTURAS ---
 Route::get('/facturas/add','facturasController@index');
-
+Route::get('/facturasData','facturasController@facturasData');

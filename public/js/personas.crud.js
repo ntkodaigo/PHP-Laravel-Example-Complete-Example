@@ -11,6 +11,14 @@ var tecnicosTable;
 var serviciosTable;
 var tecnicoRevisionesTable;
 
+var comprasTable;
+var proveedorProductosTable;
+
+var productosTable;
+var isFacturaSelected;
+var facturasTable;
+
+
 // datatables default
 $.extend( true, $.fn.dataTable.defaults, {
     processing: true,
@@ -1177,9 +1185,16 @@ function btnSelectTecnico(idTec, tecFullname)
 
 function btnSelectServicio(idSer, serName)
 {
-	$('input[name=idservicio]').attr("value", idSer);
-	$('input[id=nombreservicio]').attr("value", serName);
-	
+	if (isFacturaSelected)
+	{
+		$('input[name=idarticulo]').attr("value", idSer);
+		$('input[id=nombreproducto]').attr("value", serName);
+	}
+	else
+	{
+		$('input[name=idservicio]').attr("value", idSer);
+		$('input[id=nombreservicio]').attr("value", serName);
+	}
 	$('#select-servicio-modal').modal('hide');
 }
 
@@ -1204,6 +1219,8 @@ $('#frmRevision').on('submit',function(e){
 
 function btnNewRevision()
 {
+	isFacturaSelected = false;
+
 	$("input[id=regrevision]").attr("disabled",false);
 
 	var idVeh = $("input[name=idvehiculo]").attr("value");
@@ -1260,5 +1277,39 @@ function btnNewRevisionFromTecnico()
 
 function btnNewFactura()
 {
+	isFacturaSelected = true;
+}
+
+function btnShowProductos()
+{
+	if (productosTable == null)
+	{
+		productosTable = $('#productos-table').DataTable({
+	          ajax: '/productosData/select',
+	          columns: [
+	              { data: 'codigoproducto', name: 'codigoproducto' },
+	              { data: 'nombreproducto', name: 'nombreproducto' },
+	              { data: 'marcaproducto', name: 'marcaproducto' },
+	              { data: 'modeloproducto', name: 'modeloproducto' },
+	              { data: 'action', name: 'action', orderable: false, searchable: false}
+	          ]
+	      });
+
+		serviciosTable.page.len(3).draw();
+	}
+	else
+	{
+		serviciosTable.ajax.reload();
+		serviciosTable.page.len(3).draw();
+	}
+}
+
+function btnSelectProducto(idArt, proName)
+{
+	$('input[name=idarticulo]').attr("value", idArt);
+	$('input[id=nombreproducto]').attr("value", proName);
+	
+	$('#select-productos-modal').modal('hide');
+	
 
 }

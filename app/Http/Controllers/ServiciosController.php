@@ -65,10 +65,10 @@ class ServiciosController extends Controller
 		$lastArticulo = Articulo::orderBy('idarticulo', 'desc')->first();
     	$newId = ($lastArticulo == null) ? 1 : $lastArticulo->idarticulo + 1;
 
-    	$articulo->idarticulo = $newId;
-    	$articulo->save();
     	$servicio->idservicio = $newId;
-        $servicio->save();
+    	$servicio->myarticulo()->save($articulo);
+    	$articulo->idarticulo = $newId;
+    	$articulo->servicio()->save($servicio);
 
     	return redirect('/servicios');
 
