@@ -8,17 +8,17 @@
 </a>
 <div class="panel-body">
     <table class="table table-hover" id="table-compra">
-                  <thead class="thead-inverse">
-                      <tr>
-                          <th>Codigo Producto</th>
-                          <th>Nombre Producto</th>
-                          <th>Fecha de Compra</th>
-                          <th>Cantidad de Compra</th>
-                          <th>Precio de Compra</th>
-                          <th>Acciones</th>
-                      </tr>
-                  </thead>
-              </table>
+        <thead class="thead-inverse">
+            <tr>
+                <th>Codigo Producto</th>
+                <th>Nombre Producto</th>
+                <th>Fecha de Compra</th>
+                <th>Cantidad de Compra</th>
+                <th>Precio de Compra</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+    </table>
   </div>
 @stop
 @push('scripts')
@@ -38,13 +38,13 @@
     table = $('#table-compra').DataTable({
             processing: true,
             serverSide: true,
-            ajax:'{{URL::asset('/almacenes/data')}}',
+            ajax:'{{URL::asset('/compras/data')}}',
             columns: [
-                { data: 'codigoproducto', name: 'codigoproducto' },
-                { data: 'nombreproducto', name: 'nombreproducto' },
-                { data: 'fechacompra ', name: 'fechacompra ' },
-                { data: 'cantidadcompra ', name: 'cantidadcompra ' },
-                { data: 'preciocompra ', name: 'preciocompra ' },
+                { data: 'producto.codigoproducto', name: 'producto.codigoproducto' },
+                { data: 'producto.nombreproducto', name: 'producto.nombreproducto' },
+                { data: 'fechacompra', name: 'fechacompra' },
+                { data: 'cantidadcompra', name: 'cantidadcompra' },
+                { data: 'preciocompra', name: 'preciocompra' },
                 { data: 'action', name: 'action', orderable: false, searchable: false}
             ],
             language: {

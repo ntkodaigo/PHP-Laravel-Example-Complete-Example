@@ -33,7 +33,7 @@ class Cliente extends Model
 		return $this->vehiculos()->with('marca', 'modelo')->get();
 	}
 
-	public function factura()
+	public function facturas()
 	{
 		return $this->hasMany(Factura::class, 'idcliente','idcliente');
 	}

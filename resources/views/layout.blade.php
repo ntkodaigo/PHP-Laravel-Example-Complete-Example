@@ -352,7 +352,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </span>
               </a>
               <ul class="treeview-menu">
-              <li><a href="#"><i class="fa fa-circle-o"></i>Lista Vehículos</a></li>
+              <!--li><a href="#"><i class="fa fa-circle-o"></i>Lista Vehículos</a></li-->
                 <li><a href="/marcas"><i class="fa fa-circle-o"></i>Marcas</a></li>
                 <li><a href="/modelos"><i class="fa fa-circle-o"></i>Modelos</a></li>
               </ul>

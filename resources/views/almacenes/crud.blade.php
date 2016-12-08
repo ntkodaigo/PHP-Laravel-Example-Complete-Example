@@ -11,30 +11,30 @@
     @endif
 
         <div class="form-group">Compra
-            <input type="text" name="idcompra" class="form-control" placeholder="Escoja una Compra" disabled="true" 
+            <input type="text" name="idcompra" class="form-control" placeholder="Escoja una Compra" readonly 
             @if ($key=='u')
             value="{{ $almacen->idcompra }}"
             @endif>
         </div>
 
         <div class="form-group">Fecha de almacen
-            <input type="text" name="codigoproducto" class="form-control"
+            <input type="date" name="fechaalmacen" class="form-control"
             @if ($key=='u')
-            value="{{ $producto->codigoproducto }}"
+            value="{{ $almacen->fechaalmacen }}"
             @endif>
         </div>
 
         <div class="form-group">Ubicacion
-            <input type="text" name="nombreproducto" class="form-control"
+            <input type="text" name="ubicacion" class="form-control"
             @if ($key=='u')
-            value="{{ $producto->nombreproducto }}"
+            value="{{ $almacen->ubicacion }}"
             @endif>
         </div>
 
         <div class="form-group">Lote
-            <input type="text" name="marcaproducto" class="form-control"
+            <input type="text" name="lote" class="form-control"
             @if ($key=='u')
-            value="{{ $producto->marcaproducto }}"
+            value="{{ $almacen->lote }}"
             @endif>
         </div>
 
@@ -47,16 +47,17 @@
 
     <div class="panel-body">
     <table class="table table-hover" id="table-compra">
-                  <thead class="thead-inverse">
-                      <tr>
-                          <th>Id Compra</th>
-                          <th>Proveedor</th>
-                          <th>Producto</th>
-                          <th>Cantidad</th>
-                          <th>Acciones</th>
-                      </tr>
-                  </thead>
-              </table>
+        <thead class="thead-inverse">
+            <tr>
+                <th>Codigo Producto</th>
+                <th>Nombre Producto</th>
+                <th>Fecha de Compra</th>
+                <th>Cantidad de Compra</th>
+                <th>Precio de Compra</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+    </table>
   </div>
 @stop
 
@@ -85,12 +86,13 @@
     table = $('#table-compra').DataTable({
             processing: true,
             serverSide: true,
-            ajax:'{{URL::asset('/almacenes/data')}}',
+            ajax:'{{URL::asset('/compras/dataToSelect')}}',
             columns: [
-                { data: 'idcompra', name: 'idcompra' },
-                { data: 'idproveedor', name: 'idproveedor' },
-                { data: 'nombreproducto ', name: 'nombreproducto ' },
-                { data: 'cantidadcompra ', name: 'cantidadcompra ' },
+                { data: 'producto.codigoproducto', name: 'producto.codigoproducto' },
+                { data: 'producto.nombreproducto', name: 'producto.nombreproducto' },
+                { data: 'fechacompra', name: 'fechacompra' },
+                { data: 'cantidadcompra', name: 'cantidadcompra' },
+                { data: 'preciocompra', name: 'preciocompra' },
                 { data: 'action', name: 'action', orderable: false, searchable: false}
             ],
             language: {
@@ -111,24 +113,28 @@
               }
             }
         });
-
     });
 
-  function btnDeleteAlmacen(almacen)
-{
-  var url="/almacenes/" + almacen + "/delete";
-  var data = {idcompra:almacen}
+  function btnSelectCompraToAlmacen(idCompra)
+  {
+    $('input[name=idcompra]').attr("value", idCompra);
+  }
 
-    $.post(url, data, function(response){
-      if(response.success)
-      {
-             table.ajax.reload();
-      }
-      else
-      {
-        alert("FAIL");
-      }
-  }, 'json');
-}
+  function btnDeleteAlmacen(almacen)
+  {
+    var url="/almacenes/" + almacen + "/delete";
+    var data = {idcompra:almacen}
+
+      $.post(url, data, function(response){
+        if(response.success)
+        {
+               table.ajax.reload();
+        }
+        else
+        {
+          alert("FAIL");
+        }
+    }, 'json');
+  }
 </script>
 @endpush

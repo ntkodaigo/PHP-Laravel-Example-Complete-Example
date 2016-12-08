@@ -10,18 +10,12 @@ var clivehRevisionesTable;
 var tecnicosTable;
 var serviciosTable;
 var tecnicoRevisionesTable;
-
 var comprasTable;
 var proveedorProductosTable;
-
 var productosTable;
-
 var key;
-
 var isFacturaSelected;
 var facturasTable;
-
-
 
 // datatables default
 $.extend( true, $.fn.dataTable.defaults, {
@@ -275,6 +269,9 @@ $('#frmVehiculo').on('submit',function(e){
 });
 $('#frmRevision').on('submit',function(e){
 	$("input[id=regrevision]").attr("disabled", true);
+});
+$('#frmFactura').on('submit', function(e){
+	$("input[id=regfactura]").attr("disabled", true);
 });
 
 $('#nombres').keypress(function(event){
@@ -1276,17 +1273,91 @@ function btnDeleteRevision(idRev)
 
 function btnNewRevisionFromTecnico()
 {
-	
+	$("form[id=frmRevision]").attr('action','/clientes/' + idCli + '/vehiculos/' + idVeh + '/revisiones/add');
 }
+
+$('#frmFactura').on('submit',function(e){
+    e.preventDefault();
+    var form=$('#frmFactura');
+    var formData=form.serialize();
+    var url=form.attr('action');
+
+    $.post(url, formData, function(response){
+	    if(response.success)
+	    {
+			$('#factura-modal').modal('hide');
+			facturasTable.ajax.reload();
+	    }
+
+	    $( '#frmFactura' ).each(function(){
+	    	this.reset();
+		});
+	}, 'json');
+});
 
 function btnNewFactura()
 {
 	isFacturaSelected = true;
+
+	$("input[id=regfactura]").attr("disabled", false);
+	var idCli = $('input[name=idcliente]').attr("value");
+	$("form[id=frmFactura]").attr('action','/clientes/' + idCli + '/facturas/add');
 }
 
-function btnAsignarProducto()
+function btnSetInvalidFactura(idFactura)
+{
+	if (confirm("Anulara esta factura. ¿Está seguro?"))
+	{
+		var url="/facturas/"+ idFactura +"/setinvalid";
+		var formData = {
+	        idfactura: idFactura
+		}
+
+	    $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+	             facturasTable.ajax.reload();
+		    }
+		    else
+		    {
+		    	alert("FAIL");
+		    }
+		}, 'json');
+	}
+}
+
+function btnSetValidFactura(idFactura)
+{
+	if (confirm("Revalidara esta factura. ¿Está seguro?"))
+	{
+		var url="/facturas/"+ idFactura +"/setvalid";
+		var formData = {
+	        idfactura: idFactura
+		}
+
+	    $.post(url, formData, function(response){
+		    if(response.success)
+		    {
+	             facturasTable.ajax.reload();
+		    }
+		    else
+		    {
+		    	alert("FAIL");
+		    }
+		}, 'json');
+	}
+}
+
+
+function btnAsignarProductoForProveedor()
 {
 	key = 'p';
+	btnShowProductos();
+}
+
+function btnAsignarProductoForFactura()
+{
+	key = 'f';
 	btnShowProductos();
 }
 
@@ -1329,6 +1400,8 @@ function btnSelectProducto(idArt, proName)
 			    if(response.success)
 			    {
 		             proveedorProductosTable.ajax.reload();
+
+		             $('#select-productos-modal').modal('hide');
 			    }
 			    else
 			    {

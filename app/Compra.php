@@ -12,9 +12,9 @@ class Compra extends Model
 	public $timestamps = false;
 	public $incrementing = false;
 
-	public function productos()
+	public function producto()
 	{
-		return $this->hasMany(Producto::class, 'idproducto', 'idproducto');
+		return $this->belongsTo(Producto::class, 'idproducto');
 	}
 
 	public function proveedores()

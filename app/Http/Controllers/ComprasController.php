@@ -51,6 +51,11 @@ class ComprasController extends Controller
 
     	$compras = new Compra($request->all());
     	$compras->idcompra = $newId;
+
+    	$producto = Producto::find($request->idproducto);
+		$compras->idcategoriaproducto = $producto->idcategoriaproducto;
+		$compras->idsubcategoriaproducto = $producto->idsubcategoriaproducto;
+
     	$compras->save();
 
     	return back();
@@ -73,13 +78,22 @@ class ComprasController extends Controller
 
 	public function data()
 	{
-		return Datatables::of(Compra::all())->addColumn('action', function ($compra) {
+		return Datatables::of(Compra::with('producto')->get())->addColumn('action', function ($compra) {
             
             return '<a href="/compras/edit/'.$compra->idcompra.'">
             <button class="btn btn-success btn-edit">Editar</button>
             </a>
 
             <button type="button" onclick="btnDeleteCompras('.$compra->idcompra.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>';
+               
+            })->make(true);
+	}
+
+	public function dataToSelect()
+	{
+		return Datatables::of(Compra::with('producto')->get())->addColumn('action', function ($compra) {
+            
+            return '<button type="button" onclick="btnSelectCompraToAlmacen(\''.$compra->idcompra.'\')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Seleccionar</button>';
                
             })->make(true);
 	}

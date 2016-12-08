@@ -263,6 +263,7 @@ Route::post('/almacenes/{almacen}/delete', 'AlmacenesController@delete');
 Route::get('/compras','ComprasController@index');
 Route::get('/compras/new','ComprasController@fillNew');
 Route::get('/compras/data','ComprasController@data');
+Route::get('/compras/dataToSelect','ComprasController@dataToSelect');
 Route::post('/compras/add','ComprasController@store');
 
 //editar Compras
@@ -411,5 +412,7 @@ Route::post('/clientes/{cliente}/vehiculos/{vehiculo}/revisiones/add','Revisione
 Route::post('/clientes/{cliente}/vehiculos/revisiones/update','RevisionesController@updateForClienteVehiculo');
 Route::post('/revisiones/{revision}/delete', 'RevisionesController@delete');
 // --- FACTURAS ---
-Route::get('/facturas/add','facturasController@index');
+Route::post('/clientes/{cliente}/facturas/add','facturasController@storeFromCliente');
 Route::get('/facturasData','facturasController@facturasData');
+Route::post('/facturas/{factura}/setinvalid', 'facturasController@setinvalid');
+Route::post('/facturas/{factura}/setvalid', 'facturasController@setvalid');

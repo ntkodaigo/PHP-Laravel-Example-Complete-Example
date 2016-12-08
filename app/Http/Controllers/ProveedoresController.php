@@ -17,6 +17,7 @@ use App\Tipodocumento;
 use App\Tipotelefono;
 use App\Pais;
 use App\Tipoprofesion;
+use App\Producto;
 
 class ProveedoresController extends Controller
 {
@@ -203,9 +204,9 @@ class ProveedoresController extends Controller
 
     public function dataProducto(Producto $producto)
     {
-        return Datatables::of($producto->proveedores)->addColumn('action', function ($entity) {
+        return Datatables::of($producto->proveedores()->with('persona.personabytype')->get())->addColumn('action', function ($entity) {
             
-            return '<button type="button" onclick="btnSelectAll('.$entity->idproveedor.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
+            return '<button type="button" onclick="btnSelectAll(\''.$entity->idproveedor.'\', '.$entity->pivot->idproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
                
             })->make(true);
     }

@@ -4,7 +4,7 @@
 
 <center><h3>PRODUCTOS ALMACEN</h3></center>
 <a href="/almacenes/new">
-<button type="button" class="btn btn-info btn-lg" id="add">Agreagar Producto en Almacen</button>
+<button type="button" class="btn btn-info btn-lg" id="add">Agregar Producto en Almacen</button>
 </a>
 <div class="panel-body">
     <table class="table table-hover" id="table-producto">
@@ -39,10 +39,10 @@
             serverSide: true,
             ajax:'{{URL::asset('/almacenes/data')}}',
             columns: [
-                { data: 'codigoproducto', name: 'codigoproducto' },
-                { data: 'nombreproducto', name: 'nombreproducto' },
-                { data: 'ubicacion ', name: 'ubicacion ' },
-                { data: 'lote ', name: 'lote ' },
+                { data: 'producto.codigoproducto', name: 'producto.codigoproducto' },
+                { data: 'producto.nombreproducto', name: 'producto.nombreproducto' },
+                { data: 'ubicacion', name: 'ubicacion' },
+                { data: 'lote', name: 'lote' },
                 { data: 'action', name: 'action', orderable: false, searchable: false}
             ],
             language: {

@@ -166,6 +166,13 @@
   }
 }
 
+function btnSelectAll(idProv, idProd)
+{
+  $('input[name=idproveedor]').attr("value", idProv);
+
+  $('input[name=idproducto]').attr("value", idProd);
+}
+
 function AgregarProveedor(persona)
 {
   document.getElementById('proveedor-id').value = persona;

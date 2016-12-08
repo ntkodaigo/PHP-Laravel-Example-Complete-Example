@@ -15,7 +15,7 @@ class Factura extends Model
 
 	public function articulo()
 	{
-		return $this->hasMany(Articulo::class, 'idarticulo', 'idarticulo');
+		return $this->hasOne(Articulo::class, 'idarticulo', 'idarticulo');
 	}
 
 	public function cliente()

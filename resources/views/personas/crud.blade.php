@@ -294,7 +294,7 @@
 					    
 				    @elseif ($entityName == 'Proveedor')
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Productos que ofrece el Proveedor</h2></div>
-				    	<button type="button" data-toggle="modal" data-target="#select-productos-modal" onclick="btnAsignarProducto()" class="btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Producto</button>
+				    	<button type="button" data-toggle="modal" data-target="#select-productos-modal" onclick="btnAsignarProductoForProveedor()" class="btn btn-default" id="btnselectproducto" name="btnselectproducto">Asignar Producto</button>
 				    	<br><br>
 				    	<table class="table table-hover" id="proveedorProductos-table">
 					        <thead class="thead-inverse">
@@ -309,18 +309,18 @@
 					    </table>
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Compras efectuadas previamente</h2></div>
 
-				    	<table class="table table-hover" id="table-compra">
-			                <thead class="thead-inverse">
-			                    <tr>
-			                          <th>Codigo Producto</th>
-			                          <th>Nombre Producto</th>
-			                          <th>Fecha de Compra</th>
-			                          <th>Cantidad de Compra</th>
-			                          <th>Precio de Compra</th>
-			                          <th>Acciones</th>
-			                    </tr>
-			                </thead>
-			            </table>
+				    	<table class="table table-hover" id="compras-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Codigo Producto</th>
+					                <th>Nombre Producto</th>
+					                <th>Fecha de Compra</th>
+					                <th>Cantidad de Compra</th>
+					                <th>Precio de Compra</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
 
 			    	@elseif ($entityName == 'Técnico')
 			    		<div class="alert alert-info" role="alert"><h2 style="color: black;">Revisiones pactadas por el Técnico</h2></div>
@@ -556,9 +556,9 @@
 		          ajax:'/facturasData',
 		          columns: [
 		              { data: 'articulo.articulobytype.nombreproducto', name: 'articulo.articulobytype.nombreproducto',defaultContent: '<i style="color: lightgray;">No tiene</i>'},
-		              { data: 'articulo.articulobytype..servicio', name: 'articulo.articulobytype..servicio',defaultContent: '<i style="color: lightgray;">No tiene</i>' },
-		              { data: 'documentoreferencial', name: 'documentoreferencial' },
+		              { data: 'articulo.articulobytype.nombreservicio', name: 'articulo.articulobytype..servicio',defaultContent: '<i style="color: lightgray;">No tiene</i>' },
 		              { data: 'fechaemision', name: 'fechaemision' },
+		              { data: 'cantidad', name: 'cantidad' },
 		              { data: 'preciounitario', name: 'preciounitario' },
 		              { data: 'estado', name: 'estado' },
 		              { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -581,15 +581,9 @@
 		      	});
 
 		    @elseif ($entityName == 'Proveedor')
-		     var ajaxString;
-		     var idproveedor = '{{ $personanatural->persona->proveedor->idproveedor }}';
-			    @if ($personaTypeName == 'Persona Natural')
-			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
-			        @elseif ($personaTypeName == 'Persona Jurídica')
-			          	ajaxString = '/productos/dataProveedor/' + idproveedor;
-		        @endif
+
 		        proveedorProductosTable = $('#proveedorProductos-table').DataTable({
-		          ajax:ajaxString,
+		          ajax: '/productos/dataProveedor/' + idProveedor,
 		          columns: [
 		              { data: 'codigoproducto', name: 'codigoproducto' },
 		              { data: 'nombreproducto', name: 'nombreproducto' },
@@ -600,15 +594,15 @@
 		          ]
 		        });
 
-		        comprasTable = $('#table-compra').DataTable({
-		          ajax:ajaxString,
+		        comprasTable = $('#compras-table').DataTable({
+		          ajax: '/almacenes/data',
 		          columns: [
-		              { data: 'codigoproducto', name: 'codigoproducto' },
-		              { data: 'nombreproducto', name: 'nombreproducto' },
-		              { data: 'fechacompra ', name: 'fechacompra ' },
-		              { data: 'cantidadcompra ', name: 'cantidadcompra ' },
-		              { data: 'preciocompra ', name: 'preciocompra ' },
-		              { data: 'action', name: 'action', orderable: false, searchable: false}
+		            { data: 'codigoproducto', name: 'codigoproducto' },
+	                { data: 'nombreproducto', name: 'nombreproducto' },
+	                { data: 'fechacompra ', name: 'fechacompra ' },
+	                { data: 'cantidadcompra ', name: 'cantidadcompra ' },
+	                { data: 'preciocompra ', name: 'preciocompra ' },
+	                { data: 'action', name: 'action', orderable: false, searchable: false}
 		          ]
 		        });
 

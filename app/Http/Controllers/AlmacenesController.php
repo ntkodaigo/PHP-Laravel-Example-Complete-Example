@@ -48,7 +48,13 @@ class AlmacenesController extends Controller
 	public function store(Request $request) 
 	{
 		$almacen = new Almacen ($request-> all());
-    	
+    	$compra = Compra::find($request->idcompra);
+    	$almacen->idcompra = $request->idcompra;
+    	$almacen->idproveedor = $compra->idproveedor;
+    	$almacen->idcategoriaproducto = $compra->idcategoriaproducto;
+    	$almacen->idsubcategoriaproducto = $compra->idsubcategoriaproducto;
+    	$almacen->idproducto = $compra->idproducto;
+
         $almacen->save();
 
     	return redirect('/almacenes');
@@ -71,7 +77,7 @@ class AlmacenesController extends Controller
 
 	public function data()
 	{
-		return Datatables::of(Almacen::all())->addColumn('action', function ($almacen) {
+		return Datatables::of(Almacen::with('producto'))->addColumn('action', function ($almacen) {
             
             return '<a href="/almacenes/edit/'.$almacen->idalmacen.'">
             <button class="btn btn-success btn-edit">Editar</button>

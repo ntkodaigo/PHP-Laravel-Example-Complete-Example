@@ -123,7 +123,7 @@ class ProductosController extends Controller
 	{
 		return Datatables::of($proveedor->productos)->addColumn('action', function ($producto) {
             
-            return '<button type="button" onclick="btnSelectProveedor('.$producto->idproducto.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Seleccionar</button>';
+            return '<button type="button" onclick="btnDeleteProducto('.$producto->idproducto.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
                
             })->make(true);
 	}

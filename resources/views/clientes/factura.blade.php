@@ -17,7 +17,7 @@
 
             <div class="form-group">
               <div class="col-sm-6">
-                <button type="button" data-toggle="modal" data-target="#select-productos-modal" onclick="btnShowProductos()" class="form-control btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Producto</button>
+                <button type="button" data-toggle="modal" data-target="#select-productos-modal" onclick="btnAsignarProductoForFactura()" class="form-control btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Producto</button>
               </div>
               <div class="col-sm-6">
                 <button type="button" data-toggle="modal" data-target="#select-servicio-modal"  onclick="btnShowServicosTable()" class="form-control btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Servicio</button>
