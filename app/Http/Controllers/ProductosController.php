@@ -8,6 +8,7 @@ use App\Producto;
 use App\Subcategoriaproducto;
 use App\Categoriaproducto;
 use App\Articulo;
+use App\Proveedor;
 use App\Http\Requests;
 
 class ProductosController extends Controller
@@ -112,6 +113,15 @@ class ProductosController extends Controller
 	public function dataCompras()
 	{
 		return Datatables::of(Producto::all())->addColumn('action', function ($producto) {
+            
+            return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.','.$producto->idcategoriaproducto.','.$producto->idsubcategoriaproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
+               
+            })->make(true);
+	}
+
+	public function dataProveedor(Proveedor $proveedor)
+	{
+		return Datatables::of($proveedor->productos)->addColumn('action', function ($producto) {
             
             return '<button type="button" onclick="AgregarProducto('.$producto->idproducto.','.$producto->idcategoriaproducto.','.$producto->idsubcategoriaproducto.')" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i>Agregar</button>';
                

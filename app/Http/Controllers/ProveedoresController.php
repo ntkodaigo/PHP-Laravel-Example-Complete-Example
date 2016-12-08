@@ -17,7 +17,6 @@ use App\Tipodocumento;
 use App\Tipotelefono;
 use App\Pais;
 use App\Tipoprofesion;
->>>>>>> origin/master
 
 class ProveedoresController extends Controller
 {
@@ -50,7 +49,7 @@ class ProveedoresController extends Controller
         }
         else
             return response()->json(['success' => false]);
-
+    }
 	public function fillNewPN()
     {
     	$init_route = config('constants.init_route');

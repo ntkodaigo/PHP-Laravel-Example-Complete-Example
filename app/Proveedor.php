@@ -34,4 +34,9 @@ class Proveedor extends Model
 		$v = Producto::find($v);
 		$this->productos()->attach($v, array('idcategoriaproducto' => $v->idcategoriaproducto, 'idsubcategoriaproducto' => $v->idsubcategoriaproducto));
 	}
+
+	public function compras()
+	{
+		return $this->hasMany(Compra::class,'idproveedor','idproveedor');
+	}
 }

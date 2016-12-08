@@ -219,6 +219,7 @@ Route::get('/productos','ProductosController@index');
 Route::get('/productos/new','ProductosController@fillNew');
 Route::get('/productos/data','ProductosController@data');
 Route::get('/productos/dataCompras','ProductosController@dataCompras');
+Route::get('/productos/dataProveedor/{proveedor}','ProductosController@dataProveedor');
 Route::post('/productos/add','ProductosController@store');
 
 //editar Producto
