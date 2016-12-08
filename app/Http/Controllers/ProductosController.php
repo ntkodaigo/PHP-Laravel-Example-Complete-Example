@@ -65,14 +65,19 @@ class ProductosController extends Controller
 	public function store(Request $request) 
 	{
 		$producto = new Producto ($request-> all());
+
 		$articulo = new Articulo;
 		$lastArticulo = Articulo::orderBy('idarticulo', 'desc')->first();
     	$newId = ($lastArticulo == null) ? 1 : $lastArticulo->idarticulo + 1;
 
+    	$producto->idproducto=$newId;
+    	$producto->myarticulo()->save($articulo);
     	$articulo->idarticulo = $newId;
-    	$articulo->save();
-    	$producto->idproducto = $newId;
-        $producto->save();
+    	$articulo->producto()->save($producto);
+    	//$articulo->idarticulo = $newId;
+    	//$articulo->save();
+    	//$producto->idproducto = $newId;
+        //$producto->save();
 
     	return redirect('/productos');
 

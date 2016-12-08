@@ -277,9 +277,21 @@
 
 					    <button data-toggle="modal" data-target="#factura-modal" type="button" onclick="btnNewFactura()"><i class="glyphicon glyphicon-book"></i>Nueva Factura</button>
 
+					    <table class="table table-hover" id="facturas-table">
+					        <thead class="thead-inverse">
+					            <tr>
+					                <th>Producto</th>
+					                <th>Servicio</th>
+					                <th>Fecha de Emisión</th>
+					                <th>Cantidad</th>
+					                <th>Precio Unitario</th>
+					                <th>Estado</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					    </table>
+
 					    
-
-
 				    @elseif ($entityName == 'Proveedor')
 				    	<div class="alert alert-info" role="alert"><h2 style="color: black;">Productos que ofrece el Proveedor</h2></div>
 				    	<button type="button" data-toggle="modal" data-target="#select-productos-modal" onclick="btnAsignarProducto()" class="btn btn-default" id="btnselectproducto" name="btnselectproducto">Seleccionar Producto</button>
@@ -312,6 +324,27 @@
 
 			    	@elseif ($entityName == 'Técnico')
 			    		<div class="alert alert-info" role="alert"><h2 style="color: black;">Revisiones pactadas por el Técnico</h2></div>
+			    		<button data-toggle="modal" data-target="#revision-modal" type="button" onclick="btnNewRevisionFromTecnico()"><i class="glyphicon glyphicon-book"></i>Nueva Revisión</button>
+
+			    		<br><br>
+
+			    		<div class="form-group">
+			              <div class="col-sm-12">
+			                <table class="table table-hover col-sm-12" id="tecnicorevisiones-table">
+			                  <thead class="thead-inverse">
+			                      <tr>
+			                          <th>Servicio</th>
+			                          <th>Nombres</th>
+			                          <th>Razon Social</th>
+			                          <th>Vehículo</th>
+			                          <th>Fecha</th>
+			                          <th>Estado</th>
+			                          <th>Acciones</th>
+			                      </tr>
+			                  </thead>
+			                </table>
+			              </div>
+			            </div>
 				    @endif
 
 				    @if ($personaTypeName == 'Persona Natural')
@@ -408,9 +441,16 @@
 <script type="text/javascript">
 	$(function() {
 		@if ($key == 's')
+			var idPN = $('input[name=idpersonanatural]').attr("value");
+			var idPJ = $('input[name=idpersonajuridica]').attr("value");
+			var idPersona = $('input[name=idpersona]').attr("value");
+			var idCliente = $('input[name=idcliente]').attr("value");
+			var idProveedor = $('input[name=idproveedor]').attr("value");
+			var idTecnico = $('input[name=idtecnico]').attr("value");
+
 			@if ($personaTypeName == 'Persona Natural')
 		      documentosTable = $('#documentos-table').DataTable({
-		          ajax:'/documentosData/{{ $personanatural->idpersonanatural }}',
+		          ajax:'/documentosData/' + idPN,
 		          /*aoColumnDefs: [
 				      { sType: 'string', aTargets: [ 0 ] }
 			      ],*/
@@ -422,15 +462,8 @@
 		      });
 		  	@endif
 
-		  	var ajaxString;
-		  	@if ($personaTypeName == 'Persona Natural')
-		      	ajaxString = '/telefonosData/{{ $personanatural->persona->idpersona }}';
-	      	@elseif ($personaTypeName == 'Persona Jurídica')
-	      	  	ajaxString = '/telefonosData/{{ $personajuridica->persona->idpersona }}';
-	      	@endif
-
 	      	telefonosTable = $('#telefonos-table').DataTable({
-      		  ajax: ajaxString,
+      		  ajax: '/telefonosData/' + idPersona,
 		      columns: [
 		          { data: 'nombretipotelefono', name: 'nombretipotelefono', searchable: true },
 		          { data: 'pivot.numeropersonatelefono', name: 'pivot.numeropersonatelefono' },
@@ -462,15 +495,9 @@
 			      });
 		      @endif
 		    @endif
-			
-			@if ($personaTypeName == 'Persona Natural')
-	          	ajaxString = '/direccionesData/{{ $personanatural->persona->idpersona }}';
-	        @elseif ($personaTypeName == 'Persona Jurídica')
-	          	ajaxString = '/direccionesData/{{ $personajuridica->persona->idpersona }}';
-      	    @endif
 
 		    direccionesTable = $('#direcciones-table').DataTable({
-		      ajax: ajaxString,
+		      ajax: '/direccionesData/' + idPersona,
 	          columns: [
 	              { data: 'nombredireccionpersona', name: 'nombredireccionpersona' },
 	              { data: 'pais.nombrepais', name: 'pais.nombrepais' },
@@ -481,14 +508,8 @@
 	          ]
 	        });
 
-		    @if ($personaTypeName == 'Persona Natural')
-	          	ajaxString = '/correosData/{{ $personanatural->persona->idpersona }}';
-	        @elseif ($personaTypeName == 'Persona Jurídica')
-	          	ajaxString = '/correosData/{{ $personajuridica->persona->idpersona }}';
-      	  	@endif
-
 	        correosTable = $('#correos-table').DataTable({
-	          ajax: ajaxString,
+	          ajax: '/correosData/' + idPersona,
 	          columns: [
 	              { data: 'direccioncorreoelectronico', name: 'direccioncorreoelectronico' },
 	              { data: 'action', name: 'action', orderable: false, searchable: false}
@@ -497,7 +518,7 @@
 
 	        @if ($personaTypeName == 'Persona Natural')
 		      profesionesTable = $('#profesiones-table').DataTable({
-		          ajax:'/profesionesData/{{ $personanatural->idpersonanatural }}',
+		          ajax:'/profesionesData/' + idPN,
 		          columns: [
 		              { data: 'nombretipoprofesion', name: 'nombretipoprofesion' },
 		              { data: 'action', name: 'action', orderable: false, searchable: false}
@@ -507,14 +528,8 @@
 
 	        @if ($entityName == 'Cliente')
 
-	        	@if ($personaTypeName == 'Persona Natural')
-		          	ajaxString = '/vehiculosData/{{ $personanatural->persona->cliente->idcliente }}';
-		        @elseif ($personaTypeName == 'Persona Jurídica')
-		          	ajaxString = '/vehiculosData/{{ $personajuridica->persona->cliente->idcliente }}';
-	          	@endif
-
 		        clienteVehiculosTable = $('#clientevehiculos-table').DataTable({
-		          ajax: ajaxString,
+		          ajax: '/vehiculosData/' + idCliente,
 		          columns: [
 		              { data: 'numeroplacavehivulo', name: 'numeroplacavehivulo' },
 		              { data: 'marca.nombremarca', name: 'marca.nombremarca' },
@@ -536,6 +551,35 @@
 		        });
 
 		        vehiculosTable.page.len(3).draw();
+
+		        facturasTable = $('#facturas-table').DataTable({
+		          ajax:'/facturasData',
+		          columns: [
+		              { data: 'articulo.articulobytype.nombreproducto', name: 'articulo.articulobytype.nombreproducto',defaultContent: '<i style="color: lightgray;">No tiene</i>'},
+		              { data: 'articulo.articulobytype..servicio', name: 'articulo.articulobytype..servicio',defaultContent: '<i style="color: lightgray;">No tiene</i>' },
+		              { data: 'documentoreferencial', name: 'documentoreferencial' },
+		              { data: 'fechaemision', name: 'fechaemision' },
+		              { data: 'preciounitario', name: 'preciounitario' },
+		              { data: 'estado', name: 'estado' },
+		              { data: 'action', name: 'action', orderable: false, searchable: false }
+		              ]
+	              });
+
+	        @elseif ($entityName == 'Técnico')
+
+        		tecnicoRevisionesTable = $('#tecnicorevisiones-table').DataTable({
+		          ajax: '/tecnicos/' + idTecnico + '/revisionesData',
+		          columns: [
+		              { data: 'servicio.nombreservicio', name: 'servicio.nombreservicio' },
+		              { data: 'cliente.persona.personabytype.nombres', name: 'cliente.persona.personabytype.nombres', defaultContent: '<i style="color: lightgray;">No tiene</i>' },
+		              { data: 'cliente.persona.personabytype.razonsocial', name: 'cliente.persona.personabytype.razonsocial', defaultContent: '<i style="color: lightgray;">No tiene</i>' },
+		              { data: 'vehiculo.numeroplacavehivulo', name: 'vehiculo.numeroplacavehivulo' },
+		              { data: 'fecharevision', name: 'fecharevision' },
+		              { data: 'estadorevision', name: 'estadorevision' },
+		              { data: 'action', name: 'action', orderable: false, searchable: false}
+		          ]
+		      	});
+
 		    @elseif ($entityName == 'Proveedor')
 		     var ajaxString;
 		     var idproveedor = '{{ $personanatural->persona->proveedor->idproveedor }}';
@@ -551,15 +595,11 @@
 		              { data: 'nombreproducto', name: 'nombreproducto' },
 		              { data: 'marcaproducto', name: 'marcaproducto' },
 		              { data: 'modeloproducto', name: 'modeloproducto' },
+
 		              { data: 'action', name: 'action', orderable: false, searchable: false}
 		          ]
 		        });
 
-		        @if ($personaTypeName == 'Persona Natural')
-			          	ajaxString = '/productos/dataCompras/' + idproveedor;
-			        @elseif ($personaTypeName == 'Persona Jurídica')
-			          	ajaxString = '/productos/dataCompras/' + idproveedor;
-		        @endif
 		        comprasTable = $('#table-compra').DataTable({
 		          ajax:ajaxString,
 		          columns: [
@@ -571,10 +611,11 @@
 		              { data: 'action', name: 'action', orderable: false, searchable: false}
 		          ]
 		        });
+
 	        @endif
 	    @endif
 
-  	});
+  	});							
 
   	function capitalizeFirstLetter(string) {
 	    return String(string).charAt(0).toUpperCase() + String(string).slice(1);

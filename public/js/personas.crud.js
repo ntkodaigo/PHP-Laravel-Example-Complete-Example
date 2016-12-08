@@ -9,12 +9,18 @@ var vehiculosTable;
 var clivehRevisionesTable;
 var tecnicosTable;
 var serviciosTable;
+var tecnicoRevisionesTable;
 
 var comprasTable;
 var proveedorProductosTable;
 
 var productosTable;
+
 var key;
+
+var isFacturaSelected;
+var facturasTable;
+
 
 
 // datatables default
@@ -1183,9 +1189,16 @@ function btnSelectTecnico(idTec, tecFullname)
 
 function btnSelectServicio(idSer, serName)
 {
-	$('input[name=idservicio]').attr("value", idSer);
-	$('input[id=nombreservicio]').attr("value", serName);
-	
+	if (isFacturaSelected)
+	{
+		$('input[name=idarticulo]').attr("value", idSer);
+		$('input[id=nombreproducto]').attr("value", serName);
+	}
+	else
+	{
+		$('input[name=idservicio]').attr("value", idSer);
+		$('input[id=nombreservicio]').attr("value", serName);
+	}
 	$('#select-servicio-modal').modal('hide');
 }
 
@@ -1210,6 +1223,8 @@ $('#frmRevision').on('submit',function(e){
 
 function btnNewRevision()
 {
+	isFacturaSelected = false;
+
 	$("input[id=regrevision]").attr("disabled",false);
 
 	var idVeh = $("input[name=idvehiculo]").attr("value");
@@ -1259,9 +1274,14 @@ function btnDeleteRevision(idRev)
 	}
 }
 
+function btnNewRevisionFromTecnico()
+{
+	
+}
+
 function btnNewFactura()
 {
-
+	isFacturaSelected = true;
 }
 
 function btnAsignarProducto()
@@ -1324,6 +1344,7 @@ function btnSelectProducto(idArt, proName)
 		break;
 	}
 	
+
 }
 
 function btnDeleteProducto(idArt)
@@ -1347,4 +1368,7 @@ function btnDeleteProducto(idArt)
 		    }
 		}, 'json');
 	}
+
+	$('#select-productos-modal').modal('hide');
+	
 }

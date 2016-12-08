@@ -26,4 +26,9 @@ class Producto extends Model
 		return $this->belongsToMany(Proveedor::class, 'proveedorproducto', 'idproducto', 'idproveedor')->withPivot('idcategoriaproducto', 'idsubcategoriaproducto');
 	}
 
+	public function myarticulo()
+	{
+		return $this->morphOne(Articulo::class, 'articulobytype', 'articulo_type', 'idarticulo', 'idproducto');
+	}
+
 }

@@ -404,9 +404,12 @@ Route::get('/tecnicos/new', 'TecnicosController@fillNew');
 Route::post('/tecnicos/add', 'TecnicosController@store');
 Route::post('/tecnicos/addfrom/{personanatural}', 'TecnicosController@storeFrom');
 Route::get('/tecnicos/show/{personanatural}', 'TecnicosController@show');
+// --- Tecnicos revisiones ---
+Route::get('/tecnicos/{tecnico}/revisionesData','TecnicosController@tecnicoRevisionesData');
 // --- REVISIONES---
 Route::post('/clientes/{cliente}/vehiculos/{vehiculo}/revisiones/add','RevisionesController@storeForClienteVehiculo');
 Route::post('/clientes/{cliente}/vehiculos/revisiones/update','RevisionesController@updateForClienteVehiculo');
 Route::post('/revisiones/{revision}/delete', 'RevisionesController@delete');
 // --- FACTURAS ---
 Route::get('/facturas/add','facturasController@index');
+Route::get('/facturasData','facturasController@facturasData');
