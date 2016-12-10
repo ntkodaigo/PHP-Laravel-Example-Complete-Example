@@ -22,7 +22,7 @@ class DepartamentoController extends Controller
 	{
 		$departamento = new Departamento ($request-> all());
 
-		$lastDepartamento = Departamento::orderBy('iddedepartamento', 'desc')->first();
+		$lastDepartamento = Departamento::orderBy('iddepartamento', 'desc')->first();
     	$newId = ($lastDepartamento == null) ? 1 : $lastDepartamento->iddepartamento + 1;
 
     	$departamento->iddepartamento = $newId;
@@ -43,7 +43,8 @@ class DepartamentoController extends Controller
 	public function update(Request $request, Departamento $departamento)
 	{
 		$departamento -> update($request->all());
-    	return back();
+		
+    	return redirect('/departamentos');
 	}
 
 	public function delete( Departamento $departamento)

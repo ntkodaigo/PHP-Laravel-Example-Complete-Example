@@ -14,7 +14,7 @@
 
                   <div class="col-md-2 btn btn-primary">
 
-                     <a href="/tipoprofesions/{{ $tipoprofesion->idtipoprofesion }}/edit">Editar</a>
+                     <a href="/tipoprofesions/{{ $tipoprofesion->idtipoprofesion }}/edit" style="color: white;">Editar</a>
 
                  </div>
                  <form action="/tipoprofesions/{{ $tipoprofesion->idtipoprofesion }}/delete" method="POST">
@@ -44,7 +44,7 @@
         
         <div>
             
-            <button type="submit" class="btn btn-primary">Agregar Tipo de Impuesto</button>
+            <button type="submit" class="btn btn-primary">Agregar Tipo de Profesion</button>
 
         </div>
         {{ csrf_field() }}

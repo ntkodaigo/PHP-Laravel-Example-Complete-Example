@@ -2,7 +2,7 @@
     
 @section('content')
    
-   <h1>Editar Pais</h1>
+   <h1>Editar Departamento</h1>
    <div class="row">
        <form method="POST" action="/departamentos/{{ $departamento->iddepartamento }}" >
 
@@ -25,7 +25,7 @@
         </div>
 
         <div>
-            <button type="submit" class="btn btn-primary">Actualizar Pais</button>
+            <button type="submit" class="btn btn-primary">Actualizar Departamento</button>
 
         </div>
         {{csrf_field()}}

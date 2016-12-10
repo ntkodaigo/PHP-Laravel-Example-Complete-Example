@@ -362,10 +362,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <ul class="sidebar-menu">
           <li class="header">General</li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> <span>Tipos de Profesión</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> <span>Tipos de Documento</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> <span> Tipos de Teléfono</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> <span>Tipos de Impuesto</span></a></li>
+            <li>
+              <a href="#"><i class="fa fa-circle-o"></i> Ubigeo
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/paises"><i class="fa fa-circle-o"></i> Paises</a></li>
+                <li><a href="/departamentos"><i class="fa fa-circle-o"></i> Departamentos</a></li>
+                <!--li><a href="/provincias"><i class="fa fa-circle-o"></i>Provincias</a></li>
+                <li><a href="/distritos"><i class="fa fa-circle-o"></i> Distritos</a></li-->
+              </ul>
+            </li>
+            <li><a href="/tipoprofesions"><i class="fa fa-circle-o"></i> <span>Tipos de Profesión</span></a></li>
+            <li><a href="/tipodocumentos"><i class="fa fa-circle-o"></i> <span>Tipos de Documento</span></a></li>
+            <li><a href="/tipotelefonos"><i class="fa fa-circle-o"></i> <span> Tipos de Teléfono</span></a></li>
+            <!--li><a href="#"><i class="fa fa-circle-o"></i> <span>Tipos de Impuesto</span></a></li-->
       </ul>
       <!-- /.sidebar-menu -->
     </section>
