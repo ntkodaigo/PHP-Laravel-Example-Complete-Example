@@ -115,8 +115,8 @@ class ClientesController extends Controller
     {
     	//return response()->json(['success' => true, 'data' => $request]);
 
-    	$lastPersona = Persona::orderBy('idpersona', 'desc')->first();
-    	$newId = ($lastPersona == null) ? 1 : $lastPersona->idpersona + 1;
+    	$last = Persona::orderBy('idpersona', 'desc')->first();
+    	$newId = ($last == null) ? 1 : $last->idpersona + 1;
     	$newId = str_pad($newId, 8, "0", STR_PAD_LEFT);
 
     	$newPersona = new Persona;

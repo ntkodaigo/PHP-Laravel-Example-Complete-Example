@@ -11,6 +11,7 @@ class Vehiculo extends Model
 	protected $primaryKey = 'idvehiculo'; 	
 	protected $fillable = ['idmarca','idmodelo','aniovehiculo', 'numeroplacavehivulo', 'descripcion'];
 	public $timestamps = false;
+	public $incrementing = false;
 
     public function clientes()
 	{

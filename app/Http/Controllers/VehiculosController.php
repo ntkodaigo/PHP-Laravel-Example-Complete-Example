@@ -13,11 +13,11 @@ class VehiculosController extends Controller
     {
         return Datatables::of(Vehiculo::with('marca','modelo')->get())->addColumn('action', function ($entity) {
             
-            return '<button type="button" onclick="btnStoreClienteVehiculo('.$entity->idvehiculo.')" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>Asignar</button>
+            return '<button type="button" onclick="btnStoreClienteVehiculo(\''.$entity->idvehiculo.'\')" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i>Asignar</button>
 
-            	<button type="button" onclick="btnUpdateVehiculo('.$entity->idvehiculo.','.$entity->idmarca.','.$entity->idmodelo.',\''.$entity->aniovehiculo.'\',\''.$entity->numeroplacavehivulo.'\',\''.$entity->descripcion.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#vehiculo-modal"><i class="glyphicon glyphicon-edit"></i>Editar</button>
+            	<button type="button" onclick="btnUpdateVehiculo(\''.$entity->idvehiculo.'\','.$entity->idmarca.','.$entity->idmodelo.',\''.$entity->aniovehiculo.'\',\''.$entity->numeroplacavehivulo.'\',\''.$entity->descripcion.'\')" class="btn btn-success btn-edit" data-toggle="modal" data-target="#vehiculo-modal"><i class="glyphicon glyphicon-edit"></i>Editar</button>
 
-                <button type="button" onclick="btnDeleteVehiculo('.$entity->idvehiculo.')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
+                <button type="button" onclick="btnDeleteVehiculo(\''.$entity->idvehiculo.'\')" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>';
                
             })->make(true);
     }
